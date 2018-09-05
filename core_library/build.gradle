@@ -1,4 +1,7 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+
+group='com.github.2math'
 
 android {
     compileSdkVersion 27
@@ -59,3 +62,13 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
+
+
+// uncomment to build a jar file in addition to the default aar file
+//android.libraryVariants.all { variant ->
+//    def name = variant.buildType.name
+//    def task = project.tasks.create "jar${name.capitalize()}", Jar
+//    task.dependsOn variant.javaCompile
+//    task.from variant.javaCompile.destinationDir
+//    artifacts.add('archives', task);
+//}
