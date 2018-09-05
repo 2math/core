@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:padding="@dimen/margin_normal"
+              tools:context=".ui.login.LoginFragment">
+
+    <com.futurist_labs.android.base_library.views.font_views.FontTextInputLayout
+        android:id="@+id/ilUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.futurist_labs.android.base_library.views.font_views.FontTextInputEditTextView
+            android:id="@+id/etUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_username"
+            android:inputType="textEmailAddress"/>
+    </com.futurist_labs.android.base_library.views.font_views.FontTextInputLayout>
+
+    <com.futurist_labs.android.base_library.views.font_views.FontTextInputLayout
+        android:id="@+id/ilPass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.futurist_labs.android.base_library.views.font_views.FontTextInputEditTextView
+            android:id="@+id/etPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_password"
+            android:inputType="textPassword"/>
+    </com.futurist_labs.android.base_library.views.font_views.FontTextInputLayout>
+
+    <com.futurist_labs.android.base_library.views.font_views.FontTextView
+        android:id="@+id/tvLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:background="@color/colorAccent"
+        android:padding="@dimen/margin_small"
+        android:text="@string/btn_login"
+        app:TvType="bold_italic"/>
+</LinearLayout>

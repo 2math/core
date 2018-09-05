@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="tv_font" format="string" localization="suggested"/>
+    <attr name="TvType" format="enum">
+        <enum name="regular" value="10"/>\
+        <enum name="bold" value="11"/>
+        <enum name="italic" value="12"/>
+        <enum name="light" value="13"/>
+        <enum name="awesome" value="14"/>
+        <enum name="bold_italic" value="15"/>
+    </attr>
+
+    <declare-styleable name="FontTextView">
+        <attr name="tv_font"/>
+        <attr name="TvType" />
+    </declare-styleable>
+
+    <declare-styleable name="FontEditTextView">
+        <attr name="tv_font"/>
+        <attr name="TvType" />
+    </declare-styleable>
+
+    <declare-styleable name="FontTextInputEditTextView">
+        <attr name="tv_font"/>
+        <attr name="TvType" />
+    </declare-styleable>
+
+    <declare-styleable name="GaleenCustomShapedImageView">
+        <!--todo TBU-->
+    </declare-styleable>
+</resources>

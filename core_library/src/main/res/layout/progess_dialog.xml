@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:background="@drawable/dialog_bkg"
+              android:gravity="center_vertical"
+              android:orientation="horizontal"
+              android:padding="16dp">
+
+    <com.futurist_labs.android.base_library.views.progress.AppProgressView
+        android:id="@+id/progressView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </com.futurist_labs.android.base_library.views.progress.AppProgressView>
+
+    <com.futurist_labs.android.base_library.views.font_views.FontTextView
+        android:id="@+id/tvProgressMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:textSize="18sp"
+        tools:text="@string/msg_loading"/>
+</LinearLayout>

@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">GaleenBase</string>
+
+    <!--Those strings should be overridden and translated in app strings-->
+    <string name="msg_main_server_error">Server error</string>
+    <string name="err_access_denied">Access denied</string>
+    <string name="err_invalid_request_format">Invalid request format</string>
+    <string name="err_request_validation">Request validation</string>
+    <string name="err_invalid_json">Invalid json</string>
+    <string name="err_missing">Missing</string>
+    <string name="err_constraint_violation">Constraint violation</string>
+    <string name="err_duplicate_data">Duplicate data</string>
+    <string name="err_unknown">Unknown</string>
+    <string name="err_resource_not_found">Missing system resource.</string>
+    <string name="err_user_update_failed">The information can not be updated.</string>
+    <string name="err_duplication_not_allowed">The request can not be duplicated.</string>
+    <string name="err_too_young_for_registration">You must be 18+ in order to register.</string>
+    <string name="err_location_not_supported">For now this location is not supported by the application.</string>
+    <string name="err_patient_younger_than_an_adult"></string>
+    <string name="err_patient_older_than_a_child"></string>
+    <string name="err_adult_patient_with_months"></string>
+
+    <string name="msg_no_network">No network</string>
+
+    <string name="btn_ok">OK</string>
+    <string name="msg_loading">Loading&#8230;</string>
+    <string name="btn_show_password">show password</string>
+    <string name="btn_hide_password">hide password</string>
+    <string name="photo_permissions_btn_ok">OK</string>
+    <string name="photo_permissions_btn_no">Don\'t save</string>
+</resources>

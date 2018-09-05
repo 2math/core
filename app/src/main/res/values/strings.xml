@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">CoreApp</string>
+    <!--Login activity-->
+    <string name="err_wrong_login">Error</string>
+
+    <string name="hello_blank_fragment">Hello</string>
+
+    <!--Login fragment-->
+    <string name="hint_password">password</string>
+    <string name="hint_username">Username</string>
+    <string name="btn_login">Login</string>
+    <string name="err_invalid_email">Invalid email</string>
+    <string name="err_short_pass">Min 3 symbols</string>
+
+    <!--Result activity-->
+    <string name="result_you_are_in">You are in ;)!</string>
+</resources>

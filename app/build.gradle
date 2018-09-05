@@ -1,0 +1,52 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.criapp_studio.coreapp"
+        minSdkVersion 15
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles(fileTree(dir: 'proguard', include: ['*.pro']).asList().toArray())
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            signingConfig signingConfigs.release
+
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles(fileTree(dir: 'proguard', include: ['*.pro']).asList().toArray())
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            ext.enableCrashlytics = false
+        }
+    }
+
+    def STRING = "String"
+    def SERVER_URL = "SERVER_URL"
+
+    flavorDimensions "server"
+    productFlavors {
+        dev {
+            dimension "server"
+            buildConfigField STRING, SERVER_URL, '"https://athome-dev-fl.herokuapp.com/"'
+        }
+    }
+}
+
+dependencies {
+    implementation project(':core_library')
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'com.android.support:support-v4:27.1.1'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}

@@ -1,0 +1,25 @@
+    <merge xmlns:android="http://schemas.android.com/apk/res/android"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:minHeight="@dimen/min_progress_size"
+       android:minWidth="@dimen/min_progress_size">
+
+    <ImageView
+        android:id="@+id/viewBottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:scaleX="1"
+        android:scaleY="1"
+        android:src="@drawable/black"/>
+
+    <ImageView
+        android:id="@+id/viewTop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:scaleX="0"
+        android:scaleY="0"
+        android:src="@drawable/red"/>
+
+</merge>

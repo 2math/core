@@ -1,0 +1,16 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:minHeight="@dimen/min_progress_size"
+             android:minWidth="@dimen/min_progress_size"
+             tools:context="com.futurist_labs.android.base_library.views.progress.ProgressFragment">
+
+    <com.futurist_labs.android.base_library.views.progress.AppProgressView
+        android:id="@+id/progressView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.futurist_labs.android.base_library.views.progress.AppProgressView>
+
+</FrameLayout>
