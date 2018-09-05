@@ -20,7 +20,7 @@ android {
 
         }
         debug {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles(fileTree(dir: 'proguard', include: ['*.pro']).asList().toArray())
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 //            ext.enableCrashlytics = false
