@@ -22,12 +22,12 @@ android {
 
     buildTypes {
         release {
-//            minifyEnabled false
+            minifyEnabled false
             consumerProguardFiles(fileTree(dir: 'proguard', include: ['*.pro']).asList().toArray())
             consumerProguardFiles 'proguard-rules.pro'
         }
         debug {
-//            minifyEnabled false
+            minifyEnabled false
             consumerProguardFiles(fileTree(dir: 'proguard', include: ['*.pro']).asList().toArray())
             consumerProguardFiles 'proguard-rules.pro'
         }
