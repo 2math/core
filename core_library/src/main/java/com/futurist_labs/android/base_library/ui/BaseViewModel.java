@@ -158,14 +158,14 @@ public abstract class BaseViewModel extends ViewModel {
         //stop all background processes
         for (MainCallback callback : callbacks) {
             if(callback!=null){
-                callback.cancelBackgroundOperation(false);
-                    LogUtils.d(this.getClass().getSimpleName(), "cancelBackgroundOperation");
+                callback.cancelBackgroundOperation();
+                LogUtils.d(this.getClass().getSimpleName(), "cancelBackgroundOperation");
             }
         }
         callbacks.clear();
     }
 
-    public boolean isSameCallRunning(Object callbackToRun) {
+    public boolean isSameCallRunning(MainCallback callbackToRun) {
         //check if there is no running call already
         for (MainCallback callback : callbacks) {
             if(callbackToRun.getClass().isInstance(callback)) return true;

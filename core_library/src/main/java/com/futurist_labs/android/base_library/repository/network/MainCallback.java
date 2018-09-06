@@ -19,8 +19,8 @@ import java.lang.ref.WeakReference;
  * show/hide progress, error , noNetwork etc.
  * Each caller(ViewModel presenter) can create a inner class which can extend MainCallback and
  * override its methods usually onPostExecute(when is succeeded), onError(when server return 300+)
- * and inTheEndOfDoInBackground(which is called when is succeeded right before onPostExecute and is in the
- * background, so you can parse and persist your data with Repository)
+ * and inTheEndOfDoInBackground(which is called when response is positive right before onPostExecute and is in the
+ * background, so you can parse and persist your data with your Repository)
  * Keeps the presenterCallback as WeakReference.
  */
 public class MainCallback<T> implements NetworkOperationCallback<T> {
@@ -28,7 +28,7 @@ public class MainCallback<T> implements NetworkOperationCallback<T> {
     public static final int TYPE_BAR = 272;
     public static final int TYPE_NO_PROGRESS = 271;
     public WeakReference<BaseEvents> presenterCallback;
-    private boolean withProgress, cancelable = false, isTaskRunning = false;
+    private boolean withProgress, cancelable = false, isTaskRunning = false, mayInterruptIfRunning = false;
     private int progressType;
     private String loadingMsg;
     private AsyncTask task;
@@ -51,13 +51,171 @@ public class MainCallback<T> implements NetworkOperationCallback<T> {
     }
 
     /**
-     * Cancel the operation, instead of onPostExecute , onCancel will be notified
+     * Will call BaseEvents.showNoNetwork()
+     * and remove it self from it with removeCallback(this)
+     * indicate that task is not running any more
+     */
+    @Override
+    public void onNoNetwork() {
+        if (checkPresenterIsAlive()) {
+            presenterCallback.get().showNoNetwork();
+        }
+        removeCallback();
+        isTaskRunning = false;
+    }
+
+    /**
+     * Will show a progress if progress option was set.
+     * Indicates that task is running now.
+     * Passes it self to BaseEvents, to have a reference for it
+     * so BaseEvents can stop it on any time,if is from BaseViewModel
+     * will be cleared when onCleared() is called on it.
+     */
+    @Override
+    public void onPreExecute() {
+        if (withProgress) {
+            showProgress();
+        }
+        isTaskRunning = true;
+        if (presenterCallback.get() != null) {
+            presenterCallback.get().addCallback(this);
+        }
+    }
+
+    @Override
+    public void inTheEndOfDoInBackground(NetworkResponse networkResponse) {
+
+    }
+
+    /**
+     * Hides progress if was set.
+     * Removes it self from BaseEvents as callback
+     * indicates that task is not running anymore
      *
-     * @param mayInterruptIfRunning True if the thread executing this task should be interrupted; otherwise, in-progress tasks are allowed to complete.
-     *                              If you want to let the service to get the data from the service and pass it to inTheEndOfDoInBackground use false.
+     * @param networkResponse return
+     */
+    @Override
+    public void onPostExecute(NetworkResponse<T> networkResponse) {
+        if (withProgress) {
+            hideProgress();
+        }
+        removeCallback();
+        isTaskRunning = false;
+    }
+
+    @Override
+    public void onProgress(int progress) {
+
+    }
+
+    /**
+     * Hides progress if was set.
+     * Removes it self from BaseEvents as callback
+     * indicates that task is not running anymore
+     */
+    @Override
+    public void onCancel() {
+        if (withProgress) {
+            hideProgress();
+        }
+        removeCallback();
+        isTaskRunning = false;
+    }
+
+    /**
+     * Hides progress if was set.
+     * Removes it self from BaseEvents as callback.
+     * Indicates that task is not running anymore.
+     * Check for main errors and sends them to BaseEvents.showError(msg, networkResponse).
+     * If you override it and make custom handling before to call super use checkCustomError.
+     *
+     * If you don't want to show error message set NetworkResponse.withoutErrorCheck = true before to call super.
+     *
+     * If you don't want to call super must call onErrorEnd() instead!
+     *
+     * Logs error message
+     *
+     * @param networkResponse return
+     */
+    @Override
+    public void onError(String msg, NetworkResponse networkResponse) {
+        logError(msg, networkResponse);
+
+        showError(msg, networkResponse);
+        onErrorEnd();
+    }
+
+
+    @Override
+    public void onOldData(NetworkResponse networkResponse) {
+
+    }
+
+    protected void showError(String msg, NetworkResponse networkResponse) {
+        if (withProgress) {
+            hideProgress();
+        }
+        if (checkPresenterIsAlive() && !networkResponse.withoutErrorCheck) {
+            checkError(msg, networkResponse);
+            presenterCallback.get().showError(msg, networkResponse);
+        }
+    }
+
+    /**
+     * Pass custom errors and messages for them and the message will be set on networkResponse.errorMsg
+     * which is used from BaseUi to show an error
+     *
+     * @param msg             if not null will be used for error
+     * @param networkResponse if not null has no errorMsg and has ServerError will be precessed, if has errorMsg
+     * @param errors          array with possible errors non null
+     * @param messages        array with messages for each error from errors array, positions are important
+     */
+    protected boolean checkCustomError(String msg, NetworkResponse networkResponse, @NonNull String[] errors,
+                                       @NonNull @StringRes int[] messages) {
+        if (networkResponse != null && networkResponse.errorMsg == 0 && msg == null
+                && networkResponse.serverError != null && networkResponse.serverError.getCode() != null
+                && errors.length == messages.length) {
+            int size = errors.length;
+            for (int i = 0; i < size; i++) {
+                if (networkResponse.serverError.getCode().equalsIgnoreCase(errors[i])) {
+                    networkResponse.errorMsg = messages[i];
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * if you override onError and don't want to call super
+     * call this method at the end
+     */
+    public void onErrorEnd() {
+        removeCallback();
+        isTaskRunning = false;
+    }
+
+    public static void logError(String msg, NetworkResponse networkResponse) {
+        if (networkResponse != null)
+            LogUtils.error("Error", "url : " + networkResponse.url +
+                    "\nmessage : " + msg +
+                    "\nresponse : " + networkResponse.responseCode +
+                    "\n" + networkResponse.json +
+                    "\n" + networkResponse.error);
+        else
+            LogUtils.error("Error", "message : " + msg);
+    }
+
+
+    /**
+     * Cancel the operation, instead of onPostExecute , onCancel will be notified
+     * <p>
+     * If you have set on this callback mayInterruptIfRunning True then the thread executing this task should be interrupted; otherwise, in-progress tasks are allowed to complete.
+     * If you want to let the service to get the data from the service and pass it to inTheEndOfDoInBackground use false.
+     *
      * @return False if the task could not be cancelled, typically because it has already completed normally; true otherwise
      */
-    public boolean cancelBackgroundOperation(boolean mayInterruptIfRunning) {
+    public boolean cancelBackgroundOperation() {
         return task != null && task.cancel(mayInterruptIfRunning);
     }
 
@@ -100,104 +258,11 @@ public class MainCallback<T> implements NetworkOperationCallback<T> {
             presenterCallback.get().showProgressDialog(loadingMsg, new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialogInterface) {
-                    cancelBackgroundOperation(false);
+                    cancelBackgroundOperation();
                 }
             });
         } else {
             presenterCallback.get().showProgressDialog(loadingMsg, null);
-        }
-    }
-
-    @Override
-    public void onPreExecute() {
-        if (withProgress) {
-            showProgress();
-        }
-        isTaskRunning = true;
-    }
-
-    @Override
-    public void onPostExecute(NetworkResponse<T> networkResponse) {
-        if (withProgress) {
-            hideProgress();
-        }
-        removeCallback();
-        isTaskRunning = false;
-    }
-
-    @Override
-    public void onProgress(int progress) {
-
-    }
-
-    @Override
-    public void onCancel() {
-        if (withProgress) {
-            hideProgress();
-        }
-        removeCallback();
-        isTaskRunning = false;
-    }
-
-    @Override
-    public void onError(String msg, NetworkResponse networkResponse) {
-        logError(msg, networkResponse);
-
-        showError(msg, networkResponse);
-        onErrorEnd();
-    }
-
-    /**
-     * Pass custom errors and messages for them and the message will be set on networkResponse.errorMsg
-     * which is used from BaseUi to show an error
-     * @param msg if not null will be used for error
-     * @param networkResponse if not null has no errorMsg and has ServerError will be precessed, if has errorMsg
-     * @param errors array with possible errors non null
-     * @param messages array with messages for each error from errors array, positions are important
-     */
-    protected boolean checkCustomError(String msg, NetworkResponse networkResponse, @NonNull String[] errors,
-                                    @NonNull @StringRes int[] messages) {
-        if (networkResponse != null && networkResponse.errorMsg == 0 && msg == null
-                && networkResponse.serverError != null && networkResponse.serverError.getCode() != null
-                && errors.length == messages.length) {
-            int size = errors.length;
-            for (int i = 0; i < size; i++) {
-                if (networkResponse.serverError.getCode().equalsIgnoreCase(errors[i])){
-                    networkResponse.errorMsg = messages[i];
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * if you override onError and don't want to call super
-     * call this method at the end
-     */
-    public void onErrorEnd() {
-        removeCallback();
-        isTaskRunning = false;
-    }
-
-    public static void logError(String msg, NetworkResponse networkResponse) {
-        if (networkResponse != null)
-            LogUtils.error("Error", "url : " + networkResponse.url +
-                    "\nmessage : " + msg +
-                    "\nresponse : " + networkResponse.responseCode +
-                    "\n" + networkResponse.json +
-                    "\n" + networkResponse.error);
-        else
-            LogUtils.error("Error", "message : " + msg);
-    }
-
-    protected void showError(String msg, NetworkResponse networkResponse) {
-        if (withProgress) {
-            hideProgress();
-        }
-        if (checkPresenterIsAlive() && !networkResponse.withoutErrorCheck) {
-            checkError(msg, networkResponse);
-            presenterCallback.get().showError(msg, networkResponse);
         }
     }
 
@@ -257,32 +322,12 @@ public class MainCallback<T> implements NetworkOperationCallback<T> {
                     default:
                         networkResponse.errorMsg = R.string.msg_main_server_error;
                 }
-            }else{
-                if(networkResponse.serverError.getText()!=null){
+            } else {
+                if (networkResponse.serverError.getText() != null) {
                     //there was a problem parsing the error and here is the text send from the server
                 }
             }
         }
-    }
-
-
-    @Override
-    public void onOldData(NetworkResponse networkResponse) {
-
-    }
-
-    @Override
-    public void onNoNetwork() {
-        if (checkPresenterIsAlive()) {
-            presenterCallback.get().showNoNetwork();
-        }
-        removeCallback();
-        isTaskRunning = false;
-    }
-
-    @Override
-    public void inTheEndOfDoInBackground(NetworkResponse networkResponse) {
-
     }
 
     /**
@@ -300,6 +345,14 @@ public class MainCallback<T> implements NetworkOperationCallback<T> {
 
     public boolean isTaskRunning() {
         return isTaskRunning;
+    }
+
+    public boolean isMayInterruptIfRunning() {
+        return mayInterruptIfRunning;
+    }
+
+    public void setMayInterruptIfRunning(boolean mayInterruptIfRunning) {
+        this.mayInterruptIfRunning = mayInterruptIfRunning;
     }
 
     @Override
