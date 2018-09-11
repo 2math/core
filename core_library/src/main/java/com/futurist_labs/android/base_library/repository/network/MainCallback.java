@@ -103,6 +103,18 @@ public class MainCallback<T> implements NetworkOperationCallback<T> {
         isTaskRunning = false;
     }
 
+    /**
+     * Hides progress if was set.
+     * Removes it self from BaseEvents as callback
+     * indicates that task is not running anymore
+     *
+     * @param networkResponse return
+     */
+    @Override
+    public void onSuccess(NetworkResponse<T> networkResponse) {
+        onPostExecute(networkResponse);
+    }
+
     @Override
     public void onProgress(int progress) {
 
@@ -216,6 +228,10 @@ public class MainCallback<T> implements NetworkOperationCallback<T> {
      * @return False if the task could not be cancelled, typically because it has already completed normally; true otherwise
      */
     public boolean cancelBackgroundOperation() {
+        return cancelBackgroundOperation(mayInterruptIfRunning);
+    }
+
+    public boolean cancelBackgroundOperation(boolean mayInterruptIfRunning) {
         return task != null && task.cancel(mayInterruptIfRunning);
     }
 

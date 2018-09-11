@@ -4,6 +4,7 @@ import android.util.JsonReader;
 import android.util.JsonToken;
 
 import com.futurist_labs.android.base_library.model.ServerError;
+import com.futurist_labs.android.base_library.repository.network.NetworkResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -128,4 +129,24 @@ public class BaseJsonParser {
         return serverError;
     }
 
+    public static String readFileId(NetworkResponse response, String fieldName) throws IOException {
+        if (response.json == null) {
+            return null;
+        }
+        String name = null, result = null;
+        String id = null;
+        JsonReader reader = new JsonReader(new StringReader(response.json));
+        reader.beginObject();
+        while (reader.hasNext()) {
+            name = reader.nextName();
+            if (name.equals(fieldName)) {
+                id = BaseJsonParser.getString(reader);
+            } else {
+                reader.skipValue();
+            }
+        }
+        reader.endObject();
+        reader.close();
+        return id;
+    }
 }

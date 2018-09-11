@@ -52,6 +52,18 @@ public interface NetworkOperationCallback<T> {
     void onPostExecute(NetworkResponse<T> networkResponse);
 
     /**
+     * Same as onPostExecute but with more meaningful name, onPostExecute calls
+     * this method and is same thing if you override any of them, but is better to use this one.
+     *
+     * Operation is completed and is successful(response code <300).
+     * Usually in networkResponse.object or object2 we have parsed
+     * our model object from the response, which was done in inTheEndOfDoInBackground.
+     * This way here we don't parse or persist we only redirect.
+     * called on UI
+     */
+    void onSuccess(NetworkResponse<T> networkResponse);
+
+    /**
      * Same as AsyncTask.onProgress
      * Currently not in use
      * called on UI

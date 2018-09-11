@@ -172,7 +172,7 @@ public class ServerOperation extends AsyncTask<Action, Void, NetworkResponse> {
 //                if (error != null && error.getText() != null) {
 //                    mCallback.onError(error.getText(), res);
 //                } else
-                mCallback.onPostExecute(res);
+                mCallback.onSuccess(res);
             } else
                 mCallback.onError(null, res);
         }

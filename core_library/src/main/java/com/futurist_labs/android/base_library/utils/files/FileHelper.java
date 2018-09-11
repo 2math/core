@@ -3,13 +3,10 @@ package com.futurist_labs.android.base_library.utils.files;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Environment;
-
 import com.futurist_labs.android.base_library.model.BaseLibraryConfiguration;
 import com.futurist_labs.android.base_library.utils.LogUtils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * Created by Galeen on 9.2.2016 г..
@@ -102,6 +99,30 @@ public class FileHelper {
             //  to know is we can neither read nor write
             mExternalStorageAvailable = mExternalStorageWriteable = false;
         }
+    }
+
+    public void copyFiles(File sourceLocation, File targetLocation){
+
+        InputStream in = null;
+        OutputStream out = null;
+        try {
+            in = new FileInputStream(sourceLocation);
+            out = new FileOutputStream(targetLocation);
+            // Copy the bits from instream to outstream
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            in.close();
+            out.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     public static class SasveImageOperation extends AsyncTask<Void, Void, String> {

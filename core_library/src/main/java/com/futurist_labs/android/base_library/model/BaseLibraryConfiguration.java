@@ -27,6 +27,7 @@ public class BaseLibraryConfiguration {
     private String regularFont = "fonts/Comfortaa-Regular.ttf";
     private BasePersistenceInterface persistenceManager;
     private NetworkAuthoriser networkAuthoriser;
+    private String publicFileFolder;
 
     public static BaseLibraryConfiguration getInstance() {
         return instance;
@@ -135,6 +136,15 @@ public class BaseLibraryConfiguration {
 
     public BaseLibraryConfiguration setNetworkAuthoriser(NetworkAuthoriser networkAuthoriser) {
         this.networkAuthoriser = networkAuthoriser;
+        return this;
+    }
+
+    public String getPublicFileFolder() {
+        return publicFileFolder;
+    }
+
+    public BaseLibraryConfiguration setPublicFileFolder(final String publicFileFolder) {
+        this.publicFileFolder = publicFileFolder;
         return this;
     }
 

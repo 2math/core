@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.futurist_labs.android.base_library.R;
+import com.futurist_labs.android.base_library.model.BaseLibraryConfiguration;
 import com.futurist_labs.android.base_library.utils.LogUtils;
 import com.futurist_labs.android.base_library.utils.RippleOnClickListener;
 import com.futurist_labs.android.base_library.utils.files.FileHelper;
@@ -107,6 +108,16 @@ public class PhotoHelper {
         this.idBtnImage = idBtnImage;
         this.idBtnPhoto = idBtnPhoto;
         this.idBtnCancel = idBtnCancel;
+        this.resMsgNoCameraPermission = resMsgNoCameraPermission;
+        this.resMsgNoDiskPermission = resMsgNoDiskPermission;
+        this.resErrorImage = resErrorImage;
+    }
+
+    /**
+     * This method must be called right after the constructor
+     */
+    public void setResources(int resMsgNoCameraPermission, int resMsgNoDiskPermission,
+                             int resErrorImage) {
         this.resMsgNoCameraPermission = resMsgNoCameraPermission;
         this.resMsgNoDiskPermission = resMsgNoDiskPermission;
         this.resErrorImage = resErrorImage;
@@ -214,6 +225,7 @@ public class PhotoHelper {
     /**
      * If calling it from fragment ,pass it here so onRequestPermissionsResult and onActivityResult
      * are received properly
+     *
      * @param fragment the fragment
      */
     public void setFragment(Fragment fragment) {
@@ -276,7 +288,9 @@ public class PhotoHelper {
     }
 
     private void hideProgress() {
-        if (progressDialog != null) progressDialog.dismiss();
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
     }
 
     /**
@@ -287,7 +301,9 @@ public class PhotoHelper {
             clickView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view1) {
-                    if (photoDialog != null) photoDialog.dismiss();
+                    if (photoDialog != null) {
+                        photoDialog.dismiss();
+                    }
                     photoDialog = new AlertDialog.Builder(activity).create();
                     View view = activity.getLayoutInflater().inflate(resDialog, null);
                     photoDialog.setView(view);
@@ -404,12 +420,12 @@ public class PhotoHelper {
 
     private void requestPermissions() {
         isComingFromAskForPermission = true;
-        if(fragment != null){
-            fragment.requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+        if (fragment != null) {
+            fragment.requestPermissions(new String[] { Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE },
                     MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-        }else{
+        } else {
             ActivityCompat.requestPermissions(activity,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    new String[] { Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE },
                     MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
         }
     }
@@ -464,7 +480,9 @@ public class PhotoHelper {
                             imageView.getHeight(),
                             inLocalStorage, fileName, dir));
                     // delete file since is new one returned
-                    if(avatarFile != null && avatarFile.exists()) avatarFile.delete();
+                    if (avatarFile != null && avatarFile.exists()) {
+                        avatarFile.delete();
+                    }
                     callback.onFileReadyToUpload(newFile, null);
                 }
             }
@@ -559,9 +577,12 @@ public class PhotoHelper {
         String imageFileName = "JPEG_" + timeStamp + "_";
 //        String imageFileName = "avatar";
         File storageDir;
-        if (inExternalMemory) {// TODO: 6/20/2018 set this FOLDER_NAME in lib configuration
+        if (inExternalMemory) {
             storageDir = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES), GenericFileProvider.FOLDER_NAME);
+                    Environment.DIRECTORY_PICTURES),
+                    BaseLibraryConfiguration.getInstance().getPublicFileFolder() != null
+                            ? BaseLibraryConfiguration.getInstance().getPublicFileFolder()
+                            : GenericFileProvider.FOLDER_NAME);
         } else {
             storageDir = ctx.getFilesDir();
         }

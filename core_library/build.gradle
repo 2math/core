@@ -4,13 +4,12 @@ apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.2math'
 
 android {
-    compileSdkVersion 27
-
-
+    compileSdkVersion rootProject.ext.compileSdkVersion
+//    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 27
+        targetSdkVersion rootProject.ext.compileSdkVersion
         versionCode 1
         versionName "1.0"
 
