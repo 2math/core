@@ -57,7 +57,7 @@ public abstract class BaseUseCase<T,K> {
         return callback == null || !callback.isTaskRunning();
     }
 
-    class UseCaseSimpleCallback extends MainCallback<T> {
+    protected class UseCaseSimpleCallback extends MainCallback<T> {
         public UseCaseSimpleCallback(BaseEvents presenterCallback, int progressType) {
             super(presenterCallback, progressType);
         }
