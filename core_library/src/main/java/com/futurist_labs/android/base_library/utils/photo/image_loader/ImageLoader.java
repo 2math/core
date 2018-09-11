@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.futurist_labs.android.base_library.model.BaseLibraryConfiguration;
+import com.futurist_labs.android.base_library.utils.LogUtils;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
@@ -25,10 +26,24 @@ public class ImageLoader {
         }
     }
 
+    public static void loadImage(String imageId, ImageView iv, int placeholder, int errorRes) {
+        if (iv != null && imageId != null) {
+            loadImage(iv.getContext(), imageId, iv, IMAGES_DIR,
+                    placeholder, errorRes, null);
+        }
+    }
+
     public static void loadImage(String imageId, ImageView iv, int placeholder, ImageTarget target) {
         if (iv != null && imageId != null) {
             loadImage(iv.getContext(), imageId, iv, IMAGES_DIR,
                     placeholder, target);
+        }
+    }
+
+    public static void loadImage(String imageId, ImageView iv, int placeholder, int errorRes, ImageTarget target) {
+        if (iv != null && imageId != null) {
+            loadImage(iv.getContext(), imageId, iv, IMAGES_DIR,
+                    placeholder, errorRes, target);
         }
     }
 
@@ -41,6 +56,11 @@ public class ImageLoader {
 
     protected static void loadImage(Context ctx, final String id, final ImageView iv, final String dir,
                                     final int placeholderRes, final ImageTarget target) {
+        loadImage(ctx, id, iv, dir, placeholderRes, placeholderRes, target);
+    }
+
+    protected static void loadImage(Context ctx, final String id, final ImageView iv, final String dir,
+                                    final int placeholderRes, int errorRes, final ImageTarget target) {
         if (iv != null && id != null) {
             RequestCreator rc;
             File file = new File(new File(BaseLibraryConfiguration.getInstance().getApplication().getExternalFilesDir(null), dir), id);
@@ -56,9 +76,10 @@ public class ImageLoader {
                     rc.placeholder(placeholderRes);
                 }
                 rc.into(iv);
+                LogUtils.d(id+" - loaded from file");
             } else {
                 if (target == null) {
-                    final ImageTarget imageTarget = new ImageTarget(iv, placeholderRes, placeholderRes, id, dir);
+                    final ImageTarget imageTarget = new ImageTarget(iv, placeholderRes, errorRes, id, dir);
                     iv.setTag(imageTarget);
                     loadImage(ctx, id, imageTarget);
                 } else {
