@@ -11,7 +11,7 @@ import android.widget.EditText;
 
 public class EtValidator {
 
-    static boolean isEmpty(String text) {
+    public static boolean isEmpty(String text) {
         return text == null || text.length() == 0;
     }
 

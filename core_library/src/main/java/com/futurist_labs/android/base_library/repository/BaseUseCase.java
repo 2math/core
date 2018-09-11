@@ -22,6 +22,11 @@ public abstract class BaseUseCase<T,K> {
         this.viewModel = viewModel;
     }
 
+    /**
+     * If you have no parameters to do your call(just callback) , you can call this method directly.
+     * If you have any extra data, is better to create new public method in your UseCase which will hold
+     * the parameters sent and must call run() at the end
+     */
     public void run() {
         if(isNotRunning()){
             if(callback == null) callback = getCallback();
