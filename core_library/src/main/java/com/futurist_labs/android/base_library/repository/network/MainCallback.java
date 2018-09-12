@@ -140,11 +140,11 @@ public class MainCallback<T> implements NetworkOperationCallback<T> {
      * Indicates that task is not running anymore.
      * Check for main errors and sends them to BaseEvents.showError(msg, networkResponse).
      * If you override it and make custom handling before to call super use checkCustomError.
-     *
+     * <p>
      * If you don't want to show error message set NetworkResponse.withoutErrorCheck = true before to call super.
-     *
+     * <p>
      * If you don't want to call super must call onErrorEnd() instead!
-     *
+     * <p>
      * Logs error message
      *
      * @param networkResponse return
@@ -167,7 +167,8 @@ public class MainCallback<T> implements NetworkOperationCallback<T> {
         if (withProgress) {
             hideProgress();
         }
-        if (checkPresenterIsAlive() && !networkResponse.withoutErrorCheck) {
+        if (checkPresenterIsAlive()
+            && ((networkResponse != null && !networkResponse.withoutErrorCheck) || networkResponse == null)) {
             checkError(msg, networkResponse);
             presenterCallback.get().showError(msg, networkResponse);
         }
@@ -185,8 +186,8 @@ public class MainCallback<T> implements NetworkOperationCallback<T> {
     protected boolean checkCustomError(String msg, NetworkResponse networkResponse, @NonNull String[] errors,
                                        @NonNull @StringRes int[] messages) {
         if (networkResponse != null && networkResponse.errorMsg == 0 && msg == null
-                && networkResponse.serverError != null && networkResponse.serverError.getCode() != null
-                && errors.length == messages.length) {
+            && networkResponse.serverError != null && networkResponse.serverError.getCode() != null
+            && errors.length == messages.length) {
             int size = errors.length;
             for (int i = 0; i < size; i++) {
                 if (networkResponse.serverError.getCode().equalsIgnoreCase(errors[i])) {
@@ -208,14 +209,15 @@ public class MainCallback<T> implements NetworkOperationCallback<T> {
     }
 
     public static void logError(String msg, NetworkResponse networkResponse) {
-        if (networkResponse != null)
+        if (networkResponse != null) {
             LogUtils.error("Error", "url : " + networkResponse.url +
-                    "\nmessage : " + msg +
-                    "\nresponse : " + networkResponse.responseCode +
-                    "\n" + networkResponse.json +
-                    "\n" + networkResponse.error);
-        else
+                                    "\nmessage : " + msg +
+                                    "\nresponse : " + networkResponse.responseCode +
+                                    "\n" + networkResponse.json +
+                                    "\n" + networkResponse.error);
+        } else {
             LogUtils.error("Error", "message : " + msg);
+        }
     }
 
 
@@ -373,8 +375,12 @@ public class MainCallback<T> implements NetworkOperationCallback<T> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof MainCallback)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof MainCallback)) {
+            return false;
+        }
 
         MainCallback that = (MainCallback) o;
 
