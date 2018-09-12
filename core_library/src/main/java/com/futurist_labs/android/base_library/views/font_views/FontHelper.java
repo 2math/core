@@ -57,30 +57,32 @@ public class FontHelper {
             linkColorHex = "";
         }
         return "<html>" +
-                "<head>" +
-                "<style type=\"text/css\">" +
-                "@font-face {" +
-                "font-family: MyFont;" +
-                "src: url(\"" + path + "\")" +
-                "}" +
-                "body {" +
-                "font-family: MyFont;" +
-                "font-size: " + textSize + "px;" +
+               "<head>" +
+               "<style type=\"text/css\">" +
+               "@font-face {" +
+               "font-family: MyFont;" +
+               "src: url(\"" + path + "\")" +
+               "}" +
+               "body {" +
+               "font-family: MyFont;" +
+               "font-size: " + textSize + "px;" +
 //                "text-align: justify;" +
-                "color: " + color + ";" +
-                "}" +
-                "img{display: inline;height: auto;max-width: 100%;}" +
-                linkColorHex +
-                "</style>" +
-                "</head>" +
-                "<body>" + htmlString +
-                "</body>" +
-                "</html>";
+               "color: " + color + ";" +
+               "}" +
+               "img{display: inline;height: auto;max-width: 100%;}" +
+               linkColorHex +
+               "</style>" +
+               "</head>" +
+               "<body>" + htmlString +
+               "</body>" +
+               "</html>";
     }
 
     public static String setCustomFontForWebView(String htmlString, int type, float textSize, String color, String
             linkColorHex) {
-        if (color == null) color = "#989898";
+        if (color == null) {
+            color = "#989898";
+        }
         String font = FONT_ASSETS;
         switch (type) {
             case BOLD:
@@ -164,7 +166,9 @@ public class FontHelper {
 
 
     public void setViewFont(FontType type) {
-        if (view == null) return;
+        if (view == null) {
+            return;
+        }
 
         switch (type) {
             case BOLD:
@@ -205,6 +209,10 @@ public class FontHelper {
         } else {
             view.setTypeface(font);
         }
+// TODO: 9/12/18 experiment
+//        if (font != null) {
+//            view.requestLayout();
+//        }
     }
 
     private void applyBoldItalic() {
@@ -223,16 +231,19 @@ public class FontHelper {
     }
 
     public void setViewFont(boolean goBold) {
-        if (view == null) return;
+        if (view == null) {
+            return;
+        }
 //        if (goBold)
 //            setTypeface(null, Typeface.BOLD);
 //        else
 //            setTypeface(null, Typeface.NORMAL);
 
-        if (goBold)
+        if (goBold) {
             setViewFont(FontType.BOLD);
-        else
+        } else {
             setViewFont(FontType.REGULAR);
+        }
     }
 
     public static String getBoldFont() {
@@ -271,7 +282,9 @@ public class FontHelper {
 
         static FontHelper.FontType fromType(int type) {
             for (FontHelper.FontType drf : values()) {
-                if (drf.type == type) return drf;
+                if (drf.type == type) {
+                    return drf;
+                }
             }
             throw new IllegalArgumentException();
         }
