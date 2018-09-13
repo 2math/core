@@ -44,4 +44,33 @@
         android:padding="@dimen/margin_small"
         android:text="@string/btn_login"
         app:TvType="bold_italic"/>
+
+    <com.futurist_labs.android.base_library.views.font_views.FontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:background="@color/colorAccent"
+        android:padding="@dimen/margin_small"
+        android:text="@string/btn_login"
+        app:TvType="italic"/>
+
+    <com.futurist_labs.android.base_library.views.font_views.FontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:background="@color/colorAccent"
+        android:padding="@dimen/margin_small"
+        android:text="@string/btn_login"
+        app:TvType="bold"/>
+
+    <com.futurist_labs.android.base_library.views.font_views.FontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:background="@color/colorAccent"
+        android:baselineAligned="false"
+        android:text="@string/btn_login"/>
 </LinearLayout>

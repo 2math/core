@@ -209,10 +209,7 @@ public class FontHelper {
         } else {
             view.setTypeface(font);
         }
-// TODO: 9/12/18 experiment
-//        if (font != null) {
-//            view.requestLayout();
-//        }
+
     }
 
     private void applyBoldItalic() {
