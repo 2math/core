@@ -11,6 +11,8 @@ import android.widget.EditText;
 
 public class EtValidator {
 
+    public static final int MIN_PASS_LENGTH = 3;
+
     public static boolean isEmpty(String text) {
         return text == null || text.length() == 0;
     }
@@ -23,8 +25,12 @@ public class EtValidator {
         return !isEmpty(pass) && pass.length() >= 3;
     }
 
-    public static boolean isValidPhone(String pass) {
-        return !isEmpty(pass) && pass.length() >= 7;
+    public static boolean isValidPassword(String pass, int length) {
+        return !isEmpty(pass) && pass.length() >= length;
+    }
+
+    public static boolean isValidPhone(String phone) {
+        return !isEmpty(phone) && phone.length() >= 7;
     }
 
     public static boolean confirmSame(String pass, String confirm) {
@@ -63,13 +69,25 @@ public class EtValidator {
         return isValidPassword(atv, et, inputLayout, et.getText().toString(), errMessage, true);
     }
 
+    public static boolean isValidPassword(Activity atv, EditText et, TextInputLayout inputLayout, String errMessage, int length) {
+        return isValidPassword(atv, et, inputLayout, et.getText().toString(), errMessage, true, length);
+    }
+
 
     public static boolean isValidPassword(Activity atv, EditText et, TextInputLayout inputLayout, String pass, String errMessage, boolean hideKeyboard) {
-        return mainCheck(atv, et, inputLayout, errMessage, isValidPassword(pass), hideKeyboard);
+        return isValidPassword(atv, et, inputLayout, pass, errMessage, hideKeyboard,MIN_PASS_LENGTH);
+    }
+
+    public static boolean isValidPassword(Activity atv, EditText et, TextInputLayout inputLayout, String pass, String errMessage, boolean hideKeyboard, int length) {
+        return mainCheck(atv, et, inputLayout, errMessage, isValidPassword(pass,length), hideKeyboard);
     }
 
     public static boolean isValidPassword(EditText et, String errMessage) {
-        return mainEtCheck(et, errMessage, isValidPassword(et.getText().toString().trim()));
+        return isValidPassword(et, errMessage, MIN_PASS_LENGTH);
+    }
+
+    public static boolean isValidPassword(EditText et, String errMessage, int length) {
+        return mainEtCheck(et, errMessage, isValidPassword(et.getText().toString().trim(),length));
     }
 
 
