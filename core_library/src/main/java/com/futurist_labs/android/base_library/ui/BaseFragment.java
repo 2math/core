@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.futurist_labs.android.base_library.model.BaseLibraryConfiguration;
-import com.futurist_labs.android.base_library.utils.LogUtils;
 
 
 /**
@@ -32,7 +31,11 @@ public class BaseFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        eventsCallback = (Events) context;
+        try {
+            eventsCallback = (Events) context;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

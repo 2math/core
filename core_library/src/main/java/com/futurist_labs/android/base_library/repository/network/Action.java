@@ -128,4 +128,58 @@ public class Action {
         return action;
     }
 
+    public Action setOperation(int operation) {
+        this.operation = operation;
+        return this;
+    }
+
+    public Action setEndpoint(String endpoint) {
+        this.endpoint = endpoint;
+        return this;
+    }
+
+    public Action setParams(Map<String, String> params) {
+        this.params = params;
+        return this;
+    }
+
+    public Action setHeaders(Map<String, String> headers) {
+        this.headers = headers;
+        return this;
+    }
+
+    public Action setBody(String body) {
+        this.body = body;
+        return this;
+    }
+
+    public Action setToLog(String toLog) {
+        this.toLog = toLog;
+        return this;
+    }
+
+    public Action setFile(File file) {
+        this.file = file;
+        return this;
+    }
+
+    public Action setFiles(ArrayList<File> files) {
+        this.files = files;
+        return this;
+    }
+
+    public Action setFileFields(ArrayList<String> fileFields) {
+        this.fileFields = fileFields;
+        return this;
+    }
+
+    public Action setFullUrl(boolean fullUrl) {
+        isFullUrl = fullUrl;
+        return this;
+    }
+
+    public Action setPriority(int priority) {
+        this.priority = priority;
+        return this;
+    }
 }
