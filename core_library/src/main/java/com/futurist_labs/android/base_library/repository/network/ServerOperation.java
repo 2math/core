@@ -126,6 +126,9 @@ public class ServerOperation extends AsyncTask<Action, Void, NetworkResponse> {
                         res = NetworkRequestHelper.multipartRequest(action.endpoint, action.params, action.files,
                                 action.fileFields, token);
                         break;
+                    case Action.DOWNLOAD_FILE:
+                        res = NetworkRequestHelper.downloadFile(action.endpoint, action.file);
+                        break;
                     case Action.GET:
                         res = NetworkRequestHelper.sendAuthenticatedGet(action.endpoint, token
                                 , action.params, action.headers);

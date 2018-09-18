@@ -25,8 +25,14 @@ public class NetworkResponse<T> {
     public ServerError serverError;
     public boolean withoutErrorCheck = false;
 
+
     public NetworkResponse(String json, int responseCode) {
         this.json = json;
+        this.responseCode = responseCode;
+    }
+
+    public NetworkResponse(int responseCode, T object) {
+        this.object = object;
         this.responseCode = responseCode;
     }
 

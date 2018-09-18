@@ -5,11 +5,13 @@ import android.util.Log;
 import com.futurist_labs.android.base_library.model.BaseLibraryConfiguration;
 import com.futurist_labs.android.base_library.model.ServerError;
 import com.futurist_labs.android.base_library.repository.persistence.BaseJsonParser;
+import com.futurist_labs.android.base_library.utils.LogUtils;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -552,6 +554,69 @@ public class NetworkRequestHelper {
         }
     }
 
+    private static final int BUFFER_SIZE = 4096;
+
+    /**
+     * Downloads a file from a URL
+     *
+     * @param fileURL HTTP URL of the file to be downloaded
+     * @param file    File to save
+     * @throws IOException
+     */
+    static NetworkResponse downloadFile(String fileURL, File file)
+            throws IOException {
+        NetworkResponse networkResponse;
+        URL url = new URL(fileURL);
+        HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+        int responseCode = httpConn.getResponseCode();
+
+        // always check HTTP response code first
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            String fileName = "";
+            String disposition = httpConn.getHeaderField("Content-Disposition");
+            String contentType = httpConn.getContentType();
+            int contentLength = httpConn.getContentLength();
+            if (disposition != null) {
+                // extracts file name from header field
+                int index = disposition.indexOf("filename=");
+                if (index > 0) {
+                    fileName = disposition.substring(index + 10,
+                            disposition.length() - 1);
+                }
+            } else {
+                // extracts file name from URL
+                fileName = fileURL.substring(fileURL.lastIndexOf("/") + 1,
+                        fileURL.length());
+            }
+            LogUtils.d("downloadFile", "File in result" +
+                    "\nContent-Type = " + contentType
+                    + "\nContent-Disposition = " + disposition
+                    + "\nContent-Length = " + contentLength
+                    + "\nfileName = " + fileName);
+
+            // opens input stream from the HTTP connection
+            InputStream inputStream = httpConn.getInputStream();
+
+            // opens an output stream to save into file
+            FileOutputStream outputStream = new FileOutputStream(file);
+
+            int bytesRead = -1;
+            byte[] buffer = new byte[BUFFER_SIZE];
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            outputStream.close();
+            inputStream.close();
+            networkResponse = new NetworkResponse<File>(responseCode, file);
+            LogUtils.d("downloadFile", "File downloaded");
+        } else {
+            networkResponse = new NetworkResponse("No file to download. Server replied HTTP code: " + responseCode, responseCode);
+            LogUtils.d("downloadFile", "No file to download. Server replied HTTP code: " + responseCode);
+        }
+        httpConn.disconnect();
+        return networkResponse;
+    }
 
     public interface ServerEvents {
         void beforeToReceiveResponse();
