@@ -121,7 +121,7 @@ public class LogUtils {
 
     public static String prettyJson(String body) {
         if (body == null || body.isEmpty()) {
-            return "empty ot null";
+            return "empty or null";
         }
         try {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -138,13 +138,14 @@ public class LogUtils {
     }
 
     private static String prettyJson(String body, Exception exception) {
-        if (body == null || body.isEmpty()) {
+        if ((body == null || body.isEmpty()) && exception == null) {
+            return "body and exception are empty or null";
+        }else{
             if (exception != null) {
                 body = exception.getLocalizedMessage();
-                return prettyJson(body);
             }
+            return prettyJson(body);
         }
-        return "body and exception are empty ot null";
     }
 
     private static void logInCrashlitics(String msg, String tag) {
