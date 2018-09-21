@@ -54,9 +54,7 @@ public abstract class BaseUseCase<T,K> {
      * @param json JSON to parse
      * @return parsed Object
      */
-    protected  T parseResponse(String json){
-        return null;
-    }
+    protected  abstract T parseResponse(String json);
 
     private boolean isNotRunning() {
         return callback == null || !callback.isTaskRunning();
