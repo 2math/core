@@ -112,6 +112,10 @@ public abstract class BaseActivity<T extends BaseViewModelWithRepository> extend
         this.topFragment = topFragment;
     }
 
+    public BaseActivity getContext(){
+        return this;
+    }
+
     public boolean isActivityResumed() {
         return isResumed;
     }
