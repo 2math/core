@@ -12,7 +12,7 @@ import com.futurist_labs.android.base_library.ui.BaseViewModelWithRepository;
  * Declare it with the return type and Repository type.
  * Should pass observable and viewModel.
  */
-public abstract class BaseUseCase<T,K> {
+public abstract class BaseUseCase<T /*return result for your observable*/,K /*repository interface*/> {
     protected MainCallback callback;
     protected MutableLiveData<T> observable;
     protected BaseViewModelWithRepository<K> viewModel;
