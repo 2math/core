@@ -18,7 +18,12 @@ public class RepositoryFactory<T> {
      * @param mockRepo
      * @param appRepo
      */
-    public RepositoryFactory(T appRepo, T mockRepo) {
+    public static <T> void  init(T appRepo, T mockRepo){
+        if (instance != null) return;
+        instance = new RepositoryFactory<>(appRepo,mockRepo);
+    }
+
+    private RepositoryFactory(T appRepo, T mockRepo) {
         if (instance != null) return;
         instance = this;
         this.mockRepo = mockRepo;
