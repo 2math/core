@@ -28,7 +28,7 @@ public class AppApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        new RepositoryFactory<Repository>(new AppRepository(), new MockRepository());
+        RepositoryFactory.init(new AppRepository(), new MockRepository());
 
         BaseLibraryConfiguration baseLibraryConfiguration = new BaseLibraryConfiguration(this, BuildConfig.DEBUG, BuildConfig.APPLICATION_ID, BuildConfig.BUILD_TYPE, BuildConfig.FLAVOR, BuildConfig.VERSION_CODE, BuildConfig.VERSION_NAME)
                 .setServerUrl(BuildConfig.SERVER_URL)

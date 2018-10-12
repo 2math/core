@@ -61,6 +61,7 @@ public class ServerOperation extends AsyncTask<Action, Void, NetworkResponse> {
             android.os.Process.setThreadPriority(action.priority);
         }
         NetworkResponse res = doServerCall(action, token);
+
         if (res != null && res.responseCode == 401 && BaseLibraryConfiguration.getInstance().getNetworkAuthoriser() != null) {//session expired
             NetworkResponse res1 = BaseLibraryConfiguration.getInstance().getNetworkAuthoriser().authorise();
             if (res1 != null && res1.isResponsePositive() && res1.object != null) {
@@ -68,8 +69,16 @@ public class ServerOperation extends AsyncTask<Action, Void, NetworkResponse> {
                 res = doServerCall(action, (String) res1.object);
             }
         }
-        if (mCallback != null && res != null && res.isResponsePositive())
-            mCallback.inTheEndOfDoInBackground(res);
+
+        if(res != null && res.isResponsePositive()){
+            if(res.url != null && res.url.startsWith(NetConstants.SERVER_ADDRESS)){//we can use the url from action too
+                if (mCallback != null)
+                    mCallback.inTheEndOfDoInBackground(res);
+            }else{//not from our server
+                res.responseCode = NetworkResponse.ERROR_WRONG_SERVER;
+            }
+        }
+
         return res;
     }
 

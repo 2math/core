@@ -13,6 +13,8 @@ import com.futurist_labs.android.base_library.model.ServerError;
  */
 public class NetworkResponse<T> {
     public static final int ERROR = 11941;
+    public static final int ERROR_WRONG_SERVER = 11942;
+
     public String url;
     public int responseCode;
     public String json;
