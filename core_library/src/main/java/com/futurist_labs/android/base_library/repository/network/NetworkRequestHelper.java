@@ -199,6 +199,7 @@ public class NetworkRequestHelper {
 //            if(conn.getHeaderFields() != null && conn.getHeaderField(Constants.HEADER_AUTHORIZATION) != null)
 //                PersistenceManager.setToken(conn.getHeaderField(Constants.HEADER_AUTHORIZATION));
             networkResponseBody = getResponseBody(conn, responseCode);
+            networkResponseBody.url = conn.getURL().toString();
         } catch (IOException e) {
             e.printStackTrace();
             networkResponseBody = new NetworkResponse(e.getMessage());
