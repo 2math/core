@@ -17,7 +17,7 @@ public class FileHelper {
     boolean mExternalStorageWriteable = false;
 
     public static void saveImageToFileAsync(Bitmap myBitmap, int width, int height, boolean localStorage, String name, String dirName, Callback callback) {
-        new SasveImageOperation(myBitmap, width, height, localStorage, name, dirName, callback).execute();
+        new SasveImageOperation(myBitmap, width, height, localStorage, name, dirName, callback).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public interface Callback {
