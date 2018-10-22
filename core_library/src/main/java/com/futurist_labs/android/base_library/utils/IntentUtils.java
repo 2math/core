@@ -14,7 +14,21 @@ import java.util.List;
  * Created by Galeen on 3.5.2016 г..
  */
 public class IntentUtils {
+    /**
+     * Please use {@link IntentUtils#openDialer(Context, String)} instead
+     * @param atv activity
+     * @param phone the phone number to be populated
+     */
+    @Deprecated
     public static void openDailer(Context atv, String phone) {
+        openDialer(atv, phone);
+    }
+    /**
+     * Opens call app with the phone number populated
+     * @param atv activity
+     * @param phone the phone number to be populated
+     */
+    public static void openDialer(Context atv, String phone) {
         String uri = "tel:" + phone;
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(Uri.parse(uri));
