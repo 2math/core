@@ -610,6 +610,7 @@ public class NetworkRequestHelper {
             outputStream.close();
             inputStream.close();
             networkResponse = new NetworkResponse<File>(responseCode, file);
+            networkResponse.url = url.toString();
             LogUtils.d("downloadFile", "File downloaded");
         } else {
             networkResponse = new NetworkResponse("No file to download. Server replied HTTP code: " + responseCode, responseCode);

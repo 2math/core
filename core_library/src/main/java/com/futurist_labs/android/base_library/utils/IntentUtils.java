@@ -16,16 +16,19 @@ import java.util.List;
 public class IntentUtils {
     /**
      * Please use {@link IntentUtils#openDialer(Context, String)} instead
-     * @param atv activity
+     *
+     * @param atv   activity
      * @param phone the phone number to be populated
      */
     @Deprecated
     public static void openDailer(Context atv, String phone) {
         openDialer(atv, phone);
     }
+
     /**
      * Opens call app with the phone number populated
-     * @param atv activity
+     *
+     * @param atv   activity
      * @param phone the phone number to be populated
      */
     public static void openDialer(Context atv, String phone) {
@@ -105,10 +108,10 @@ public class IntentUtils {
                                                      Uri attachmentUri) {
         Intent mailIntent = new Intent();
         mailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        if (htmlBody!=null) {
+        if (htmlBody != null) {
             mailIntent.putExtra(Intent.EXTRA_HTML_TEXT, htmlBody);// SystemUtils.parseHtml(bodyText));
             mailIntent.putExtra(Intent.EXTRA_TEXT, SystemUtils.parseHtml(htmlBody));
-        }else{
+        } else {
             mailIntent.putExtra(Intent.EXTRA_TEXT, bodyText);
         }
 
@@ -130,7 +133,7 @@ public class IntentUtils {
                                     Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 }
             }
-        }else{
+        } else {
             mailIntent.setAction(Intent.ACTION_SENDTO);
             // For only email app should handle this intent
             mailIntent.setData(Uri.parse("mailto:"));
@@ -385,5 +388,15 @@ public class IntentUtils {
             }
         }
         return null;
+    }
+
+    public static void openAppInPlayStore(Context ctx, String appId) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(appId));
+        intent.setPackage("com.android.vending");//Play store app
+        if(intent.resolveActivity(ctx.getPackageManager()) == null){
+            intent.setPackage(null);// open in browser
+        }
+        ctx.startActivity(intent);
     }
 }

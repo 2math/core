@@ -70,11 +70,12 @@ public class ServerOperation extends AsyncTask<Action, Void, NetworkResponse> {
             }
         }
 
-        if(res != null && res.isResponsePositive()){
-            if(res.url != null && res.url.startsWith(NetConstants.SERVER_ADDRESS)){//we can use the url from action too
+        if (res != null && res.isResponsePositive()) {
+            if (!action.isCheckServerUrl || (res.url != null && res.url.startsWith(NetConstants.SERVER_ADDRESS))) {
+                //we can use the url from action too
                 if (mCallback != null)
                     mCallback.inTheEndOfDoInBackground(res);
-            }else{//not from our server
+            } else {//not from our server
                 res.responseCode = NetworkResponse.ERROR_WRONG_SERVER;
             }
         }

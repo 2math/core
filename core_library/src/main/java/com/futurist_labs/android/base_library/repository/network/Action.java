@@ -28,7 +28,7 @@ public class Action {
     File file;
     ArrayList<File> files;
     ArrayList<String> fileFields;
-    boolean isFullUrl = false;
+    boolean isFullUrl = false, isCheckServerUrl = true;
     int priority = NORMAL_PRIORITY;
 
     public Action() {
@@ -180,6 +180,11 @@ public class Action {
 
     public Action setPriority(int priority) {
         this.priority = priority;
+        return this;
+    }
+
+    public Action setIsChecjServerUrl(boolean checkServerUrl) {
+        isCheckServerUrl = checkServerUrl;
         return this;
     }
 }
