@@ -183,7 +183,7 @@ public class Action {
         return this;
     }
 
-    public Action setIsChecjServerUrl(boolean checkServerUrl) {
+    public Action setIsCheckServerUrl(boolean checkServerUrl) {
         isCheckServerUrl = checkServerUrl;
         return this;
     }
