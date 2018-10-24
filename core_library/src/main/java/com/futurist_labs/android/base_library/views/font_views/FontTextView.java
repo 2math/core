@@ -37,4 +37,13 @@ public class FontTextView extends android.support.v7.widget.AppCompatTextView {
     public void setViewFont(FontHelper.FontType type){
         fontHelper.setViewFont(type);
     }
+
+    public void setTextOrHide(String text){
+        if(text == null || text.isEmpty()){
+            setVisibility(GONE);
+        }else{
+            setText(text);
+            setVisibility(VISIBLE);
+        }
+    }
 }

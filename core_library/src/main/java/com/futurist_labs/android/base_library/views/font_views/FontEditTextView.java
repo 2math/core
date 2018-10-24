@@ -39,4 +39,13 @@ public class FontEditTextView extends android.support.v7.widget.AppCompatEditTex
     public String toText(){
         return getText().toString();
     }
+
+    public void setTextOrHide(String text){
+        if(text == null || text.isEmpty()){
+            setVisibility(GONE);
+        }else{
+            setText(text);
+            setVisibility(VISIBLE);
+        }
+    }
 }
