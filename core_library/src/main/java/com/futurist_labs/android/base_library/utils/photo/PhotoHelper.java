@@ -130,6 +130,7 @@ public class PhotoHelper {
      */
     public void setClickViews(View[] clickViews) {
         this.clickViews = clickViews;
+        setListeners();
     }
 
     private ProgressDialog progressDialog;
