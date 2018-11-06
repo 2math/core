@@ -87,6 +87,16 @@ public class PhotoHelper {
         setListeners();
     }
 
+    public PhotoHelper(ImageView imageView, View[] clickViews, Activity activity, Boolean resultAsBase64String,
+                       PhotoEvents callback) {
+        this.imageView = imageView;
+        this.clickViews = clickViews;
+        this.activity = activity;
+        this.callback = callback;
+        this.resultAsBase64String = resultAsBase64String;
+        setListeners();
+    }
+
     public PhotoHelper(ImageView imageView, View cameraView, View fileView, Activity activity, Boolean resultAsBase64String,
                        PhotoEvents callback) {
         this.imageView = imageView;
