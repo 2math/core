@@ -241,6 +241,8 @@ public class PhotoHelper {
         this.fragment = fragment;
     }
 
+    public View lastClickedView = null;
+
     /**
      * Set click listener on this view to show start dialog
      * @param clickView any View
@@ -250,6 +252,7 @@ public class PhotoHelper {
         clickView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view1) {
+                lastClickedView = view1;
                 if (photoDialog != null) {
                     photoDialog.dismiss();
                 }
