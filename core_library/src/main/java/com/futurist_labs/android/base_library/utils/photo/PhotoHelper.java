@@ -62,6 +62,7 @@ public class PhotoHelper {
     private PhotoEvents callback;
     private boolean resultAsBase64String = false;//null is bitmap, true file, false base64
     private boolean resizeSavedFileToImageViewSize = false;
+    private View[] clickViews;
 
 //    @Override
 //    protected void finalize() throws Throwable {
@@ -121,6 +122,14 @@ public class PhotoHelper {
         this.resMsgNoCameraPermission = resMsgNoCameraPermission;
         this.resMsgNoDiskPermission = resMsgNoDiskPermission;
         this.resErrorImage = resErrorImage;
+    }
+
+    /**
+     * Assign multiple views to have a click listener and show start dialog
+     * @param clickViews all views
+     */
+    public void setClickViews(View[] clickViews) {
+        this.clickViews = clickViews;
     }
 
     private ProgressDialog progressDialog;
@@ -232,6 +241,55 @@ public class PhotoHelper {
         this.fragment = fragment;
     }
 
+    /**
+     * Set click listener on this view to show start dialog
+     * @param clickView any View
+     */
+    public void setClickToShowStartDialog(View clickView) {
+        if (clickView == null) return;
+        clickView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view1) {
+                if (photoDialog != null) {
+                    photoDialog.dismiss();
+                }
+                photoDialog = new AlertDialog.Builder(activity).create();
+                View view = activity.getLayoutInflater().inflate(resDialog, null);
+                photoDialog.setView(view);
+                view.findViewById(idBtnImage).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dismissDialog();
+                        pickImage();
+                    }
+                });
+                view.findViewById(idBtnPhoto).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dismissDialog();
+                        takeImage();
+                    }
+                });
+                view.findViewById(idBtnCancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dismissDialog();
+                    }
+                });
+                if (callback != null) {
+                    callback.onDialogInflated(view);
+                }
+
+                photoDialog.show();
+            }
+        });
+    }
+
+    public void dismissDialog() {
+        if (photoDialog != null) {
+            photoDialog.dismiss();
+        }
+    }
 
     private void loadPhoto() {
         if (dataUri != null) {
@@ -298,43 +356,15 @@ public class PhotoHelper {
      */
     private void setListeners() {
         if (clickView != null) {
-            clickView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view1) {
-                    if (photoDialog != null) {
-                        photoDialog.dismiss();
-                    }
-                    photoDialog = new AlertDialog.Builder(activity).create();
-                    View view = activity.getLayoutInflater().inflate(resDialog, null);
-                    photoDialog.setView(view);
-                    view.findViewById(idBtnImage).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dismissDialog();
-                            pickImage();
-                        }
-                    });
-                    view.findViewById(idBtnPhoto).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dismissDialog();
-                            takeImage();
-                        }
-                    });
-                    view.findViewById(idBtnCancel).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dismissDialog();
-                        }
-                    });
-                    if (callback != null) {
-                        callback.onDialogInflated(view);
-                    }
-
-                    photoDialog.show();
-                }
-            });
+            setClickToShowStartDialog(clickView);
         }
+
+        if(clickViews != null){
+            for (View view : clickViews) {
+                setClickToShowStartDialog(view);
+            }
+        }
+
         if (cameraView != null) {
             cameraView.setOnClickListener(new RippleOnClickListener() {
                 @Override
@@ -351,12 +381,6 @@ public class PhotoHelper {
                     pickImage();
                 }
             });
-        }
-    }
-
-    public void dismissDialog() {
-        if (photoDialog != null) {
-            photoDialog.dismiss();
         }
     }
 
