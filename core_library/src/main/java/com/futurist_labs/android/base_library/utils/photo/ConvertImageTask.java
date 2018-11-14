@@ -27,11 +27,19 @@ public class ConvertImageTask extends AsyncTask<Void, ConvertImageTask.Response,
 
     private boolean shouldRotate = true, shouldCompress = true;
 
+    private int imageSize;
+
     private ImageCompressorListener imageCompressorListener;
 
-    public static void adjustImageOrientationAsync(String imagePath, File newFile, ConvertImageTask.ImageCompressorListener imageCompressorListener) {
+    public static void adjustImageOrientationAsync(String imagePath, File newFile, ConvertImageTask
+            .ImageCompressorListener imageCompressorListener) {
+        adjustImageOrientationAsync(imagePath, newFile, imageCompressorListener, 0);
+    }
+
+    public static void adjustImageOrientationAsync(String imagePath, File newFile, ConvertImageTask
+            .ImageCompressorListener imageCompressorListener, int imageSize) {
         File imageFile = new File(imagePath);
-        new ConvertImageTask(imageFile, newFile, imageCompressorListener).execute();
+        new ConvertImageTask(imageFile, newFile, imageCompressorListener, imageSize).execute();
     }
 
     public ConvertImageTask(File file, File newFile, ImageCompressorListener imageCompressorListener) {
@@ -39,6 +47,15 @@ public class ConvertImageTask extends AsyncTask<Void, ConvertImageTask.Response,
         this.newFile = newFile;
         this.imageCompressorListener = imageCompressorListener;
     }
+
+    public ConvertImageTask(File file, File newFile, ImageCompressorListener imageCompressorListener, int imageSize) {
+        this.file = file;
+        this.newFile = newFile;
+        this.imageCompressorListener = imageCompressorListener;
+        this.imageSize = imageSize;
+        shouldCompress = imageSize > 0;
+    }
+
 
     public void setRotation(boolean isRotate) {
         shouldRotate = isRotate;
@@ -99,19 +116,19 @@ public class ConvertImageTask extends AsyncTask<Void, ConvertImageTask.Response,
                     LogUtils.d("ImageSize", "" + file_size);
                     int scale = 1;
 
-                    if (file_size < 512) {
+                    if (file_size < imageSize) {
                         LogUtils.d("image size is good", "image size is less");
-                    } else if (file_size < 1024) {
-                        LogUtils.d("image size is 1 mb", "image size is heavy");
+                    } else if (file_size < imageSize * 2) {
+                        LogUtils.d("image size is * 2", "image size is heavy");
                         scale = 2;
-                    } else if (file_size < 1536) {
-                        LogUtils.d("image size is 1.5 mb", "image size is heavy");
+                    } else if (file_size < imageSize * 3) {
+                        LogUtils.d("image size is * 3", "image size is heavy");
                         scale = 2;
-                    } else if (file_size < 2048) {
-                        LogUtils.d("image size is 2 mb", "image size is heavy");
+                    } else if (file_size < imageSize * 4) {
+                        LogUtils.d("image size is * 4", "image size is heavy");
                         scale = 4;
                     } else {
-                        LogUtils.d("image size > 2 mb", "image size is heavy");
+                        LogUtils.d("image size > * 4", "image size is heavy");
                         scale = 4;
                     }
 
@@ -135,7 +152,7 @@ public class ConvertImageTask extends AsyncTask<Void, ConvertImageTask.Response,
                     pickimg = Bitmap.createBitmap(pickimg, 0, 0, pickimg.getWidth(), pickimg.getHeight(), matrix, true); // rotating bitmap
 //                }
                     pickimg.compress(Bitmap.CompressFormat.JPEG, CompressionRatio, baos);
-                }else{
+                } else {
                     pickimg = BitmapFactory.decodeFile(file.getAbsolutePath());
                     if (shouldRotate) {
                         pickimg = Bitmap.createBitmap(pickimg, 0, 0, pickimg.getWidth(), pickimg.getHeight(), matrix, true); // rotating bitmap

@@ -62,6 +62,7 @@ public class PhotoHelper {
     private PhotoEvents callback;
     private boolean resultAsBase64String = false;//null is bitmap, true file, false base64
     private boolean resizeSavedFileToImageViewSize = false;
+    private int imageSize = 1000; // in Bytes
     private View[] clickViews;
 
 //    @Override
@@ -194,7 +195,7 @@ public class PhotoHelper {
                             public void onError() {
                                 loadPhoto();
                             }
-                        });
+                        }, imageSize);
 
 //                avatarFile = null;
             }
@@ -485,6 +486,14 @@ public class PhotoHelper {
 
     public void setDir(String dir) {
         this.dir = dir;
+    }
+
+    public int getImageSize() {
+        return imageSize;
+    }
+
+    public void setImageSize(int imageSize) {
+        this.imageSize = imageSize;
     }
 
     private void uploadFile() {
