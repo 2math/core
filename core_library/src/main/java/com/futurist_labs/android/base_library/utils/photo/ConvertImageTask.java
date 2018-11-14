@@ -27,19 +27,20 @@ public class ConvertImageTask extends AsyncTask<Void, ConvertImageTask.Response,
 
     private boolean shouldRotate = true, shouldCompress = true;
 
-    private int imageSize;
+    private int imageSize, imageMaxWidth = 1280, imageMaxHeight = 1000;
 
     private ImageCompressorListener imageCompressorListener;
 
     public static void adjustImageOrientationAsync(String imagePath, File newFile, ConvertImageTask
             .ImageCompressorListener imageCompressorListener) {
-        adjustImageOrientationAsync(imagePath, newFile, imageCompressorListener, 0);
+        adjustImageOrientationAsync(imagePath, newFile, imageCompressorListener, 0, 0, 0);
     }
 
     public static void adjustImageOrientationAsync(String imagePath, File newFile, ConvertImageTask
-            .ImageCompressorListener imageCompressorListener, int imageSize) {
+            .ImageCompressorListener imageCompressorListener, int imageSize, int imageMaxWidth, int ImageMaxHeight) {
         File imageFile = new File(imagePath);
-        new ConvertImageTask(imageFile, newFile, imageCompressorListener, imageSize).execute();
+        new ConvertImageTask(imageFile, newFile, imageCompressorListener, imageSize, imageMaxWidth, ImageMaxHeight)
+                .execute();
     }
 
     public ConvertImageTask(File file, File newFile, ImageCompressorListener imageCompressorListener) {
@@ -48,12 +49,18 @@ public class ConvertImageTask extends AsyncTask<Void, ConvertImageTask.Response,
         this.imageCompressorListener = imageCompressorListener;
     }
 
-    public ConvertImageTask(File file, File newFile, ImageCompressorListener imageCompressorListener, int imageSize) {
+    public ConvertImageTask(File file, File newFile, ImageCompressorListener imageCompressorListener, int imageSize, int imageMaxWidth, int ImageMaxHeight) {
         this.file = file;
         this.newFile = newFile;
         this.imageCompressorListener = imageCompressorListener;
         this.imageSize = imageSize;
         shouldCompress = imageSize > 0;
+        if(imageMaxWidth>0){
+            this.imageMaxWidth = imageMaxWidth;
+        }
+        if(imageMaxHeight>0){
+            this.imageMaxHeight = ImageMaxHeight;
+        }
     }
 
 
@@ -136,12 +143,12 @@ public class ConvertImageTask extends AsyncTask<Void, ConvertImageTask.Response,
                     BitmapFactory.Options o2 = new BitmapFactory.Options();
                     o2.inSampleSize = scale;
                     pickimg = BitmapFactory.decodeFile(file.getAbsolutePath(), o2);
-                    if (pickimg.getWidth() > 1280 || pickimg.getHeight() > 1000) {
+                    if (pickimg.getWidth() > imageMaxWidth || pickimg.getHeight() > imageMaxHeight) {
 
                         int width = pickimg.getWidth();
                         int height = pickimg.getHeight();
 
-                        while (width > 1280 || height > 700) {
+                        while (width > imageMaxWidth || height > imageMaxHeight) {
                             width = (width * 90) / 100;
                             height = (height * 90) / 100;
                         }
