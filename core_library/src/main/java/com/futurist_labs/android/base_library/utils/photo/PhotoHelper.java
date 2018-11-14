@@ -63,6 +63,7 @@ public class PhotoHelper {
     private boolean resultAsBase64String = false;//null is bitmap, true file, false base64
     private boolean resizeSavedFileToImageViewSize = false;
     private int imageSize = 1000; // in Bytes
+    private int imageMaxWidth = 1280, imageMaxHeight = 1000;
     private View[] clickViews;
 
 //    @Override
@@ -195,7 +196,7 @@ public class PhotoHelper {
                             public void onError() {
                                 loadPhoto();
                             }
-                        }, imageSize);
+                        }, imageSize, imageMaxWidth, imageMaxHeight);
 
 //                avatarFile = null;
             }
@@ -494,6 +495,22 @@ public class PhotoHelper {
 
     public void setImageSize(int imageSize) {
         this.imageSize = imageSize;
+    }
+
+    public int getImageMaxWidth() {
+        return imageMaxWidth;
+    }
+
+    public void setImageMaxWidth(int imageMaxWidth) {
+        this.imageMaxWidth = imageMaxWidth;
+    }
+
+    public int getImageMaxHeight() {
+        return imageMaxHeight;
+    }
+
+    public void setImageMaxHeight(int imageMaxHeight) {
+        this.imageMaxHeight = imageMaxHeight;
     }
 
     private void uploadFile() {
