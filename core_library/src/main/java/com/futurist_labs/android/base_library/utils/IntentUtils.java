@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.text.TextUtils;
 
 import java.util.List;
 
@@ -39,7 +40,9 @@ public class IntentUtils {
     }
 
     public static void openBrowser(Context context, String url) {
-        if (url == null) return;
+        if (url == null) {
+            return;
+        }
         if (!url.startsWith("http")) {
             url = "http://" + url;
         }
@@ -49,17 +52,22 @@ public class IntentUtils {
     }
 
     public static boolean openInBrowser(Activity atv, String url, String chooserTitle) {
-        if (url == null) return false;
+        if (url == null) {
+            return false;
+        }
         if (!url.startsWith("http")) {
             url = "http://" + url;
         }
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         if (browserIntent.resolveActivity(atv.getPackageManager()) != null) {
-            if (chooserTitle == null) chooserTitle = "Select app :";
+            if (chooserTitle == null) {
+                chooserTitle = "Select app :";
+            }
             atv.startActivity(Intent.createChooser(browserIntent, chooserTitle));
             return true;
-        } else
+        } else {
             return false;
+        }
     }
 
     public static boolean sendSMS(Context atv, String number, String body, String chooserTitle) {
@@ -75,8 +83,9 @@ public class IntentUtils {
         if (intent.resolveActivity(atv.getPackageManager()) != null) {
             atv.startActivity(Intent.createChooser(intent, chooserTitle));
             return true;
-        } else
+        } else {
             return false;
+        }
     }
 
     public static boolean sendEmailMessage(Context atv, String subject, String body, String chooserTitle) {
@@ -88,7 +97,7 @@ public class IntentUtils {
     }
 
     public static boolean sendEmailMessage(Context atv, String eMail, String subject, String body, String htmlBody, String chooserTitle, Uri attachmentUri) {
-        return sendEmailMessageToContacts(atv, subject, body, htmlBody, chooserTitle, new String[]{eMail}, null, null, attachmentUri);
+        return sendEmailMessageToContacts(atv, subject, body, htmlBody, chooserTitle, new String[] { eMail }, null, null, attachmentUri);
     }
 
     /**
@@ -124,13 +133,13 @@ public class IntentUtils {
             } else {
                 List<ResolveInfo> resInfoList =
                         context.getPackageManager()
-                                .queryIntentActivities(mailIntent, PackageManager.MATCH_DEFAULT_ONLY);
+                               .queryIntentActivities(mailIntent, PackageManager.MATCH_DEFAULT_ONLY);
 
                 for (ResolveInfo resolveInfo : resInfoList) {
                     String packageName = resolveInfo.activityInfo.packageName;
                     context.grantUriPermission(packageName, attachmentUri,
-                            Intent.FLAG_GRANT_WRITE_URI_PERMISSION |
-                                    Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                               Intent.FLAG_GRANT_WRITE_URI_PERMISSION |
+                                               Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 }
             }
         } else {
@@ -148,12 +157,15 @@ public class IntentUtils {
         if (bccRecipients != null) {
             mailIntent.putExtra(Intent.EXTRA_BCC, bccRecipients);
         }
-        if (chooserTitle == null) chooserTitle = "Send Email";
+        if (chooserTitle == null) {
+            chooserTitle = "Send Email";
+        }
         if (mailIntent.resolveActivity(context.getPackageManager()) != null) {
             context.startActivity(Intent.createChooser(mailIntent, chooserTitle));
             return true;
-        } else
+        } else {
             return false;
+        }
     }
 
     /**
@@ -173,18 +185,19 @@ public class IntentUtils {
                 return true;
             } else {
                 mapIntent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://maps.google.com/maps?daddr=" + place));// to:[address3] to: [address4]"));
+                                       Uri.parse("https://maps.google.com/maps?daddr=" + place));// to:[address3] to: [address4]"));
                 if (mapIntent.resolveActivity(atv.getPackageManager()) != null) {
                     atv.startActivity(Intent.createChooser(mapIntent, chooserTitle));
                     return true;
                 } else {
                     mapIntent = new Intent(Intent.ACTION_VIEW,
-                            Uri.parse(Uri.encode("waze://?ll=" + place + "&navigate=yes", "@#&=*+-_.,:!?()/~'%")));// to:[address3] to: [address4]"));
+                                           Uri.parse(Uri.encode("waze://?ll=" + place + "&navigate=yes", "@#&=*+-_.,:!?()/~'%")));// to:[address3] to: [address4]"));
                     if (mapIntent.resolveActivity(atv.getPackageManager()) != null) {
                         atv.startActivity(Intent.createChooser(mapIntent, chooserTitle));
                         return true;
-                    } else
+                    } else {
                         return false;
+                    }
                 }
             }
         }
@@ -193,7 +206,7 @@ public class IntentUtils {
     public static boolean openNavigationFromToWithChooser(Context atv, String addressFrom, String addressTo, String
             chooserTitle) {
         Intent mapIntent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse("https://maps.google.com/maps?saddr=" + addressFrom + "&daddr=" + addressTo));// to:[address3] to: [address4]"));
+                                      Uri.parse("https://maps.google.com/maps?saddr=" + addressFrom + "&daddr=" + addressTo));// to:[address3] to: [address4]"));
         mapIntent.setPackage("com.google.android.apps.maps");
         if (mapIntent.resolveActivity(atv.getPackageManager()) != null) {
             atv.startActivity(mapIntent);
@@ -203,8 +216,9 @@ public class IntentUtils {
             if (mapIntent.resolveActivity(atv.getPackageManager()) != null) {
                 atv.startActivity(Intent.createChooser(mapIntent, chooserTitle));
                 return true;
-            } else
+            } else {
                 return false;
+            }
         }
     }
 
@@ -218,19 +232,21 @@ public class IntentUtils {
         if (mapIntent.resolveActivity(atv.getPackageManager()) != null) {
             atv.startActivity(mapIntent);
             return true;
-        } else
+        } else {
             return false;
+        }
     }
 
     public static boolean openGoogleNavigation(Context atv, String addressFrom, String addressTo) {
         Intent mapIntent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse("https://maps.google.com/maps?saddr=" + addressFrom + "&daddr=" + addressTo));// to:[address3] to: [address4]"));
+                                      Uri.parse("https://maps.google.com/maps?saddr=" + addressFrom + "&daddr=" + addressTo));// to:[address3] to: [address4]"));
         mapIntent.setPackage("com.google.android.apps.maps");
         if (mapIntent.resolveActivity(atv.getPackageManager()) != null) {
             atv.startActivity(mapIntent);
             return true;
-        } else
+        } else {
             return false;
+        }
 //        atv.startActivity(intent);
 //        return false;
     }
@@ -242,16 +258,19 @@ public class IntentUtils {
     public static boolean openMap(Context atv, String lat, String longitude, String chooserTitle) {
         Uri gmmIntentUri = Uri.parse("geo:" + lat + "," + longitude);
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-        if (chooserTitle == null)
+        if (chooserTitle == null) {
             mapIntent.setPackage("com.google.android.apps.maps");
+        }
         if (mapIntent.resolveActivity(atv.getPackageManager()) != null) {
-            if (chooserTitle == null)
+            if (chooserTitle == null) {
                 atv.startActivity(mapIntent);
-            else
+            } else {
                 atv.startActivity(Intent.createChooser(mapIntent, chooserTitle));
+            }
             return true;
-        } else
+        } else {
             return false;
+        }
     }
 
     /**
@@ -262,16 +281,19 @@ public class IntentUtils {
             chooserTitle) {
         Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + lat + "," + longitude + "(" + markerLabel + ")");
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-        if (chooserTitle == null)
+        if (chooserTitle == null) {
             mapIntent.setPackage("com.google.android.apps.maps");
+        }
         if (mapIntent.resolveActivity(atv.getPackageManager()) != null) {
-            if (chooserTitle == null)
+            if (chooserTitle == null) {
                 atv.startActivity(mapIntent);
-            else
+            } else {
                 atv.startActivity(Intent.createChooser(mapIntent, chooserTitle));
+            }
             return true;
-        } else
+        } else {
             return false;
+        }
     }
 
     /**
@@ -281,16 +303,19 @@ public class IntentUtils {
     public static boolean openMapWithMarker(Context atv, String address, String chooserTitle) {
         Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + address);
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-        if (chooserTitle == null)
+        if (chooserTitle == null) {
             mapIntent.setPackage("com.google.android.apps.maps");
+        }
         if (mapIntent.resolveActivity(atv.getPackageManager()) != null) {
-            if (chooserTitle == null)
+            if (chooserTitle == null) {
                 atv.startActivity(mapIntent);
-            else
+            } else {
                 atv.startActivity(Intent.createChooser(mapIntent, chooserTitle));
+            }
             return true;
-        } else
+        } else {
             return false;
+        }
     }
 
     public static void openTwitter(Context atv, String userId) {
@@ -325,10 +350,13 @@ public class IntentUtils {
     public static void shareTextUrlFacebook(Activity context, String url, int title) {
         Intent share = findFacebookClient(context);
         if (share == null) {
-            openInBrowser(context, "http://facebook.com", context.getResources().getString(title));
+            openInBrowser(context,
+                          TextUtils.isEmpty(url) ? "http://facebook.com" : url,
+                          context.getResources().getString(title));
         } else {
-            if (url != null)
+            if (url != null) {
                 share.putExtra(Intent.EXTRA_TEXT, url);
+            }
             context.startActivity(Intent.createChooser(share, context.getResources().getString(title)));
         }
     }
@@ -336,10 +364,13 @@ public class IntentUtils {
     public static void shareTextUrlTW(Activity context, String url, int title) {
         Intent share = findTwitterClient(context);
         if (share == null) {
-            openInBrowser(context, "http://twitter.com", context.getResources().getString(title));
+            openInBrowser(context,
+                          TextUtils.isEmpty(url) ? "http://twitter.com" : url,
+                          context.getResources().getString(title));
         } else {
-            if (url != null)
+            if (url != null) {
                 share.putExtra(Intent.EXTRA_TEXT, url);
+            }
             context.startActivity(Intent.createChooser(share, context.getResources().getString(title)));
         }
     }
@@ -350,7 +381,7 @@ public class IntentUtils {
                 "com.twitter.android", // official - 10 000
                 "com.twidroid", // twidroid - 5 000
                 "com.handmark.tweetcaster", // Tweecaster - 5 000
-                "com.thedeck.android"}; // TweetDeck - 5 000 };
+                "com.thedeck.android" }; // TweetDeck - 5 000 };
         Intent tweetIntent = new Intent(Intent.ACTION_SEND);
         tweetIntent.setType("text/plain");
         final PackageManager packageManager = context.getPackageManager();
@@ -371,7 +402,7 @@ public class IntentUtils {
 
     public static Intent findFacebookClient(Context context) {
         final String[] twitterApps = {
-                "com.facebook.katana"};
+                "com.facebook.katana" };
         Intent tweetIntent = new Intent(Intent.ACTION_SEND);
         tweetIntent.setType("text/plain");
         final PackageManager packageManager = context.getPackageManager();
@@ -394,7 +425,7 @@ public class IntentUtils {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(appId));
         intent.setPackage("com.android.vending");//Play store app
-        if(intent.resolveActivity(ctx.getPackageManager()) == null){
+        if (intent.resolveActivity(ctx.getPackageManager()) == null) {
             intent.setPackage(null);// open in browser
         }
         ctx.startActivity(intent);
