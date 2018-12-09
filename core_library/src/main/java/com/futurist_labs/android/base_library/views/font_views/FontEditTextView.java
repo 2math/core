@@ -1,6 +1,7 @@
 package com.futurist_labs.android.base_library.views.font_views;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.util.AttributeSet;
 
 import com.futurist_labs.android.base_library.R;
@@ -28,22 +29,29 @@ public class FontEditTextView extends android.support.v7.widget.AppCompatEditTex
         init(context, attrs);
     }
 
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        fontHelper.onDraw(canvas);
+    }
 
     private void init(Context context, AttributeSet attrs) {
         fontHelper = new FontHelper(this,
-                new FontHelper.StyleAttributes(R.styleable.FontEditTextView, R.styleable.FontEditTextView_tv_font,R.styleable.FontEditTextView_TvType));
+                new FontHelper.StyleAttributes(R.styleable.FontEditTextView, R.styleable.FontEditTextView_tv_font, R
+                        .styleable.FontEditTextView_TvType, R.styleable.FontEditTextView_strike, R.styleable
+                        .FontEditTextView_strikeColor));
 //                new FontHelper.StyleAttributes(R.styleable.GaleenEditTextView, R.styleable.GaleenEditTextView_tv_font_e,R.styleable.GaleenEditTextView_galeenTvType_e));
         fontHelper.init(context, attrs);
     }
 
-    public String toText(){
+    public String toText() {
         return getText().toString();
     }
 
-    public void setTextOrHide(String text){
-        if(text == null || text.isEmpty()){
+    public void setTextOrHide(String text) {
+        if (text == null || text.isEmpty()) {
             setVisibility(GONE);
-        }else{
+        } else {
             setText(text);
             setVisibility(VISIBLE);
         }

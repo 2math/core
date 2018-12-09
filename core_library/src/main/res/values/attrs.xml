@@ -10,19 +10,28 @@
         <enum name="bold_italic" value="15"/>
     </attr>
 
+    <attr name="strike" format="boolean"/>
+    <attr name="strikeColor" format="color"/>
+
     <declare-styleable name="FontTextView">
         <attr name="tv_font"/>
         <attr name="TvType" />
+        <attr name="strike" />
+        <attr name="strikeColor" />
     </declare-styleable>
 
     <declare-styleable name="FontEditTextView">
         <attr name="tv_font"/>
         <attr name="TvType" />
+        <attr name="strike" />
+        <attr name="strikeColor" />
     </declare-styleable>
 
     <declare-styleable name="FontTextInputEditTextView">
         <attr name="tv_font"/>
         <attr name="TvType" />
+        <attr name="strike" />
+        <attr name="strikeColor" />
     </declare-styleable>
 
     <declare-styleable name="GaleenCustomShapedImageView">

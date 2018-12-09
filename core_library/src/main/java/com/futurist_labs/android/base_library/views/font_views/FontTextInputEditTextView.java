@@ -1,6 +1,7 @@
 package com.futurist_labs.android.base_library.views.font_views;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.support.design.widget.TextInputEditText;
 import android.text.InputType;
@@ -33,28 +34,36 @@ public class FontTextInputEditTextView extends TextInputEditText {
         init(context, attrs);
     }
 
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        fontHelper.onDraw(canvas);
+    }
+
 
     private void init(Context context, AttributeSet attrs) {
         fontHelper = new FontHelper(this,
-                new FontHelper.StyleAttributes(R.styleable.FontTextInputEditTextView, R.styleable.FontTextInputEditTextView_tv_font,R.styleable.FontTextInputEditTextView_TvType));
+                new FontHelper.StyleAttributes(R.styleable.FontTextInputEditTextView, R.styleable
+                        .FontTextInputEditTextView_tv_font, R.styleable.FontTextInputEditTextView_TvType, R.styleable
+                        .FontTextInputEditTextView_strike, R.styleable.FontTextInputEditTextView_strikeColor));
         fontHelper.init(context, attrs);
     }
 
-    public static void showHidePass(EditText etPassword, TextView tvShowPass){
+    public static void showHidePass(EditText etPassword, TextView tvShowPass) {
         Typeface font = etPassword.getTypeface();
         if (etPassword.getInputType() == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD) {
             etPassword.setInputType(InputType.TYPE_CLASS_TEXT |
                     InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            if(tvShowPass!=null) tvShowPass.setText(R.string.btn_show_password);
+            if (tvShowPass != null) tvShowPass.setText(R.string.btn_show_password);
         } else {
             etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-            if(tvShowPass!=null) tvShowPass.setText(R.string.btn_hide_password);
+            if (tvShowPass != null) tvShowPass.setText(R.string.btn_hide_password);
         }
         etPassword.setSelection(etPassword.getText().length());
         etPassword.setTypeface(font);
     }
 
-    public String toText(){
+    public String toText() {
         return getText().toString();
     }
 }

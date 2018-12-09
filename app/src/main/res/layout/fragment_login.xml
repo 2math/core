@@ -18,7 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_username"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textEmailAddress"
+            app:strike="true"/>
     </com.futurist_labs.android.base_library.views.font_views.FontTextInputLayout>
 
     <com.futurist_labs.android.base_library.views.font_views.FontTextInputLayout
@@ -53,7 +54,9 @@
         android:background="@color/colorAccent"
         android:padding="@dimen/margin_small"
         android:text="@string/btn_login"
-        app:TvType="italic"/>
+        app:TvType="italic"
+        app:strike="true"
+        app:strikeColor="@color/colorPrimary"/>
 
     <com.futurist_labs.android.base_library.views.font_views.FontTextView
         android:layout_width="wrap_content"

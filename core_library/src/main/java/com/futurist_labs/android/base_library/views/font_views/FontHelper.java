@@ -2,6 +2,9 @@ package com.futurist_labs.android.base_library.views.font_views;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.support.v4.util.ArrayMap;
 import android.util.AttributeSet;
@@ -32,6 +35,9 @@ public class FontHelper {
     private static ArrayMap<String, Typeface> fontCache = new ArrayMap<>();
     private FontType type = FontType.REGULAR;
     private TextView view;
+    private boolean addStrike = false;
+    private Paint paint;
+    private int strikeColor = Color.GRAY;
 
     public static Typeface getTypeface(String fontName, Context context) {
         Typeface typeface = fontCache.get(fontName);
@@ -155,6 +161,12 @@ public class FontHelper {
                     }
                 }
                 setViewFont(type);
+                addStrike = a.getBoolean(attr.getStrike(), false);
+                strikeColor = a.getColor(attr.getStrikeColor(), Color.GRAY);
+                view.setPaintFlags(view.getPaintFlags() | Paint.SUBPIXEL_TEXT_FLAG);
+                paint = new Paint();
+                paint.setColor(strikeColor);
+                paint.setStrokeWidth(view.getResources().getDisplayMetrics().density * 1);
             } finally {
                 a.recycle();
             }
@@ -164,6 +176,12 @@ public class FontHelper {
 //        }
     }
 
+    void onDraw(Canvas canvas) {
+        if (addStrike) {// TODO: 12/9/2018 calculate padding, measure text size!
+            canvas.drawLine(0, view.getHeight() / 2, view.getWidth(),
+                    view.getHeight() / 2, paint);
+        }
+    }
 
     public void setViewFont(FontType type) {
         if (view == null) {
@@ -201,32 +219,6 @@ public class FontHelper {
         }
     }
 
-    private void applyFont(String fontName, int style) {
-        Typeface font = getTypeface(fontName, view.getContext());
-        if (font == null) {//if we don't have such a font we get the regular one and apply style on it
-            font = getTypeface(regularFont, view.getContext());
-            view.setTypeface(font, style);
-        } else {
-            view.setTypeface(font);
-        }
-
-    }
-
-    private void applyBoldItalic() {
-        Typeface font = getTypeface(boldFont, view.getContext());
-        if (font == null) {//no bold font
-            font = getTypeface(italicFont, view.getContext());
-            if (font == null) {//if we don't have italic too, we get the regular one and apply BOLD_ITALIC on it
-                font = getTypeface(regularFont, view.getContext());
-                view.setTypeface(font, Typeface.BOLD_ITALIC);
-            } else {//make italic bold
-                view.setTypeface(font, Typeface.BOLD);
-            }
-        } else {//make bold font italic
-            view.setTypeface(font, Typeface.ITALIC);
-        }
-    }
-
     public void setViewFont(boolean goBold) {
         if (view == null) {
             return;
@@ -253,6 +245,32 @@ public class FontHelper {
 
     public void setRegularFont(String regularFont) {
         this.regularFont = regularFont;
+    }
+
+    private void applyFont(String fontName, int style) {
+        Typeface font = getTypeface(fontName, view.getContext());
+        if (font == null) {//if we don't have such a font we get the regular one and apply style on it
+            font = getTypeface(regularFont, view.getContext());
+            view.setTypeface(font, style);
+        } else {
+            view.setTypeface(font);
+        }
+
+    }
+
+    private void applyBoldItalic() {
+        Typeface font = getTypeface(boldFont, view.getContext());
+        if (font == null) {//no bold font
+            font = getTypeface(italicFont, view.getContext());
+            if (font == null) {//if we don't have italic too, we get the regular one and apply BOLD_ITALIC on it
+                font = getTypeface(regularFont, view.getContext());
+                view.setTypeface(font, Typeface.BOLD_ITALIC);
+            } else {//make italic bold
+                view.setTypeface(font, Typeface.BOLD);
+            }
+        } else {//make bold font italic
+            view.setTypeface(font, Typeface.ITALIC);
+        }
     }
 
     public enum FontType {
@@ -289,12 +307,20 @@ public class FontHelper {
 
     public static class StyleAttributes {
         private int[] attr;
-        private int tvFont, tvType;
+        private int tvFont, tvType, strike, strikeColor;
 
         public StyleAttributes(int[] attr, int tvFont, int tvType) {
             this.attr = attr;
             this.tvFont = tvFont;
             this.tvType = tvType;
+        }
+
+        public StyleAttributes(int[] attr, int tvFont, int tvType, int strike, int strikeColor) {
+            this.attr = attr;
+            this.tvFont = tvFont;
+            this.tvType = tvType;
+            this.strike = strike;
+            this.strikeColor = strikeColor;
         }
 
         public int[] getAttr() {
@@ -307,6 +333,14 @@ public class FontHelper {
 
         public int getTvType() {
             return tvType;
+        }
+
+        public int getStrike() {
+            return strike;
+        }
+
+        public int getStrikeColor() {
+            return strikeColor;
         }
     }
 }

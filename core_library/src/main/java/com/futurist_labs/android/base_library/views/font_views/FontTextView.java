@@ -1,6 +1,7 @@
 package com.futurist_labs.android.base_library.views.font_views;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.support.annotation.DrawableRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -32,9 +33,15 @@ public class FontTextView extends android.support.v7.widget.AppCompatTextView {
         init(context, attrs);
     }
 
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        fontHelper.onDraw(canvas);
+    }
 
     private void init(Context context, AttributeSet attrs) {
-        fontHelper = new FontHelper(this, new FontHelper.StyleAttributes(R.styleable.FontTextView, R.styleable.FontTextView_tv_font, R.styleable.FontTextView_TvType));
+        fontHelper = new FontHelper(this, new FontHelper.StyleAttributes(R.styleable.FontTextView, R.styleable
+                .FontTextView_tv_font, R.styleable.FontTextView_TvType, R.styleable.FontTextView_strike, R.styleable.FontTextView_strikeColor));
         fontHelper.init(context, attrs);
     }
 
