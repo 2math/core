@@ -16,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.style.StrikethroughSpan;
 import android.text.style.UnderlineSpan;
 import android.util.DisplayMetrics;
 import android.view.Display;
@@ -294,6 +295,15 @@ public class SystemUtils {
     public static void setUnderLineTextView(TextView textView) {
         SpannableString ul = new SpannableString(textView.getText());
         ul.setSpan(new UnderlineSpan(), 0, textView.getText().length(), 0);
+        textView.setText(ul);
+    }
+
+    /**
+     * This works only with allCaps = false
+     */
+    public static void setStrikeLineTextView(TextView textView) {
+        SpannableString ul = new SpannableString(textView.getText());
+        ul.setSpan(new StrikethroughSpan(), 0, textView.getText().length(), 0);
         textView.setText(ul);
     }
 

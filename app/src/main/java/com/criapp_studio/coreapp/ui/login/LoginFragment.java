@@ -84,6 +84,7 @@ public class LoginFragment extends BaseFragmentWithRepository<Repository> {
         ilPass = view.findViewById(R.id.ilPass);
         etPass = view.findViewById(R.id.etPass);
         tvLogin = view.findViewById(R.id.tvLogin);
+        SystemUtils.setStrikeLineTextView(tvLogin);
     }
 
     public interface OnFragmentInteractionListener {

@@ -63,25 +63,25 @@ public class FontHelper {
             linkColorHex = "";
         }
         return "<html>" +
-               "<head>" +
-               "<style type=\"text/css\">" +
-               "@font-face {" +
-               "font-family: MyFont;" +
-               "src: url(\"" + path + "\")" +
-               "}" +
-               "body {" +
-               "font-family: MyFont;" +
-               "font-size: " + textSize + "px;" +
+                "<head>" +
+                "<style type=\"text/css\">" +
+                "@font-face {" +
+                "font-family: MyFont;" +
+                "src: url(\"" + path + "\")" +
+                "}" +
+                "body {" +
+                "font-family: MyFont;" +
+                "font-size: " + textSize + "px;" +
 //                "text-align: justify;" +
-               "color: " + color + ";" +
-               "}" +
-               "img{display: inline;height: auto;max-width: 100%;}" +
-               linkColorHex +
-               "</style>" +
-               "</head>" +
-               "<body>" + htmlString +
-               "</body>" +
-               "</html>";
+                "color: " + color + ";" +
+                "}" +
+                "img{display: inline;height: auto;max-width: 100%;}" +
+                linkColorHex +
+                "</style>" +
+                "</head>" +
+                "<body>" + htmlString +
+                "</body>" +
+                "</html>";
     }
 
     public static String setCustomFontForWebView(String htmlString, int type, float textSize, String color, String
@@ -177,7 +177,7 @@ public class FontHelper {
     }
 
     void onDraw(Canvas canvas) {
-        if (addStrike) {// TODO: 12/9/2018 calculate padding, measure text size!
+        if (addStrike && view.getText().length() > 0) {// TODO: 12/9/2018 calculate padding, measure text size!
             canvas.drawLine(0, view.getHeight() / 2, view.getWidth(),
                     view.getHeight() / 2, paint);
         }
