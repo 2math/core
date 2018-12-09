@@ -30,6 +30,7 @@ import android.widget.TextView;
 
 import com.futurist_labs.android.base_library.R;
 import com.futurist_labs.android.base_library.model.BaseLibraryConfiguration;
+import com.futurist_labs.android.base_library.utils.photo.HttpImageGetter;
 import com.futurist_labs.android.base_library.views.font_views.FontHelper;
 
 import java.util.UUID;
@@ -226,13 +227,23 @@ public class SystemUtils {
     }
 
     public static synchronized Spanned parseHtml(String html) {
+        return parseHtml(html, null);
+    }
+
+    public static synchronized Spanned parseHtml(String html, HttpImageGetter imageGetter) {
         Spanned spannedText;
-        if(Build.VERSION.SDK_INT<24){
-            spannedText= Html.fromHtml(html);
-        }else{
-            spannedText= Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
+        if (Build.VERSION.SDK_INT < 24) {
+            spannedText = Html.fromHtml(html, imageGetter, null);
+        } else {
+            spannedText = Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY, imageGetter, null);
         }
         return spannedText;
+    }
+
+    public static CharSequence stripHtml(String s) {
+        return Html.fromHtml(s).toString().replace((char) 65532, (char) 32).trim();
+//        .replace('\n', (char) 32)
+//                .replace((char) 160, (char) 32)
     }
 
     public static String fixHtmlImages(String html, String url){
