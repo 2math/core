@@ -442,7 +442,7 @@ public class IntentUtils {
 
     public static void openAppInPlayStore(Context ctx, String appId) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(appId));
+        intent.setData(Uri.parse("https://play.google.com/store/apps/details?id="+appId));
         intent.setPackage("com.android.vending");//Play store app
         if (intent.resolveActivity(ctx.getPackageManager()) == null) {
             intent.setPackage(null);// open in browser
