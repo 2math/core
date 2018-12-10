@@ -15,6 +15,9 @@ import java.util.List;
  * Created by Galeen on 3.5.2016 г..
  */
 public class IntentUtils {
+
+    private static final String FACEBOOK_PACKAGE = "com.facebook.katana";
+
     /**
      * Please use {@link IntentUtils#openDialer(Context, String)} instead
      *
@@ -347,6 +350,22 @@ public class IntentUtils {
         atv.startActivity(intent);
     }
 
+    public static void getOpenFacebook(Activity atv, String url) {
+        Intent intent;
+        try {
+            atv.getPackageManager()
+               .getPackageInfo(FACEBOOK_PACKAGE, 0); //Checks if FB is even installed.
+            intent = new Intent(Intent.ACTION_VIEW,
+                                Uri.parse("fb://facewebmodal/f?href="+url)); //Trys to make intent with FB's URI
+
+            atv.startActivity(intent);
+        } catch (Exception e) {
+            IntentUtils.openInBrowser(atv,
+                                      TextUtils.isEmpty(url) ? "http://facebook.com" : url,
+                                      null);
+        }
+    }
+
     public static void shareTextUrlFacebook(Activity context, String url, int title) {
         Intent share = findFacebookClient(context);
         if (share == null) {
@@ -402,7 +421,7 @@ public class IntentUtils {
 
     public static Intent findFacebookClient(Context context) {
         final String[] twitterApps = {
-                "com.facebook.katana" };
+                FACEBOOK_PACKAGE };
         Intent tweetIntent = new Intent(Intent.ACTION_SEND);
         tweetIntent.setType("text/plain");
         final PackageManager packageManager = context.getPackageManager();
