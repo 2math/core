@@ -314,7 +314,7 @@ public class DialogUtils {
      * @return the dialog it self or null if something get wrong
      */
     @Nullable
-    public static Dialog showInfoDialog(Context ctx,
+    public static Dialog showCustomDialog(Context ctx,
                                         @StringRes int msgRes, String msgString,
                                         @StringRes int msg2Res, String msg2String,
                                         @StringRes int btnYesRes, String btnYesString,
