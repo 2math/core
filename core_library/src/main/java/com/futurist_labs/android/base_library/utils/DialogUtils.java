@@ -288,6 +288,7 @@ public class DialogUtils {
     /**
      * Show custom dialog.
      * Even if you set button listeners to null on click the dialog is closed.
+     * If string resource id = 0 and String value = null the view visibility is Gone.
      *
      * @param ctx           Context
      * @param msgRes        Main message string resource id, 0 to hide
