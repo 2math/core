@@ -2,11 +2,19 @@ package com.futurist_labs.android.base_library.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.futurist_labs.android.base_library.R;
@@ -212,7 +220,7 @@ public class DialogUtils {
 
 
     public static void showSimpleDialog(Context ctx, String msg) {
-        showSimpleDialog(ctx,  msg, null);
+        showSimpleDialog(ctx, msg, null);
     }
 
     public static void showSimpleDialog(Context ctx, int msg) {
@@ -275,6 +283,127 @@ public class DialogUtils {
         else
             dialog.setNegativeButton(btnNo, listenerNo);
         dialog.show();
+    }
+
+    /**
+     * Show custom dialog.
+     * Even if you set button listeners to null on click the dialog is closed.
+     *
+     * @param ctx           Context
+     * @param msgRes        Main message string resource id, 0 to hide
+     * @param msgString     Main message as String, NULL to hide
+     * @param msg2Res       Second message string resource id, 0 to hide
+     * @param msg2String    Second message as String, NULL to hide
+     * @param btnYesRes     string resource id, 0 to hide
+     * @param btnYesString  as String, NULL to hide
+     * @param btnNoRes      string resource id, 0 to hide
+     * @param btnNoString   as String, NULL to hide
+     * @param listenerYes   callback to be called on click, can be null
+     * @param listenerNo    callback to be called on click, can be null
+     * @param listenerClose callback to be called on click, can be null
+     * @param callback      it is called right after the dialog view is inflated and prepared. Here you receive the view
+     *                      it self and can do extra settings, like set ripple to buttons etc.
+     * @param showOnCreate  if true the dialog will be show immediately after is created, on False will just create
+     *                      and return the dialog to be show by the caller
+     * @param layout        res id of the layout of our custom dialog
+     * @param idMsg         res id of TextView1, it expects a TextView or successor
+     * @param idMsg2        res id of TextView2, it expects a TextView or successor
+     * @param idBtnYes      res id of button Yes, it expects a TextView or successor
+     * @param idBtnNo       res id of button Yes, it expects a TextView or successor
+     * @param idBtnClose    res id of button Yes, it expects a TextView or successor
+     * @return the dialog it self or null if something get wrong
+     */
+    @Nullable
+    public static Dialog showInfoDialog(Context ctx,
+                                        @StringRes int msgRes, String msgString,
+                                        @StringRes int msg2Res, String msg2String,
+                                        @StringRes int btnYesRes, String btnYesString,
+                                        @StringRes int btnNoRes, String btnNoString,
+
+                                        final View.OnClickListener listenerYes,
+                                        final View.OnClickListener listenerNo,
+                                        final View.OnClickListener listenerClose,
+
+                                        DialogEvents callback,
+                                        boolean showOnCreate,
+
+                                        @LayoutRes int layout,
+                                        int idMsg, int idMsg2, int idBtnYes,
+                                        int idBtnNo, int idBtnClose) {
+        final Dialog dialog = new Dialog(ctx);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        if (dialog.getWindow() == null) return null;
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        LayoutInflater vi = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (vi == null) return null;
+
+        View view = vi.inflate(layout, null);
+        TextView tvMsg = view.findViewById(idMsg);
+        TextView tvMsg2 = view.findViewById(idMsg2);
+        TextView btnYes = view.findViewById(idBtnYes);
+        TextView btnNo = view.findViewById(idBtnNo);
+        ImageView btnClose = view.findViewById(idBtnClose);
+
+        setText(msgRes, msgString, tvMsg);
+
+        setText(msg2Res, msg2String, tvMsg2);
+
+        setDialogButton(btnYesRes, btnYesString, listenerYes, dialog, btnYes);
+
+        setDialogButton(btnNoRes, btnNoString, listenerNo, dialog, btnNo);
+
+        if (btnClose != null) {
+            btnClose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                    if (listenerClose != null) listenerClose.onClick(view);
+                }
+            });
+        }
+
+        if (callback != null) {
+            callback.onInflated(view);
+        }
+
+        dialog.setContentView(view);
+        if (showOnCreate) dialog.show();
+
+        return dialog;
+    }
+
+    private static void setDialogButton(@StringRes int btnTextRes, String btnTextString, final View.OnClickListener listener, final Dialog dialog, TextView btn) {
+        if (btn != null) {
+            if (btnTextRes != 0 || btnTextString != null) {
+                setText(btnTextRes, btnTextString, btn);
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                        if (listener != null)
+                            listener.onClick(view);
+                    }
+                });
+            } else {
+                btn.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private static void setText(@StringRes int textRes, String textString, TextView tv) {
+        if (tv != null) {
+            if (textRes != 0) {
+                tv.setText(textRes);
+            } else {
+                tv.setText(textString);
+            }
+        }
+    }
+
+    public interface DialogEvents {
+        void onInflated(View dialogView);
     }
 
 //    public static AlertDialog openGPSSettingsDialog(final Context context, final SettingsDialogListener listener) {
