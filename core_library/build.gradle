@@ -36,7 +36,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
+    //todo use complyOnly and ask the users to include in them gradle
     api "android.arch.lifecycle:extensions:${rootProject.ext.lifecycle}"
     api "com.google.code.gson:gson:${rootProject.ext.gson}"
 

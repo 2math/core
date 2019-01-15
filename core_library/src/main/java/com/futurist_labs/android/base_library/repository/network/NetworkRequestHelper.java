@@ -48,13 +48,25 @@ public class NetworkRequestHelper {
 
     static NetworkResponse sendPost(String endpoint, String body, String authToken, ServerEvents
             callback) throws IOException {
-        return sendPost(endpoint, body, authToken, "application/json", callback);
+        return sendPost(endpoint, body, authToken, "application/json", callback, null);
 
     }
 
     static NetworkResponse sendPostWithParams(String endpoint, String params, String authToken, ServerEvents
             callback) throws IOException {
-        return sendPost(endpoint, params, authToken, "application/x-www-form-urlencoded", callback);
+        return sendPost(endpoint, params, authToken, "application/x-www-form-urlencoded", callback, null);
+
+    }
+
+    static NetworkResponse sendPost(String endpoint, String body, String authToken, ServerEvents
+            callback, Map<String, String> headers) throws IOException {
+        return sendPost(endpoint, body, authToken, "application/json", callback, headers);
+
+    }
+
+    static NetworkResponse sendPostWithParams(String endpoint, String params, String authToken, ServerEvents
+            callback, Map<String, String> headers) throws IOException {
+        return sendPost(endpoint, params, authToken, "application/x-www-form-urlencoded", callback, headers);
 
     }
 
@@ -105,7 +117,7 @@ public class NetworkRequestHelper {
     }
 
     static NetworkResponse sendPost(String endpoint, String params, String authToken, String type,
-                                    ServerEvents callback) throws
+                                    ServerEvents callback, Map<String, String> headers) throws
             IOException {
         URL url = new URL(endpoint);
 
@@ -130,6 +142,13 @@ public class NetworkRequestHelper {
         }
         if (NetConstants.SHOULD_ADD_LOCALE)
             conn.setRequestProperty(NetConstants.HEADER_LOCALE_FIELD, BaseLibraryConfiguration.getInstance().getHeaderLocaleFieldValue());
+
+        if (headers != null) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                conn.setRequestProperty(entry.getKey(), entry.getValue());
+            }
+        }
+
         OutputStream os = conn.getOutputStream();
         if (params != null)
             os.write(params.getBytes());
@@ -283,7 +302,9 @@ public class NetworkRequestHelper {
         if(readError){
             serverError = BaseJsonParser.readError(responseBody.toString());
         }
-        return new NetworkResponse(conn.getHeaderField("Last-Modified"), responseBody.toString(), responseCode, serverError);
+        return new NetworkResponse(conn.getHeaderField("Last-Modified"),
+                conn.getHeaderField("Set-Cookie"),
+                responseBody.toString(), responseCode, serverError);
 //        return responseBody;
     }
 

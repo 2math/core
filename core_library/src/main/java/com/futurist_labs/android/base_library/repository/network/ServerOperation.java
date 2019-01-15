@@ -124,7 +124,7 @@ public class ServerOperation extends AsyncTask<Action, Void, NetworkResponse> {
                                 //clear the data to empty memory
                                 action.body = null;
                             }
-                        });
+                        }, action.headers);
                         break;
                     case Action.DELETE:
                         res = NetworkRequestHelper.sendDelete(action.endpoint, action.body, token);
