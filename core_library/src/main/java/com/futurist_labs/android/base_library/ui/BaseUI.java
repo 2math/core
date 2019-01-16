@@ -116,13 +116,27 @@ public class BaseUI {
     }
 
     public void showError(String msg, int msgRes) {
-        if (msgRes != 0) {
-            DialogUtils.showError(parentView, msgRes);
-        } else if (msg != null) {
-            DialogUtils.showError(parentView, msg);
-        } else {
-            DialogUtils.showError(parentView, R.string.msg_main_server_error);
+        if(showErrorCallback!=null){
+            showErrorCallback.show(msg, msgRes);
+        }else{
+            if (msgRes != 0) {
+                DialogUtils.showError(parentView, msgRes);
+            } else if (msg != null) {
+                DialogUtils.showError(parentView, msg);
+            } else {
+                DialogUtils.showError(parentView, R.string.msg_main_server_error);
+            }
         }
+    }
+
+    public interface ShowErrorCallback {
+        void show(String msg, int msgRes);
+    }
+
+    private ShowErrorCallback  showErrorCallback = null;
+
+    public void setShowErrorCallback(ShowErrorCallback showErrorCallback) {
+        this.showErrorCallback = showErrorCallback;
     }
 
     private void showErrorDialog(String msg, NetworkResponse networkResponse) {
