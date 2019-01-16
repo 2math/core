@@ -72,7 +72,8 @@ public class FontTextView extends android.support.v7.widget.AppCompatTextView {
             return false;
         } else {
             setVisibility(VISIBLE);
-            setText(SystemUtils.parseHtml(text, imagesPlaceholder == 0 ? new HttpImageGetter(this, imagesPlaceholder) : new HttpImageGetter(this)));
+            setText(SystemUtils.parseHtml(text, imagesPlaceholder != 0 ?
+                    new HttpImageGetter(this, imagesPlaceholder) : new HttpImageGetter(this)));
             return true;
         }
     }
