@@ -45,12 +45,13 @@ public class GaleenTracker {
 //        }
     }
 
-    void logPrettyJson(Action action) {
+    void logPrettyJson(Action action, String token) {
 //        if (NetConstants.DEBUG) {
         String params = mapToString(action.params);
         String headers = mapToString(action.headers);
         String data = action.toLog == null ? action.body : action.toLog;
         LogUtils.d("GTr " + action.getOperation(), action.endpoint +
+                (token == null ? "" : "\ntoken : " + token) +
                 (action.body == null ? "" : "\n" + prettyJson(data)) +
                 (params == null ? "" : "\nparams : \n" + params) +
                 (headers == null ? "" : "\nheaders : \n" + headers));

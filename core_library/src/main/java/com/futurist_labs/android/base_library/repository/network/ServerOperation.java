@@ -112,7 +112,7 @@ public class ServerOperation extends AsyncTask<Action, Void, NetworkResponse> {
                 tracker.startTracker();
                 if (!action.isFullUrl)
                     action.endpoint = NetConstants.SERVER_ADDRESS + action.endpoint;
-                tracker.logPrettyJson(action);
+                tracker.logPrettyJson(action, token);
                 switch (action.operation) {
                     case Action.PUT:
                         res = NetworkRequestHelper.sendAuthenticatedPut(action.endpoint, action.body, token);
