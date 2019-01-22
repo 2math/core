@@ -299,7 +299,7 @@ public class NetworkRequestHelper {
         }
         br.close();
         ServerError serverError = null;
-        if(readError){
+        if (readError) {
             serverError = BaseJsonParser.readError(responseBody.toString());
         }
         return new NetworkResponse(conn.getHeaderField("Last-Modified"),
@@ -424,7 +424,7 @@ public class NetworkRequestHelper {
             connection.setDoOutput(true);
             connection.setUseCaches(false);
 
-            if (token != null){
+            if (token != null) {
                 connection.setRequestProperty(NetConstants.HEADER_AUTHORIZATION, token);
             }
             connection.setRequestMethod("POST");
@@ -483,7 +483,7 @@ public class NetworkRequestHelper {
         }
     }
 
-    static NetworkResponse multipartRequest(String urlTo, Map<String, String> params, ArrayList<File> files, ArrayList<String> fileFields, String token)  {
+    static NetworkResponse multipartRequest(String urlTo, Map<String, String> params, ArrayList<File> files, ArrayList<String> fileFields, String token) {
         HttpURLConnection connection = null;
         DataOutputStream outputStream = null;
 
@@ -547,7 +547,7 @@ public class NetworkRequestHelper {
                 fileInputStream.close();
             }
 
-            if(params!=null) {
+            if (params != null) {
                 // Upload POST Data
                 Iterator<String> keys = params.keySet().iterator();
                 while (keys.hasNext()) {
@@ -585,11 +585,21 @@ public class NetworkRequestHelper {
      * @param file    File to save
      * @throws IOException
      */
-    static NetworkResponse downloadFile(String fileURL, File file)
+    static NetworkResponse downloadFile(String fileURL, File file, String authToken, Map<String, String> headers)
             throws IOException {
         NetworkResponse networkResponse;
         URL url = new URL(fileURL);
         HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+        if (authToken != null) {
+            httpConn.setRequestProperty(NetConstants.HEADER_AUTHORIZATION, authToken);
+        }
+
+        if (headers != null) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                httpConn.setRequestProperty(entry.getKey(), entry.getValue());
+            }
+        }
+
         int responseCode = httpConn.getResponseCode();
 
         // always check HTTP response code first
