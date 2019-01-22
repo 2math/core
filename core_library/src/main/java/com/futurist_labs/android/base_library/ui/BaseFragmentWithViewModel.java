@@ -4,15 +4,13 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.futurist_labs.android.base_library.repository.RepositoryFactory;
-
 /**
  * Created by Galeen on 6/8/2018.
  */
-public abstract class BaseFragmentWithViewModelAndRepository<T, // repository
-        K extends BaseViewModelWithRepository<T>> // ViewModel
-        extends BaseFragmentWithViewModel<K> {
-    public T repository = (T) RepositoryFactory.getInstance().provide();
+public abstract class BaseFragmentWithViewModel<
+        K extends BaseViewModelWithRepository> // ViewModel
+        extends BaseFragment {
+
     public K viewModel;
 
     @Override
