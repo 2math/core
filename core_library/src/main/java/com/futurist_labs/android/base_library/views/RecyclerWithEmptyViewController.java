@@ -14,7 +14,6 @@ public class RecyclerWithEmptyViewController {
     private View emptyView;
     private boolean isInvisible = false;
 
-    // TODO: 1/24/2019 update core
     public RecyclerWithEmptyViewController(RecyclerView recyclerView, View emptyView, boolean isInvisible) {
         this.recyclerView = recyclerView;
         this.emptyView = emptyView;
