@@ -36,13 +36,17 @@ public class BasePersistenceManager {
 
     public static <T> void addValue(String key, T value, SetDataCallback callback, boolean isUser) {
         if (getPersistenceManager().useCache()) {
-            if (isUser) {
-                BaseCache.getInstance().inUserData(key, value);
-            } else {
-                BaseCache.getInstance().inAppData(key, value);
-            }
+            addDataToCache(key, value, isUser);
         }
         getPersistenceManager().save(key, value, callback, isUser);
+    }
+
+    private static <T> void addDataToCache(String key, T value, boolean isUser) {
+        if (isUser) {
+            BaseCache.getInstance().inUserData(key, value);
+        } else {
+            BaseCache.getInstance().inAppData(key, value);
+        }
     }
 
     public static void addStringValue(String key, String value) {
@@ -51,11 +55,7 @@ public class BasePersistenceManager {
 
     public static void addStringValue(String key, String value, boolean isUser) {
         if (getPersistenceManager().useCache()) {
-            if (isUser) {
-                BaseCache.getInstance().inUserData(key, value);
-            } else {
-                BaseCache.getInstance().inAppData(key, value);
-            }
+            addDataToCache(key, value, isUser);
         }
         getPersistenceManager().save(key, value, isUser);
     }
@@ -66,11 +66,7 @@ public class BasePersistenceManager {
 
     public static void addBooleanValue(String key, boolean value, boolean isUser, boolean justCache) {
         if (getPersistenceManager().useCache()) {
-            if (isUser) {
-                BaseCache.getInstance().inUserData(key, value);
-            } else {
-                BaseCache.getInstance().inAppData(key, value);
-            }
+            addDataToCache(key, value, isUser);
         }
         getPersistenceManager().save(key, value, isUser);
     }
@@ -93,7 +89,7 @@ public class BasePersistenceManager {
         get(key, callback, true);
     }
 
-    public static <T> void get(String key, GetDataCallback<T> callback, boolean isUser) {
+    public static <T> void get(final String key, final GetDataCallback<T> callback, final boolean isUser) {
         if (getPersistenceManager().useCache()) {
             Object value = BaseCache.getInstance().get(key, isUser);
             if (value != null && callback != null) {
@@ -101,7 +97,16 @@ public class BasePersistenceManager {
                 return;
             }
         }
-        getPersistenceManager().get(key, callback);
+
+        getPersistenceManager().get(key, new GetDataCallback<T>() {
+            @Override
+            public void onData(T t) {
+                if (getPersistenceManager().useCache()) {
+                    addDataToCache(key, t, isUser);
+                    if(callback!=null) callback.onData(t);
+                }
+            }
+        });
     }
 
     public static String getString(String key, GetDataCallback<String> callback) {
