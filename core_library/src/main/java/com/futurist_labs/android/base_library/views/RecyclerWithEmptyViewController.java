@@ -12,6 +12,14 @@ import android.view.View;
 public class RecyclerWithEmptyViewController {
     private RecyclerView recyclerView;
     private View emptyView;
+    private boolean isInvisible = false;
+
+    // TODO: 1/24/2019 update core
+    public RecyclerWithEmptyViewController(RecyclerView recyclerView, View emptyView, boolean isInvisible) {
+        this.recyclerView = recyclerView;
+        this.emptyView = emptyView;
+        this.isInvisible = isInvisible;
+    }
 
     public RecyclerWithEmptyViewController(RecyclerView recyclerView, View emptyView) {
         this.recyclerView = recyclerView;
@@ -36,12 +44,12 @@ public class RecyclerWithEmptyViewController {
     public boolean setAdapter(RecyclerView.Adapter adapter, int itemsCount, boolean noEmptyView) {
         boolean res;
             if (!noEmptyView && itemsCount == 0) {
-                recyclerView.setVisibility(View.GONE);
+                recyclerView.setVisibility(isInvisible ? View.INVISIBLE : View.GONE);
                 emptyView.setVisibility(View.VISIBLE);
                 res = false;
             } else {
                 recyclerView.setVisibility(View.VISIBLE);
-                emptyView.setVisibility(View.GONE);
+                emptyView.setVisibility(isInvisible ? View.INVISIBLE : View.GONE);
                 res = true;
             }
         recyclerView.setAdapter(adapter);

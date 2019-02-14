@@ -2,6 +2,8 @@ package com.futurist_labs.android.base_library.utils;
 
 import android.app.Activity;
 import android.app.NotificationManager;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Point;
@@ -52,27 +54,29 @@ public class SystemUtils {
 //        return mngr.getDeviceId();
         return UUID.randomUUID().toString();
     }
+
     public static void hideKeyboard(Fragment fragment, View v) {
-        if(v == null && fragment.getView()!=null){
+        if (v == null && fragment.getView() != null) {
             v = fragment.getView().getRootView();
         }
         if (v == null) {
             v = new View(fragment.getContext());
         }
-        hideKeyboard(v,fragment.getContext());
+        hideKeyboard(v, fragment.getContext());
     }
 
     public static void hideKeyboard(View v, Context activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
-            LogUtils.d("hideKeyboard : "+imm.hideSoftInputFromWindow(v.getWindowToken(),  0));
+            LogUtils.d("hideKeyboard : " + imm.hideSoftInputFromWindow(v.getWindowToken(), 0));
         }
-        if(v!=null){
+        if (v != null) {
             v.clearFocus();
         }
     }
+
     public static void hideKeyboard(Activity activity, View v) {
-        hideKeyboard(v,activity.getBaseContext());
+        hideKeyboard(v, activity.getBaseContext());
     }
 
     public static void hideKeyboard(Activity activity) {
@@ -81,7 +85,7 @@ public class SystemUtils {
         if (view == null) {
             view = new View(activity);
         }
-        hideKeyboard(activity,view);
+        hideKeyboard(activity, view);
     }
 
     public static void showKeyboard(Activity activity) {
@@ -119,7 +123,7 @@ public class SystemUtils {
     }
 
     public static void scrollToView(final View scrollView, final View view) {
-        if(scrollView==null || view ==null)return;
+        if (scrollView == null || view == null) return;
         view.requestFocus();
         final Rect scrollBounds = new Rect();
         scrollView.getHitRect(scrollBounds);
@@ -128,7 +132,7 @@ public class SystemUtils {
                 @Override
                 public void run() {
                     int toScroll = getRelativeTop(view) - getRelativeTop(scrollView);
-                    ((ScrollView) scrollView).smoothScrollTo(0, toScroll-120);
+                    ((ScrollView) scrollView).smoothScrollTo(0, toScroll - 120);
                 }
             });
         }
@@ -247,14 +251,14 @@ public class SystemUtils {
 //                .replace((char) 160, (char) 32)
     }
 
-    public static String fixHtmlImages(String html, String url){
+    public static String fixHtmlImages(String html, String url) {
         String search = "src=\"";
         String prefix = "http";
         int index = html.indexOf(search);
         while (index != -1) {
-            index = index+search.length();
-            if(index>html.length()) break;
-            if(!html.startsWith(prefix,index)) {
+            index = index + search.length();
+            if (index > html.length()) break;
+            if (!html.startsWith(prefix, index)) {
                 html = html.substring(0, index)
                         + url
                         + html.substring(index);
@@ -270,7 +274,7 @@ public class SystemUtils {
         String hexColor = String.format("#%06X", (0xFFFFFF & intColor));
 
         String htmlString = FontHelper.setCustomFontForWebView(html,
-                fontType, 14, null,hexColor);
+                fontType, 14, null, hexColor);
 
         htmlString = SystemUtils.fixHtmlImages(htmlString, "https://www.codehospitality.co.uk");
 
@@ -310,12 +314,13 @@ public class SystemUtils {
     /**
      * Will add notification channel if not added already.
      * It will be done on OS >= Oreo 27
-     * @param context context
-     * @param channelId unique id
+     *
+     * @param context     context
+     * @param channelId   unique id
      * @param channelName name to show in settings
-     * @param importance level to NotificationManager.IMPORTANCE_HIGH
+     * @param importance  level to NotificationManager.IMPORTANCE_HIGH
      */
-    public static void addNotificationChannel(Context context,String channelId, String channelName, int importance){
+    public static void addNotificationChannel(Context context, String channelId, String channelName, int importance) {
         android.app.NotificationManager notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -329,18 +334,19 @@ public class SystemUtils {
 
     /**
      * same as {@link #addNotificationChannel(Context, String, String, int)}, but with NotificationManager.IMPORTANCE_HIGH
-     * @param context context
-     * @param channelId unique id
+     *
+     * @param context     context
+     * @param channelId   unique id
      * @param channelName name to show in settings
      */
-    public static void addNotificationChannel(Context context,String channelId, String channelName) {
+    public static void addNotificationChannel(Context context, String channelId, String channelName) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             SystemUtils.addNotificationChannel(context, channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
         }
     }
 
     public static void hideSystemUI(Activity activity) {
-        if(activity == null) return;
+        if (activity == null) return;
         // Enables regular immersive mode.
         // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
         // Or for "sticky immersive," replace it with SYSTEM_UI_FLAG_IMMERSIVE_STICKY
@@ -360,11 +366,19 @@ public class SystemUtils {
     // Shows the system bars by removing all the flags
 // except for the ones that make the content appear under the system bars.
     private void showSystemUI(Activity activity) {
-        if(activity == null) return;
+        if (activity == null) return;
         View decorView = activity.getWindow().getDecorView();
         decorView.setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    }
+
+    public static void pasteInClipboard(Context context, String text, String label) {
+        ClipboardManager clipboard = (ClipboardManager)
+                context.getSystemService(Context.CLIPBOARD_SERVICE);
+        if (clipboard == null) return;
+        ClipData clip = ClipData.newPlainText(label, text);
+        clipboard.setPrimaryClip(clip);
     }
 }

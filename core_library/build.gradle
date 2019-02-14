@@ -8,7 +8,7 @@ android {
 //    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.compileSdkVersion
         versionCode 1
         versionName "1.0"
@@ -36,6 +36,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //todo migration to androidX
     //todo use complyOnly and ask the users to include in them gradle
     api "android.arch.lifecycle:extensions:${rootProject.ext.lifecycle}"
     api "com.google.code.gson:gson:${rootProject.ext.gson}"
