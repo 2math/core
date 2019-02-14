@@ -1,6 +1,6 @@
 # core
 
-[![](https://jitpack.io/v/2math/core.svg)](https://jitpack.io/#2math/core)
+latest_version : [![](https://jitpack.io/v/2math/core.svg)](https://jitpack.io/#2math/core)
 
 To start, add in your project build.gradle file 
 ```gradle
