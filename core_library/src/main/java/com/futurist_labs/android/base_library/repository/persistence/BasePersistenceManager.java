@@ -103,8 +103,14 @@ public class BasePersistenceManager {
             public void onData(T t) {
                 if (getPersistenceManager().useCache()) {
                     addDataToCache(key, t, isUser);
-                    if(callback!=null) callback.onData(t);
+                    if (callback != null) callback.onData(t);
                 }
+            }
+
+            @Override
+            public T parseData(String dataToParse) {
+                if (callback != null) return callback.parseData(dataToParse);
+                return null;
             }
         });
     }
