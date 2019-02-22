@@ -38,18 +38,18 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //todo migration to androidX
     //todo use complyOnly and ask the users to include in them gradle
-    api "android.arch.lifecycle:extensions:${rootProject.ext.lifecycle}"
-    api "com.google.code.gson:gson:${rootProject.ext.gson}"
+    compileOnly "android.arch.lifecycle:extensions:${rootProject.ext.lifecycle}"
+    compileOnly "com.google.code.gson:gson:${rootProject.ext.gson}"
 
-    api "com.android.support:appcompat-v7:${rootProject.ext.supportLibraryVersion}"
-    api "com.android.support:support-v4:${rootProject.ext.supportLibraryVersion}"
+    compileOnly "com.android.support:appcompat-v7:${rootProject.ext.supportLibraryVersion}"
+    compileOnly "com.android.support:support-v4:${rootProject.ext.supportLibraryVersion}"
 //    api "com.android.support:support-v13:${rootProject.ext.supportLibraryVersion}"
-    api "com.android.support:design:${rootProject.ext.supportLibraryVersion}"
-    api "com.android.support:exifinterface:${rootProject.ext.supportLibraryVersion}"
+    compileOnly "com.android.support:design:${rootProject.ext.supportLibraryVersion}"
+    compileOnly "com.android.support:exifinterface:${rootProject.ext.supportLibraryVersion}"
 
-    api 'com.squareup.picasso:picasso:2.5.2'
-    api 'com.balysv:material-ripple:1.0.2'
-    api ('co.infinum:materialdatetimepicker-support:3.5.1') {
+    compileOnly 'com.squareup.picasso:picasso:2.5.2'
+    compileOnly 'com.balysv:material-ripple:1.0.2'
+    compileOnly ('co.infinum:materialdatetimepicker-support:3.5.1') {
         exclude group: 'com.android.support'
     }
 //    api 'com.wdullaer:materialdatetimepicker:3.6.0'
