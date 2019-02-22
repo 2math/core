@@ -1,6 +1,5 @@
 package com.futurist_labs.android.base_library.ui;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
@@ -13,21 +12,21 @@ public abstract class BaseFragmentWithViewModelAndRepository<T, // repository
         K extends BaseViewModelWithRepository<T>> // ViewModel
         extends BaseFragmentWithViewModel<K> {
     public T repository = (T) RepositoryFactory.getInstance().provide();
-    public K viewModel;
+//    public K viewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getViewModelClass() != null) {
-            if (viewModelFromActivity()) {
-                if (this.getActivity() == null) return;
-                viewModel = ViewModelProviders.of(this.getActivity()).get(getViewModelClass());
-            } else {
-                viewModel = ViewModelProviders.of(this).get(getViewModelClass());
-            }
-            getBaseUI().setBaseViewModel(viewModel);
-            setObservers();
-        }
+//        if (getViewModelClass() != null) {
+//            if (viewModelFromActivity()) {
+//                if (this.getActivity() == null) return;
+//                viewModel = ViewModelProviders.of(this.getActivity()).get(getViewModelClass());
+//            } else {
+//                viewModel = ViewModelProviders.of(this).get(getViewModelClass());
+//            }
+//            getBaseUI().setBaseViewModel(viewModel);
+//            setObservers();
+//        }
     }
 
 //    @Override
@@ -36,23 +35,23 @@ public abstract class BaseFragmentWithViewModelAndRepository<T, // repository
 //        setObservers();
 //    }
 
-    /**
-     * @return the class of your ViewModel , like OrderViewModel.class
-     */
-    protected abstract Class<K> getViewModelClass();
-
-    /**
-     * Hook your observers here.
-     * This method will be called after viewModel and baseUI are initialized
-     */
-    protected abstract void setObservers();
-
-    /**
-     * @return true if you want your ViewModel to be hooked to the host activity
-     * false to the fragment
-     * by default return false
-     */
-    protected boolean viewModelFromActivity() {
-        return false;
-    }
+//    /**
+//     * @return the class of your ViewModel , like OrderViewModel.class
+//     */
+//    protected abstract Class<K> getViewModelClass();
+//
+//    /**
+//     * Hook your observers here.
+//     * This method will be called after viewModel and baseUI are initialized
+//     */
+//    protected abstract void setObservers();
+//
+//    /**
+//     * @return true if you want your ViewModel to be hooked to the host activity
+//     * false to the fragment
+//     * by default return false
+//     */
+//    protected boolean viewModelFromActivity() {
+//        return false;
+//    }
 }

@@ -27,7 +27,7 @@ public class FontTextInputLayout extends TextInputLayout {
         init(context, attrs);
     }
 
-
+    // TODO: 2/21/2019 set custom font from xml
     private void init(Context context, AttributeSet attrs) {
         //we need to do that with 100 mills delay, because setting the font for the editText inside overrides this font too. Now we have font for hints.
         postDelayed(new Runnable() {
