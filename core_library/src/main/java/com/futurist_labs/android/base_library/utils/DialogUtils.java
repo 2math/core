@@ -151,8 +151,8 @@ public class DialogUtils {
             // Change the Snackbar default text color
             View snackbarView = snackbar.getView();
             if (colMsg != 0) {
-//                TextView tv = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
-//                tv.setTextColor(colMsg);
+                TextView tv = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+                tv.setTextColor(colMsg);
             }
             // Change the Snackbar default background color
             if (colBkg != 0)
@@ -183,8 +183,10 @@ public class DialogUtils {
             // Change the Snackbar default text color
             View snackbarView = snackbar.getView();
             if (colMsg != 0) { // TODO: 2/22/2019 try to find a fix on this
-//                TextView tv = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
-//                tv.setTextColor(colMsg);
+                TextView tv = (TextView) snackbarView.findViewById(
+//                        com.google.android.material.R.id.snackbar_text);
+                        android.support.design.R.id.snackbar_text);
+                tv.setTextColor(colMsg);
             }
             // Change the Snackbar default background color
             if (colBkg != 0)
