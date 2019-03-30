@@ -37,14 +37,14 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //todo migration to androidX
+//  android studio has a problem if design lib is with compileOnly or reference
+    api "com.android.support:design:28.0.0"
     //use complyOnly and ask the users to include in them gradle
     compileOnly "android.arch.lifecycle:extensions:${rootProject.ext.lifecycle}"
     compileOnly "com.google.code.gson:gson:${rootProject.ext.gson}"
 
     compileOnly "com.android.support:appcompat-v7:${rootProject.ext.supportLibraryVersion}"
     compileOnly "com.android.support:support-v4:${rootProject.ext.supportLibraryVersion}"
-//  android studio has a problem if design lib is with reference
-    compileOnly "com.android.support:design:28.0.0"
     compileOnly "com.android.support:exifinterface:${rootProject.ext.supportLibraryVersion}"
 
     compileOnly 'com.squareup.picasso:picasso:2.5.2'
