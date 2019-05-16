@@ -47,6 +47,7 @@
         app:TvType="bold_italic"/>
 
     <com.futurist_labs.android.base_library.views.font_views.FontTextView
+        android:id="@+id/tvTestButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
