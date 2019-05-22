@@ -126,6 +126,15 @@ public class ServerOperation extends AsyncTask<Action, Void, NetworkResponse> {
                             }
                         }, action.headers);
                         break;
+                    case Action.POST_WITH_PARAMS:
+                        res = NetworkRequestHelper.sendPostWithParams(action.endpoint, action.body, token, new NetworkRequestHelper.ServerEvents() {
+                            @Override
+                            public void beforeToReceiveResponse() {
+                                //clear the data to empty memory
+                                action.body = null;
+                            }
+                        }, action.headers);
+                        break;
                     case Action.DELETE:
                         res = NetworkRequestHelper.sendDelete(action.endpoint, action.body, token);
                         break;
