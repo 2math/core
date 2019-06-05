@@ -1,5 +1,7 @@
 package com.futurist_labs.android.base_library.repository;
 
+import android.support.annotation.RestrictTo;
+
 import com.futurist_labs.android.base_library.utils.SystemUtils;
 
 /**
@@ -30,6 +32,11 @@ public class RepositoryFactory<T> {
         this.appRepo = appRepo;
     }
 
+    @RestrictTo(RestrictTo.Scope.TESTS)
+    public void setTestRepository(T dataRepository) {
+        appRepo = dataRepository;
+        mockRepo = dataRepository;
+    }
 
     public T provide() {
         //if unit testing return mock repository
