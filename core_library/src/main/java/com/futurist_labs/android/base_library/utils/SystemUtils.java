@@ -1,11 +1,14 @@
 package com.futurist_labs.android.base_library.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
@@ -20,7 +23,9 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.StrikethroughSpan;
 import android.text.style.UnderlineSpan;
+import android.util.Base64;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
@@ -36,6 +41,8 @@ import com.futurist_labs.android.base_library.model.BaseLibraryConfiguration;
 import com.futurist_labs.android.base_library.utils.photo.HttpImageGetter;
 import com.futurist_labs.android.base_library.views.font_views.FontHelper;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
 //import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -380,5 +387,27 @@ public class SystemUtils {
         if (clipboard == null) return;
         ClipData clip = ClipData.newPlainText(label, text);
         clipboard.setPrimaryClip(clip);
+    }
+
+    /**
+     * Use this helper method to print your keyHash in logs, don't use it in production
+     *
+     * @param activity context
+     */
+    public static void printKeyHash(Activity activity) {
+        try {
+            @SuppressLint("PackageManagerGetSignatures")
+            PackageInfo info = activity.getPackageManager().getPackageInfo(
+                    activity.getPackageName(), PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.e("MY KEY HASH:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            LogUtils.d(e.getMessage());
+        } catch (NoSuchAlgorithmException e) {
+            LogUtils.d(e.getMessage());
+        }
     }
 }
