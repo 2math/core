@@ -3,15 +3,26 @@ package com.futurist_labs.android.base_library.utils.files;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Environment;
+
 import com.futurist_labs.android.base_library.model.BaseLibraryConfiguration;
 import com.futurist_labs.android.base_library.utils.LogUtils;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.util.ArrayList;
 
 /**
  * Created by Galeen on 9.2.2016 г..
  */
 public class FileHelper {
+    private final static String TAG = FileHelper.class.getName();
 
     boolean mExternalStorageAvailable = false;
     boolean mExternalStorageWriteable = false;
@@ -157,4 +168,53 @@ public class FileHelper {
         }
     }
 
+    public static ArrayList<String> ReadFile(File file) {
+        String line = null;
+        ArrayList<String> lines = new ArrayList<>();
+
+        try {
+            FileInputStream fileInputStream = new FileInputStream(file);
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+            while ((line = bufferedReader.readLine()) != null) {
+                lines.add(line);
+//                stringBuilder.append(line + System.getProperty("line.separator"));
+            }
+            fileInputStream.close();
+//            line = stringBuilder.toString();
+
+            bufferedReader.close();
+        } catch (FileNotFoundException ex) {
+            LogUtils.e(TAG, ex.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return lines;
+    }
+
+    public static String ReadFileAsString(File file, boolean isFormatted) {
+        String line = null;
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            FileInputStream fileInputStream = new FileInputStream(file);
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+            while ((line = bufferedReader.readLine()) != null) {
+                stringBuilder.append(line);
+                if(isFormatted){
+                    stringBuilder.append(System.getProperty("line.separator"));
+                }
+            }
+            fileInputStream.close();
+
+            bufferedReader.close();
+        } catch (FileNotFoundException ex) {
+            LogUtils.e(TAG, ex.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return stringBuilder.toString();
+    }
 }
