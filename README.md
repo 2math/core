@@ -17,6 +17,21 @@ Next add as dependency in your application build.gradle
 
 ```
 implementation 'com.github.2math:core:latest_version'
+//    required by com.github.2math:core lib
+    implementation "android.arch.lifecycle:extensions:${rootProject.ext.lifecycle}"
+    implementation "com.google.code.gson:gson:${rootProject.ext.gson}"
+
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibraryVersion}"
+    implementation "com.android.support:support-v4:${rootProject.ext.supportLibraryVersion}"
+    implementation "com.android.support:exifinterface:${rootProject.ext.supportLibraryVersion}"
+
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.balysv:material-ripple:1.0.2'
+    implementation ('co.infinum:materialdatetimepicker-support:3.5.1') {
+        exclude group: 'com.android.support'
+    }
+//    required by com.github.2math:core lib end
+//  this one is provided by com.github.2math:core lib : "com.android.support:design:28.0.0"
 ```
 
 In your Application class init the library as in the example app :

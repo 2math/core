@@ -27,11 +27,17 @@ public abstract class BaseDateTimePickerController {
     int styleDate = 0, styleTime = 0;//0 is default style
     TextView titleDateView, titleTimeView;
     long minDate, maxDate;
+    int minHour = -1, minMinute = -1, minSeconds = -1, maxHour = -1, maxMinute = -1, maxSeconds = -1;
 
     public BaseDateTimePickerController(Activity activity, Callback callback) {
         this.activity = activity;
         this.callback = callback;
     }
+
+    abstract void datePicker();
+
+
+    abstract void timePicker();
 
     /**
      * Show first date and then time picker with this date and time
@@ -96,10 +102,12 @@ public abstract class BaseDateTimePickerController {
     }
 
     int accentColor;
-    public BaseDateTimePickerController setAccentColor(int color){
+
+    public BaseDateTimePickerController setAccentColor(int color) {
         accentColor = color;
         return this;
     }
+
     public BaseDateTimePickerController setIs24(boolean is24) {
         this.is24 = is24;
         return this;
@@ -127,6 +135,86 @@ public abstract class BaseDateTimePickerController {
 
     public BaseDateTimePickerController setMaxDate(long maxDate) {
         this.maxDate = maxDate;
+        return this;
+    }
+
+    /**
+     * 24-hour clock
+     * This option is available only for MaterialDateTimePickerController, for NativeDateTimePickerController is
+     * ignored and only MinDate and MaxDate works.
+     * min max hours,minutes and seconds are with priority over min max Date, for setting min/max hours,minutes and
+     * seconds
+     */
+    public BaseDateTimePickerController setMinHour(int minHour) {
+        if (minHour >= 0) {
+            this.minHour = minHour;
+        }
+        return this;
+    }
+
+    /**
+     * This option is available only for MaterialDateTimePickerController, for NativeDateTimePickerController is
+     * ignored and only MinDate and MaxDate works.
+     * min max hours,minutes and seconds are with priority over min max Date, for setting min/max hours,minutes and
+     * seconds
+     */
+    public BaseDateTimePickerController setMinMinute(int minMinute) {
+        if (minMinute >= 0) {
+            this.minMinute = minMinute;
+        }
+        return this;
+    }
+
+    /**
+     * This option is available only for MaterialDateTimePickerController, for NativeDateTimePickerController is
+     * ignored and only MinDate and MaxDate works.
+     * min max hours,minutes and seconds are with priority over min max Date, for setting min/max hours,minutes and
+     * seconds
+     */
+    public BaseDateTimePickerController setMinSeconds(int minSeconds) {
+        if (minSeconds >= 0) {
+            this.minSeconds = minSeconds;
+        }
+        return this;
+    }
+
+    /**
+     * 24-hour clock
+     * This option is available only for MaterialDateTimePickerController, for NativeDateTimePickerController is
+     * ignored and only MinDate and MaxDate works.
+     * min max hours,minutes and seconds are with priority over min max Date, for setting min/max hours,minutes and
+     * seconds
+     */
+    public BaseDateTimePickerController setMaxHour(int maxHour) {
+        if (maxHour >= 0) {
+            this.maxHour = maxHour;
+        }
+        return this;
+    }
+
+    /**
+     * This option is available only for MaterialDateTimePickerController, for NativeDateTimePickerController is
+     * ignored and only MinDate and MaxDate works.
+     * min max hours,minutes and seconds are with priority over min max Date, for setting min/max hours,minutes and
+     * seconds
+     */
+    public BaseDateTimePickerController setMaxMinute(int maxMinute) {
+        if (maxMinute >= 0) {
+            this.maxMinute = maxMinute;
+        }
+        return this;
+    }
+
+    /**
+     * This option is available only for MaterialDateTimePickerController, for NativeDateTimePickerController is
+     * ignored and only MinDate and MaxDate works.
+     * min max hours,minutes and seconds are with priority over min max Date, for setting min/max hours,minutes and
+     * seconds
+     */
+    public BaseDateTimePickerController setMaxSeconds(int maxSeconds) {
+        if (maxSeconds >= 0) {
+            this.maxSeconds = maxSeconds;
+        }
         return this;
     }
 
@@ -188,11 +276,6 @@ public abstract class BaseDateTimePickerController {
             callback.onDateTimeSelected(year, month, day, hour, minute);
         }
     }
-
-    abstract void datePicker() ;
-
-
-    abstract void timePicker() ;
 
     public interface Callback {
         /**

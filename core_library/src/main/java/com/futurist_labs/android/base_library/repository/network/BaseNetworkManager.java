@@ -27,12 +27,15 @@ public class BaseNetworkManager {
     }
 
     public static AsyncTask<Action, Void, NetworkResponse> doMainActionSynchronized(MainCallback mCallback, Action action, String log) {
-        return doMainAction(mCallback, action, log, false,BasePersistenceManager.getToken());
+        return doMainAction(mCallback, action, log, false, BasePersistenceManager.getToken());
 
     }
 
     private static AsyncTask<Action, Void, NetworkResponse> doMainAction(MainCallback mCallback, Action action, String log, boolean concurrent, String token) {
         LogUtils.net("NetworkManager", (concurrent ? "Parallel " : "Synchronized ") + log + " ...");
+        if (mCallback != null) {
+            mCallback.setAction(action);
+        }
         if (isNetworkAvailable()) {
             AsyncTask<Action, Void, NetworkResponse> task;
             if (concurrent) {
@@ -40,7 +43,7 @@ public class BaseNetworkManager {
             } else {
                 task = new ServerOperation(mCallback, token).execute(action);
             }
-            if(mCallback!=null){
+            if (mCallback != null) {
                 mCallback.setTask(task);
             }
             return task;

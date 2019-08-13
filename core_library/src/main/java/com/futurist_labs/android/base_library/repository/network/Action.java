@@ -21,6 +21,7 @@ public class Action {
     public static final int DELAY_2_MIN = 6;
     public static final int GET_UNAUTHORIZED = 7;
     public static final int DOWNLOAD_FILE = 8;
+    public static final int POST_WITH_PARAMS = 9;
     int operation;
     String endpoint;
     Map<String, String> params, headers;

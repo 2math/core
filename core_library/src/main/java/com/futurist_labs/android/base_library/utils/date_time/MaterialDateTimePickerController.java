@@ -72,23 +72,37 @@ public class MaterialDateTimePickerController extends BaseDateTimePickerControll
         } else if (titleTime != EMPTY) {
             timePickerDialog.setTitle(activity.getString(titleTime));
         }
+        Calendar minCal = null;
         if (minDate > 0) {
-            Calendar min = new GregorianCalendar();
-            min.setTimeInMillis(minDate);
-            if (min.get(Calendar.YEAR) == year && min.get(Calendar.MONTH) == month
-                    && min.get(Calendar.DAY_OF_MONTH) == day) {
-//                we have selected minimum day
-                timePickerDialog.setMinTime(min.get(Calendar.HOUR_OF_DAY), min.get(Calendar.MINUTE), 0);
+            minCal = new GregorianCalendar();
+            minCal.setTimeInMillis(minDate);
+        }
+        if (minHour >= 0 && minMinute >= 0) {
+            if (isToday(minCal)) {
+                timePickerDialog.setMinTime(minCal.get(Calendar.HOUR_OF_DAY) > minHour ? minCal.get(Calendar.HOUR_OF_DAY) : minHour,
+                        minCal.get(Calendar.MINUTE) > minMinute ? minCal.get(Calendar.MINUTE) : minMinute,
+                        minSeconds < 0 ? 0 : minSeconds);
+            } else {
+                timePickerDialog.setMinTime(minHour, minMinute, minSeconds < 0 ? 0 : minSeconds);
             }
+        } else if (isToday(minCal)) {
+//                we have selected minimum day
+            timePickerDialog.setMinTime(minCal.get(Calendar.HOUR_OF_DAY), minCal.get(Calendar.MINUTE), 0);
         }
 
-        if (maxDate > 0) {
-            Calendar max = new GregorianCalendar();
-            max.setTimeInMillis(maxDate);
-            if (max.get(Calendar.YEAR) == year && max.get(Calendar.MONTH) == month
-                    && max.get(Calendar.DAY_OF_MONTH) == day) {
-                timePickerDialog.setMaxTime(max.get(Calendar.HOUR_OF_DAY), max.get(Calendar.MINUTE), 0);
+        Calendar maxCal = new GregorianCalendar();
+        maxCal.setTimeInMillis(maxDate);
+        if (maxHour >= 0 && maxMinute >= 0) {
+            if (isToday(maxCal)) {
+                timePickerDialog.setMaxTime(maxCal.get(Calendar.HOUR_OF_DAY) > maxHour ? maxHour :
+                                maxCal.get(Calendar.HOUR_OF_DAY),
+                        maxCal.get(Calendar.MINUTE) > maxMinute ? maxMinute : maxCal.get(Calendar.MINUTE),
+                        maxSeconds < 0 ? 0 : maxSeconds);
+            } else {
+                timePickerDialog.setMaxTime(maxHour, maxMinute, maxSeconds < 0 ? 0 : maxSeconds);
             }
+        } else if (isToday(maxCal)) {
+            timePickerDialog.setMaxTime(maxCal.get(Calendar.HOUR_OF_DAY), maxCal.get(Calendar.MINUTE), 0);
         }
 
         timePickerDialog.setVersion(TimePickerDialog.Version.VERSION_1);
@@ -96,5 +110,10 @@ public class MaterialDateTimePickerController extends BaseDateTimePickerControll
             timePickerDialog.setAccentColor(accentColor);
         }
         timePickerDialog.show(((FragmentActivity) activity).getSupportFragmentManager(), "timePickerDialog");
+    }
+
+    private boolean isToday(Calendar date) {
+        return date != null && date.get(Calendar.YEAR) == year && date.get(Calendar.MONTH) == month
+                && date.get(Calendar.DAY_OF_MONTH) == day;
     }
 }

@@ -32,6 +32,7 @@ public class MainCallback<T> implements NetworkOperationCallback<T> {
     private int progressType;
     private String loadingMsg;
     private AsyncTask task;
+    private Action action;
     public int id;
 
     /**
@@ -365,12 +366,24 @@ public class MainCallback<T> implements NetworkOperationCallback<T> {
         return isTaskRunning;
     }
 
+    public void setTaskRunning(boolean taskRunning) {
+        isTaskRunning = taskRunning;
+    }
+
     public boolean isMayInterruptIfRunning() {
         return mayInterruptIfRunning;
     }
 
     public void setMayInterruptIfRunning(boolean mayInterruptIfRunning) {
         this.mayInterruptIfRunning = mayInterruptIfRunning;
+    }
+
+    public Action getAction() {
+        return action;
+    }
+
+    public void setAction(Action action) {
+        this.action = action;
     }
 
     @Override
