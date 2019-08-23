@@ -5,8 +5,8 @@ package com.futurist_labs.android.base_library.utils.test;
  */
 public class TestObjectMandatory {
     private int position;
-    @CoreAnnotations.MandatoryForTests
-    @CoreAnnotations.CheckEmptyStringTests
+    @Tester.MandatoryForTests
+    @Tester.CheckEmptyStringTests
     private String id;
     private Long time;
     private boolean isFree;

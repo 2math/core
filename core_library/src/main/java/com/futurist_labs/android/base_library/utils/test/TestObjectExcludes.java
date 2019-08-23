@@ -6,7 +6,7 @@ package com.futurist_labs.android.base_library.utils.test;
 public class TestObjectExcludes {
     private int position;
     private String id;
-    @CoreAnnotations.ExcludeFromTests
+    @Tester.ExcludeFromTests
     private Long time;
     private boolean isFree;
 

@@ -77,34 +77,35 @@ public abstract class BaseViewModel extends ViewModel {
     }
 
     public void showError(String msg) {
-        showError.setValue(new NetworkResponse(msg));
+        if (showError != null) showError.setValue(new NetworkResponse(msg));
     }
 
     public void showError(int msg) {
-        showError.setValue(new NetworkResponse(msg));
+        if (showError != null) showError.setValue(new NetworkResponse(msg));
     }
 
     public void showErrorDialog(int msg) {
-        showErrorDialog.setValue(new NetworkResponse(msg));
+        if (showErrorDialog != null) showErrorDialog.setValue(new NetworkResponse(msg));
     }
 
     public void setShowErrorDialog(String msg) {
-        showErrorDialog.setValue(new NetworkResponse(msg));
+        if (showErrorDialog != null) showErrorDialog.setValue(new NetworkResponse(msg));
     }
 
     public void showMessage(String msg) {
-        showMessage.setValue(msg==null?null:new InfoMessage(msg));
+        if (showMessage != null) showMessage.setValue(msg == null ? null : new InfoMessage(msg));
     }
 
     public void showMessageDialog(String msg, DialogInterface.OnClickListener listener) {
-        showMessage.setValue(msg==null?null:new InfoMessage(msg,0,listener));
+        if (showMessage != null)
+            showMessage.setValue(msg == null ? null : new InfoMessage(msg, 0, listener));
     }
 
     public void showMessage(int msg) {
-        showMessage.setValue(new InfoMessage(msg));
+        if (showMessage != null) showMessage.setValue(new InfoMessage(msg));
     }
 
-    public BaseEvents getNetworkCallback(){
+    public BaseEvents getNetworkCallback() {
         return baseEvents;
     }
 
@@ -123,32 +124,34 @@ public abstract class BaseViewModel extends ViewModel {
 
         @Override
         public void hideProgressBar() {
-            showProgressBar.setValue(false);
+            if (showProgressBar != null) showProgressBar.setValue(false);
         }
 
         @Override
         public void hideProgressDialog() {
-            showProgressDialog.postValue(null);
+            if (showProgressDialog != null) showProgressDialog.postValue(null);
         }
 
         @Override
         public void showProgressBar() {
-            showProgressBar.setValue(true);
+            if (showProgressBar != null) showProgressBar.setValue(true);
         }
 
         @Override
         public void showProgressDialog(String loadingMsg, DialogInterface.OnCancelListener onCancelListener) {
-            showProgressDialog.setValue(new ProgressData(loadingMsg, onCancelListener));
+            if (showProgressDialog != null) {
+                showProgressDialog.setValue(new ProgressData(loadingMsg, onCancelListener));
+            }
         }
 
         @Override
         public void showNoNetwork() {
-            showNoNetwork.setValue(true);
+            if (showNoNetwork != null) showNoNetwork.setValue(true);
         }
 
         @Override
         public void showError(String msg, NetworkResponse networkResponse) {
-            showError.setValue(networkResponse);
+            if (showError != null) showError.setValue(networkResponse);
         }
     };
 
@@ -157,7 +160,7 @@ public abstract class BaseViewModel extends ViewModel {
         super.onCleared();
         //stop all background processes
         for (MainCallback callback : callbacks) {
-            if(callback!=null){
+            if (callback != null) {
                 callback.cancelBackgroundOperation();
                 LogUtils.d(this.getClass().getSimpleName(), "cancelBackgroundOperation");
             }
@@ -168,7 +171,7 @@ public abstract class BaseViewModel extends ViewModel {
     public boolean isSameCallRunning(MainCallback callbackToRun) {
         //check if there is no running call already
         for (MainCallback callback : callbacks) {
-            if(callbackToRun.getClass().isInstance(callback)) return true;
+            if (callbackToRun.getClass().isInstance(callback)) return true;
         }
         return false;
     }
