@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center"
+              android:orientation="vertical"
+              android:padding="@dimen/margin_normal"
+              tools:context=".ui.versions.UpdateActivity">
+
+    <com.futurist_labs.android.base_library.views.font_views.FontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/update_block_please_update_app"
+        android:textColor="@color/update_dialog_message_text"
+        android:textSize="@dimen/update_dialog_message_text_size"
+        app:TvType="bold" />
+
+    <com.futurist_labs.android.base_library.views.font_views.FontTextView
+        android:id="@+id/btnUpdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:background="@drawable/button_update_store"
+        android:padding="@dimen/update_button_padding"
+        android:text="@string/update_block_button"
+        android:textColor="@color/update_button_text"
+        app:TvType="bold" />
+</LinearLayout>

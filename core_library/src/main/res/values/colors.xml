@@ -7,6 +7,9 @@
 
     <color name="progress_dialog_background">#F4F3F0</color>
 
+    <color name="update_button_text">#fff</color>
+    <color name="update_button_text_next_time">#fff</color>
+    <color name="update_dialog_message_text">#000</color>
 
     <!-- Transparency HEX
     100% — FF

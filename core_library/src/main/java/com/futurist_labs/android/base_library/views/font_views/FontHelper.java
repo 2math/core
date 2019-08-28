@@ -199,7 +199,7 @@ public class FontHelper {
                 applyBoldItalic();
                 break;
             case LIGHT:
-                applyFont(italicFont, Typeface.NORMAL);
+                applyFont(lightFont == null ? italicFont : lightFont, Typeface.NORMAL);
                 break;
             case AWESOME:
                 applyFont(awesome, Typeface.NORMAL);

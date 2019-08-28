@@ -28,4 +28,12 @@
     <string name="btn_hide_password">hide password</string>
     <string name="photo_permissions_btn_ok">OK</string>
     <string name="photo_permissions_btn_no">Don\'t save</string>
+
+<!--    Update-->
+    <string name="update_there_is_a_new_version_available_on_play_store">There is an updated version of the app.</string>
+    <string name="update_btn_next_time">Next Time</string>
+    <string name="update_btn_open_play_store">Go Go Go</string>
+    <string name="update_block_please_update_app">There is an updated version of the app</string>
+    <string name="update_block_button">Go Go Go</string>
+<!--    Update end-->
 </resources>

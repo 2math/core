@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@drawable/bkg_dialog_update"
+              android:gravity="center"
+              android:orientation="vertical"
+              android:padding="@dimen/margin_normal">
+
+    <com.futurist_labs.android.base_library.views.font_views.FontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/update_there_is_a_new_version_available_on_play_store"
+        android:textSize="@dimen/update_dialog_message_text_size"
+        android:textColor="@color/update_dialog_message_text" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:orientation="horizontal">
+
+        <com.futurist_labs.android.base_library.views.font_views.FontTextView
+            android:id="@+id/tvNextTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_update_next_time"
+            android:textColor="@color/update_button_text_next_time"
+            android:padding="@dimen/update_button_padding"
+            android:text="@string/update_btn_next_time" />
+
+        <com.futurist_labs.android.base_library.views.font_views.FontTextView
+            android:id="@+id/tvGoToStore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_normal"
+            android:background="@drawable/button_update_store"
+            android:textColor="@color/update_button_text"
+            android:padding="@dimen/update_button_padding"
+            android:text="@string/update_btn_open_play_store" />
+    </LinearLayout>
+
+</LinearLayout>
