@@ -70,7 +70,7 @@ public class UpdateDialogFragment extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         getDialog().setCancelable(false);
@@ -86,7 +86,7 @@ public class UpdateDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        setCancelable(false);
+        setCancelable(false);
 
         tvNextTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,8 +101,10 @@ public class UpdateDialogFragment extends DialogFragment {
         tvGoToStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IntentUtils.openAppInPlayStore(getContext(),
-                        BaseLibraryConfiguration.getInstance().APPLICATION_ID);
+                if(getContext()!=null){
+                    IntentUtils.openAppInPlayStore(getContext(),
+                            BaseLibraryConfiguration.getInstance().APPLICATION_ID);
+                }
                 if (callback != null) {
                     callback.goToStore();
                 }
