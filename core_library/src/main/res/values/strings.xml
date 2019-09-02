@@ -11,6 +11,7 @@
     <string name="err_constraint_violation">Constraint violation</string>
     <string name="err_duplicate_data">Duplicate data</string>
     <string name="err_unknown">Unknown</string>
+    <string name="err_unsupported_version">Unsupported Version!</string>
     <string name="err_resource_not_found">Missing system resource.</string>
     <string name="err_user_update_failed">The information can not be updated.</string>
     <string name="err_duplication_not_allowed">The request can not be duplicated.</string>

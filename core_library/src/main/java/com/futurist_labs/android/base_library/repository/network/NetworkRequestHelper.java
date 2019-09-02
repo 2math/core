@@ -1,39 +1,20 @@
 package com.futurist_labs.android.base_library.repository.network;
 
 import android.util.Log;
-
 import com.futurist_labs.android.base_library.model.BaseLibraryConfiguration;
 import com.futurist_labs.android.base_library.model.ServerError;
 import com.futurist_labs.android.base_library.repository.persistence.BaseJsonParser;
 import com.futurist_labs.android.base_library.utils.LogUtils;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.net.URLEncoder;
+import javax.net.ssl.*;
+import java.io.*;
+import java.net.*;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 
 
 /**
@@ -71,7 +52,7 @@ public class NetworkRequestHelper {
     }
 
     public static void init() {
-        TrustManager[] trustAllCerts = new TrustManager[]{
+        TrustManager[] trustAllCerts = new TrustManager[] {
                 new X509TrustManager() {
 
                     @Override
@@ -101,8 +82,8 @@ public class NetworkRequestHelper {
 
                     Log.e("adr", s);
                     return s.equalsIgnoreCase("api.kliner.fr") || s.equalsIgnoreCase("maps.googleapis.com") ||
-                            s.equalsIgnoreCase("www.google.com") || s.equalsIgnoreCase("api.parse.com")
-                            || s.equalsIgnoreCase("clients4.google.com") || s.equalsIgnoreCase("csi.gstatic.com");
+                           s.equalsIgnoreCase("www.google.com") || s.equalsIgnoreCase("api.parse.com")
+                           || s.equalsIgnoreCase("clients4.google.com") || s.equalsIgnoreCase("csi.gstatic.com");
                 }
             };
             SSLContext sc = SSLContext.getInstance("TLS");
@@ -136,12 +117,7 @@ public class NetworkRequestHelper {
         conn.setDoOutput(true);
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Type", type);
-        if (authToken != null) {
-            conn.setRequestProperty(NetConstants.HEADER_AUTHORIZATION, authToken);
-//            conn.setRequestProperty("Accept", "*/*");
-        }
-        if (NetConstants.SHOULD_ADD_LOCALE)
-            conn.setRequestProperty(NetConstants.HEADER_LOCALE_FIELD, BaseLibraryConfiguration.getInstance().getHeaderLocaleFieldValue());
+        addMainHeaders(authToken, conn);
 
         if (headers != null) {
             for (Map.Entry<String, String> entry : headers.entrySet()) {
@@ -150,14 +126,36 @@ public class NetworkRequestHelper {
         }
 
         OutputStream os = conn.getOutputStream();
-        if (params != null)
+        if (params != null) {
             os.write(params.getBytes());
+        }
         os.flush();
         os.close();
-        if (callback != null)
+        if (callback != null) {
             callback.beforeToReceiveResponse();
+        }
 //        Operation serverResult = sendDataToServer(conn);
         return sendDataToServerParams(conn);
+    }
+
+    private static void addMainHeaders(final String authToken, final HttpURLConnection conn) {
+        if (authToken != null) {
+            conn.setRequestProperty(NetConstants.HEADER_AUTHORIZATION, authToken);
+        }
+
+        if (NetConstants.SHOULD_ADD_LOCALE) {
+            conn.setRequestProperty(NetConstants.HEADER_LOCALE_FIELD, BaseLibraryConfiguration.getInstance().getHeaderLocaleFieldValue());
+        }
+
+        if (BaseLibraryConfiguration.getInstance().getHeaderOS() != null) {
+            conn.setRequestProperty(BaseLibraryConfiguration.getInstance().getHeaderOS(),
+                                    BaseLibraryConfiguration.getInstance().getHeaderOSValue());
+        }
+
+        if (BaseLibraryConfiguration.getInstance().getHeaderVersion() != null) {
+            conn.setRequestProperty(BaseLibraryConfiguration.getInstance().getHeaderVersion(),
+                                    BaseLibraryConfiguration.getInstance().VERSION_CODE+"");
+        }
     }
 
     static NetworkResponse sendAuthenticatedPut(String endpoint, String body, String authToken) throws Exception {
@@ -172,15 +170,12 @@ public class NetworkRequestHelper {
         conn.setDoOutput(true);
         conn.setRequestMethod("PUT");
         conn.setRequestProperty("Content-Type", "application/json");
-        if (authToken != null) {
-            conn.setRequestProperty(NetConstants.HEADER_AUTHORIZATION, authToken);
-        }
-        if (NetConstants.SHOULD_ADD_LOCALE)
-            conn.setRequestProperty(NetConstants.HEADER_LOCALE_FIELD, BaseLibraryConfiguration.getInstance().getHeaderLocaleFieldValue());
+        addMainHeaders(authToken, conn);
 //        conn.setConnectTimeout(30000);
         OutputStream os = conn.getOutputStream();
-        if (body != null)
+        if (body != null) {
             os.write(body.getBytes());
+        }
         os.flush();
         os.close();
 
@@ -196,16 +191,12 @@ public class NetworkRequestHelper {
         conn.setDoOutput(true);
         conn.setRequestMethod("DELETE");
         conn.setRequestProperty("Content-Type", "application/json");
-        if (authToken != null) {
-            conn.setRequestProperty(NetConstants.HEADER_AUTHORIZATION, authToken);
-        }
-        if (NetConstants.SHOULD_ADD_LOCALE)
-            conn.setRequestProperty(NetConstants.HEADER_LOCALE_FIELD,
-                    BaseLibraryConfiguration.getInstance().getHeaderLocaleFieldValue());
+        addMainHeaders(authToken, conn);
 
         OutputStream os = conn.getOutputStream();
-        if (body != null)
+        if (body != null) {
             os.write(body.getBytes());
+        }
         os.flush();
         os.close();
         return sendDataToServerParams(conn);
@@ -239,11 +230,13 @@ public class NetworkRequestHelper {
         if (headers == null) {
             headers = new HashMap<>();
         }
-        if (token != null)
+        if (token != null) {
             headers.put(NetConstants.HEADER_AUTHORIZATION, token);
-        if (NetConstants.SHOULD_ADD_LOCALE)
+        }
+        if (NetConstants.SHOULD_ADD_LOCALE) {
             headers.put(NetConstants.HEADER_LOCALE_FIELD,
-                    BaseLibraryConfiguration.getInstance().getHeaderLocaleFieldValue());
+                        BaseLibraryConfiguration.getInstance().getHeaderLocaleFieldValue());
+        }
         return sendGet(serverUrl, params, headers);
     }
 
@@ -303,8 +296,8 @@ public class NetworkRequestHelper {
             serverError = BaseJsonParser.readError(responseBody.toString());
         }
         return new NetworkResponse(conn.getHeaderField("Last-Modified"),
-                conn.getHeaderField("Set-Cookie"),
-                responseBody.toString(), responseCode, serverError);
+                                   conn.getHeaderField("Set-Cookie"),
+                                   responseBody.toString(), responseCode, serverError);
 //        return responseBody;
     }
 
@@ -344,9 +337,10 @@ public class NetworkRequestHelper {
                 "Content-Type", "multipart/form-data;boundary=" + boundary);
 //        if (token != null)
 //            httpUrlConnection.setRequestProperty(NetConstants.HEADER_AUTHORIZATION, token);
-        if (NetConstants.SHOULD_ADD_LOCALE)
+        if (NetConstants.SHOULD_ADD_LOCALE) {
             httpUrlConnection.setRequestProperty(NetConstants.HEADER_LOCALE_FIELD,
-                    BaseLibraryConfiguration.getInstance().getHeaderLocaleFieldValue());
+                                                 BaseLibraryConfiguration.getInstance().getHeaderLocaleFieldValue());
+        }
         DataOutputStream request = null;
         try {
             request = new DataOutputStream(
@@ -356,8 +350,8 @@ public class NetworkRequestHelper {
                 for (Map.Entry<String, String> property : properties.entrySet()) {
                     request.writeBytes(twoHyphens + boundary + crlf);
                     request.writeBytes("Content-Disposition: form-data; name=\"" +
-                            property.getKey() + "\";" +
-                            property.getValue() + "\"" + crlf);
+                                       property.getKey() + "\";" +
+                                       property.getValue() + "\"" + crlf);
                     request.writeBytes(crlf);
                 }
             }
@@ -378,8 +372,8 @@ public class NetworkRequestHelper {
         //for the file
         request.writeBytes(twoHyphens + boundary + crlf);
         request.writeBytes("Content-Disposition: form-data; name=\"" +
-                attachmentName + "\";filename=\"" +
-                uploadFile.getName() + "\"" + crlf);
+                           attachmentName + "\";filename=\"" +
+                           uploadFile.getName() + "\"" + crlf);
         request.writeBytes(crlf);
         FileInputStream inputStream = new FileInputStream(uploadFile);
         byte[] buffer = new byte[4096];
@@ -391,7 +385,7 @@ public class NetworkRequestHelper {
 //            request.write(pixels);
         request.writeBytes(crlf);
         request.writeBytes(twoHyphens + boundary +
-                twoHyphens + crlf);
+                           twoHyphens + crlf);
         request.flush();
         request.close();
 
@@ -523,8 +517,8 @@ public class NetworkRequestHelper {
                 String fileField = fileFields.get(i);
                 outputStream.writeBytes(twoHyphens + boundary + lineEnd);
                 outputStream.writeBytes("Content-Disposition: form-data; name=\"" + fileField
-                        + "\"; filename=\"" + file.getName()
-                        + "\"" + lineEnd);
+                                        + "\"; filename=\"" + file.getName()
+                                        + "\"" + lineEnd);
                 outputStream.writeBytes("Content-Type: " + ServerOperation.getMimeType(file) + lineEnd);
                 outputStream.writeBytes("Content-Transfer-Encoding: binary" + lineEnd);
 
@@ -583,7 +577,7 @@ public class NetworkRequestHelper {
      *
      * @param fileURL HTTP URL of the file to be downloaded
      * @param file    File to save
-     * @throws IOException
+     * throws IOException
      */
     static NetworkResponse downloadFile(String fileURL, File file, String authToken, Map<String, String> headers)
             throws IOException {
@@ -613,18 +607,18 @@ public class NetworkRequestHelper {
                 int index = disposition.indexOf("filename=");
                 if (index > 0) {
                     fileName = disposition.substring(index + 10,
-                            disposition.length() - 1);
+                                                     disposition.length() - 1);
                 }
             } else {
                 // extracts file name from URL
                 fileName = fileURL.substring(fileURL.lastIndexOf("/") + 1,
-                        fileURL.length());
+                                             fileURL.length());
             }
             LogUtils.d("downloadFile", "File in result" +
-                    "\nContent-Type = " + contentType
-                    + "\nContent-Disposition = " + disposition
-                    + "\nContent-Length = " + contentLength
-                    + "\nfileName = " + fileName);
+                                       "\nContent-Type = " + contentType
+                                       + "\nContent-Disposition = " + disposition
+                                       + "\nContent-Length = " + contentLength
+                                       + "\nfileName = " + fileName);
 
             // opens input stream from the HTTP connection
             InputStream inputStream = httpConn.getInputStream();

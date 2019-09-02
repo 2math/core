@@ -22,7 +22,8 @@ public class BaseLibraryConfiguration {
     public  final String VERSION_NAME ;
     private CrashReporter crashReporter;
     private Application application;
-    private String serverUrl, headerAuthorizationFieldName, headerLocaleFieldName, headerLocaleFieldValue;
+    private String serverUrl, headerAuthorizationFieldName, headerLocaleFieldName, headerLocaleFieldValue, headerVersion, headerOS,
+    headerOSValue;
     private boolean addLocale = false;
     private String regularFont = "fonts/Comfortaa-Regular.ttf";
     private BasePersistenceInterface persistenceManager;
@@ -103,6 +104,33 @@ public class BaseLibraryConfiguration {
 
     public BaseLibraryConfiguration setHeaderLocaleFieldValue(String headerLocaleFieldValue) {
         this.headerLocaleFieldValue = headerLocaleFieldValue;
+        return this;
+    }
+
+    public String getHeaderVersion() {
+        return headerVersion;
+    }
+
+    public BaseLibraryConfiguration setHeaderVersion(final String headerVersion) {
+        this.headerVersion = headerVersion;
+        return this;
+    }
+
+    public String getHeaderOS() {
+        return headerOS;
+    }
+
+    public BaseLibraryConfiguration setHeaderOS(final String headerOS) {
+        this.headerOS = headerOS;
+        return this;
+    }
+
+    public String getHeaderOSValue() {
+        return headerOSValue;
+    }
+
+    public BaseLibraryConfiguration setHeaderOSValue(final String headerOSValue) {
+        this.headerOSValue = headerOSValue;
         return this;
     }
 

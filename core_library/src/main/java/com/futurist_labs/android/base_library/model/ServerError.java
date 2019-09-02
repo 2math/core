@@ -22,6 +22,7 @@ public class ServerError {
     public static final String PATIENT_YOUNGER_THAN_AN_ADULT = "PATIENT_YOUNGER_THAN_AN_ADULT";
     public static final String PATIENT_OLDER_THAN_A_CHILD = "PATIENT_OLDER_THAN_A_CHILD";
     public static final String ADULT_PATIENT_WITH_MONTHS = "ADULT_PATIENT_WITH_MONTHS";
+    public static final String UNSUPPORTED_VERSION = "UNSUPPORTED_VERSION";
 
     private String type, code, text;
     private ArrayList<String> arguments;

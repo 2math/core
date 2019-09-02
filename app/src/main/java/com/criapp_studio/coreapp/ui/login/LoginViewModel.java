@@ -84,9 +84,9 @@ public class LoginViewModel extends BaseViewModelWithRepository<Repository> {
         @Override
         public void onError(String msg, NetworkResponse response) {
 
-            if (response != null) {
-                response.errorMsg = R.string.err_wrong_login;
-            }
+//            if (response != null) {
+//                response.errorMsg = R.string.err_wrong_login;
+//            }
             super.onError(msg, response);
 //            DialogUtils.showError(activity.get(), R.string.err_wrong_login);
             if (onShowLogin != null) {

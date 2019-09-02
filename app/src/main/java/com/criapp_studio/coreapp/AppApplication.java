@@ -35,6 +35,9 @@ public class AppApplication extends Application {
                 .setAddLocale(true)
                 .setHeaderLocaleFieldName("Accept-Language")
                 .setHeaderAuthorizationFieldName("x-auth-token")
+                .setHeaderOS("x-os")
+                .setHeaderOSValue("ANDROID")
+                .setHeaderVersion("x-version")
                 .setPersistenceManager(new BaseSharedPreferenceManager())
 //                .setCrashReporter(new AppCrashReporter())
                 .setFonts("fonts/Comfortaa-Regular.ttf",

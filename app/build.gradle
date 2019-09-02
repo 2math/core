@@ -61,7 +61,7 @@ android {
     productFlavors {
         dev {
             dimension "server"
-            buildConfigField STRING, SERVER_URL, '"https://athome-dev-fl.herokuapp.com/"'
+            buildConfigField STRING, SERVER_URL, '"https://gobeauty-mobile-dev.herokuapp.com/"'
         }
     }
 }

@@ -314,6 +314,9 @@ public class MainCallback<T> implements NetworkOperationCallback<T> {
                     case ServerError.UNKNOWN:
                         networkResponse.errorMsg = R.string.err_unknown;
                         break;
+                    case ServerError.UNSUPPORTED_VERSION:
+                        networkResponse.errorMsg = R.string.err_unsupported_version;
+                        break;
                     case ServerError.RESOURCE_NOT_FOUND:
                         networkResponse.errorMsg = R.string.err_resource_not_found;
                         break;
