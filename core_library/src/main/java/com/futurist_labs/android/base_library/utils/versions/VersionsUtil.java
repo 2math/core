@@ -10,6 +10,7 @@ import com.futurist_labs.android.base_library.repository.persistence.BaseJsonPar
 import com.futurist_labs.android.base_library.ui.BaseEvents;
 import com.futurist_labs.android.base_library.ui.versions.UpdateActivity;
 import com.futurist_labs.android.base_library.ui.versions.UpdateDialogFragment;
+import com.futurist_labs.android.base_library.utils.LogUtils;
 
 import java.lang.ref.WeakReference;
 
@@ -23,20 +24,23 @@ public class VersionsUtil {
     public static final int ACTION_MUST_UPDATE = 3;
 
     private WeakReference<AppCompatActivity> activityWeakReference;
+    private WeakReference<Callback> callbackWeakReference;
 
     public void checkVersions(AppCompatActivity activity, BaseEvents presenterCallback, Action action,
-                              int progressType, final int currentAppVersion, final Callback callback) {
+                              int progressType, final int currentAppVersion, Callback callback) {
         if (activity == null || action == null) {
             return;
         }
         activityWeakReference = new WeakReference<>(activity);
+        callbackWeakReference = new WeakReference<>(callback);
+
         BaseNetworkManager.doMainActionSynchronized(
                 new MainCallback<Versions>(presenterCallback, progressType) {
                     @Override
                     public void onNoNetwork() {
                         super.onNoNetwork();
-                        if(callback!=null){
-                            callback.onEnd(-2);
+                        if (callbackWeakReference.get() != null) {
+                            callbackWeakReference.get().onEnd(-2);
                         }
                     }
 
@@ -44,17 +48,17 @@ public class VersionsUtil {
                     public void inTheEndOfDoInBackground(NetworkResponse networkResponse) {
                         super.inTheEndOfDoInBackground(networkResponse);
                         networkResponse.object = BaseJsonParser.fromJson(networkResponse.json,
-                                Versions.class);
+                                                                         Versions.class);
                     }
 
                     @Override
                     public void onSuccess(NetworkResponse<Versions> networkResponse) {
                         super.onSuccess(networkResponse);
-                        if(activityWeakReference.get() != null){
+                        if (activityWeakReference.get() != null) {
                             int result = validateVersionsAndAct(activityWeakReference.get(),
-                                    networkResponse.object,currentAppVersion);
-                            if(callback!=null){
-                                callback.onEnd(result);
+                                                                networkResponse.object, currentAppVersion);
+                            if (callbackWeakReference.get() != null) {
+                                callbackWeakReference.get().onEnd(result);
                             }
                         }
                     }
@@ -62,18 +66,19 @@ public class VersionsUtil {
                     @Override
                     public void onError(String msg, NetworkResponse networkResponse) {
                         super.onError(msg, networkResponse);
-                        if(callback!=null){
-                            callback.onEnd(-1);
+                        if (callbackWeakReference.get() != null) {
+                            callbackWeakReference.get().onEnd(-1);
                         }
                     }
                 },
-               action,
+                action,
                 "checkVersions");
     }
 
-    public interface Callback{
+    public interface Callback {
         void onEnd(int status);
     }
+
     /**
      * Will check versions with current and show blocking activity or update dialog
      *
@@ -84,6 +89,10 @@ public class VersionsUtil {
      */
     public int validateVersionsAndAct(AppCompatActivity activity, Versions versionsFromServer,
                                       int currentVersion) {
+//        versionsFromServer.setCurrentVersion(4);
+//        versionsFromServer.setMinimalVersion(3);
+        LogUtils.d("CurrentVersion : " + versionsFromServer.getCurrentVersion()
+                   + "  MinimalVersion: " + versionsFromServer.getMinimalVersion());
         int action = validateVersions(versionsFromServer, currentVersion);
         actOnNewVersions(activity, action);
         return action;
@@ -93,8 +102,8 @@ public class VersionsUtil {
         if (versionsFromServer == null) {
             return ACTION_NO_VERSIONS;
         } else {
-            if (versionsFromServer.getCurrentAndroidVersion() > currentVersion) {
-                if (versionsFromServer.getMinimumAndroidVersion() > currentVersion) {
+            if (versionsFromServer.getCurrentVersion() > currentVersion) {
+                if (versionsFromServer.getMinimalVersion() > currentVersion) {
                     return ACTION_MUST_UPDATE;
                 } else {
                     return ACTION_CAN_UPDATE;
@@ -106,7 +115,9 @@ public class VersionsUtil {
     }
 
     public void actOnNewVersions(AppCompatActivity activity, int action) {
-        if (activity == null) return;
+        if (activity == null) {
+            return;
+        }
 
         if (action == ACTION_MUST_UPDATE) {
             UpdateActivity.show(activity);

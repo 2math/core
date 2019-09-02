@@ -22,6 +22,7 @@ public class LoginActivity extends BaseActivity<LoginViewModel> implements Login
     private FrameLayout flContainer;
     private FontTextView tvHello;
     private boolean initOnResume = false;
+    private VersionsUtil.Callback versionsCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,19 +32,23 @@ public class LoginActivity extends BaseActivity<LoginViewModel> implements Login
         initView();
 
         if (savedInstanceState == null) {//else is recreate
+            versionsCallback = new VersionsUtil.Callback() {
+                @Override
+                public void onEnd(int status) {
+                    if (status != VersionsUtil.ACTION_MUST_UPDATE && status != VersionsUtil.ACTION_CAN_UPDATE) {
+                        activityViewModel.init();
+                    }
+                }
+            };
+
             new VersionsUtil().checkVersions(this, activityViewModel.getNetworkCallback(),
-                    new Action(Action.GET_UNAUTHORIZED, "http://www.mocky.io/v2/5d6525d23400002c00f44600", null)
-                            .setIsCheckServerUrl(false)
-                            .setFullUrl(true),
-                    MainCallback.TYPE_DIALOG, BuildConfig.VERSION_CODE,
-                    new VersionsUtil.Callback() {
-                        @Override
-                        public void onEnd(int status) {
-                            if (status != VersionsUtil.ACTION_MUST_UPDATE && status != VersionsUtil.ACTION_CAN_UPDATE) {
-                                activityViewModel.init();
-                            }
-                        }
-                    });
+                                             new Action(Action.GET_UNAUTHORIZED,
+                                                        "https://gobeauty-mobile-dev.herokuapp.com/versions/ANDROID",
+                                                        null)
+                                                     .setIsCheckServerUrl(false)
+                                                     .setFullUrl(true),
+                                             MainCallback.TYPE_DIALOG, BuildConfig.VERSION_CODE,
+                                             versionsCallback);
         }
     }
 

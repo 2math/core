@@ -48,3 +48,5 @@
 ### https://square.github.io/picasso/ ##
 #
 #-dontwarn com.squareup.okhttp.**
+
+-keep class com.futurist_labs.android.base_library.utils.versions.Versions** { *; }

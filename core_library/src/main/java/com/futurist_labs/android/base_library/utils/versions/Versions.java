@@ -7,25 +7,36 @@ import android.os.Parcelable;
  * Created by Galeen on 8/27/2019.
  */
 public class Versions implements Parcelable {
-    private int currentAndroidVersion;
-    private int minimumAndroidVersion;
+    private int currentVersion;
+    private int minimalVersion;
+    private String clientVersion;
 
-    public int getCurrentAndroidVersion() {
-        return currentAndroidVersion;
+    public int getCurrentVersion() {
+        return currentVersion;
     }
 
-    public void setCurrentAndroidVersion(int currentAndroidVersion) {
-        this.currentAndroidVersion = currentAndroidVersion;
+    public void setCurrentVersion(int currentVersion) {
+        this.currentVersion = currentVersion;
     }
 
-    public int getMinimumAndroidVersion() {
-        return minimumAndroidVersion;
+    public int getMinimalVersion() {
+        return minimalVersion;
     }
 
-    public void setMinimumAndroidVersion(int minimumAndroidVersion) {
-        this.minimumAndroidVersion = minimumAndroidVersion;
+    public void setMinimalVersion(int minimalVersion) {
+        this.minimalVersion = minimalVersion;
     }
 
+    public String getClientVersion() {
+        return clientVersion;
+    }
+
+    public void setClientVersion(final String clientVersion) {
+        this.clientVersion = clientVersion;
+    }
+
+    public Versions() {
+    }
 
     @Override
     public int describeContents() {
@@ -34,16 +45,15 @@ public class Versions implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.currentAndroidVersion);
-        dest.writeInt(this.minimumAndroidVersion);
-    }
-
-    public Versions() {
+        dest.writeInt(this.currentVersion);
+        dest.writeInt(this.minimalVersion);
+        dest.writeString(this.clientVersion);
     }
 
     protected Versions(Parcel in) {
-        this.currentAndroidVersion = in.readInt();
-        this.minimumAndroidVersion = in.readInt();
+        this.currentVersion = in.readInt();
+        this.minimalVersion = in.readInt();
+        this.clientVersion = in.readString();
     }
 
     public static final Creator<Versions> CREATOR = new Creator<Versions>() {
