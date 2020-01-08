@@ -1,10 +1,11 @@
 package com.futurist_labs.android.base_library.repository.network;
 
 import android.location.Location;
-import android.support.annotation.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Galeen on 1/2/2018.

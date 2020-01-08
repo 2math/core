@@ -1,8 +1,5 @@
 package com.futurist_labs.android.base_library.ui;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
 import android.content.DialogInterface;
 
 import com.futurist_labs.android.base_library.model.InfoMessage;
@@ -12,6 +9,10 @@ import com.futurist_labs.android.base_library.repository.network.NetworkResponse
 import com.futurist_labs.android.base_library.utils.LogUtils;
 
 import java.util.HashSet;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 /**
  * Created by Galeen on 12/21/2017.

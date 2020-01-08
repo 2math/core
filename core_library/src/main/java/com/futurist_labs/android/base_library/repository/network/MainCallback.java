@@ -2,8 +2,6 @@ package com.futurist_labs.android.base_library.repository.network;
 
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
 
 import com.futurist_labs.android.base_library.R;
 import com.futurist_labs.android.base_library.model.ServerError;
@@ -11,6 +9,9 @@ import com.futurist_labs.android.base_library.ui.BaseEvents;
 import com.futurist_labs.android.base_library.utils.LogUtils;
 
 import java.lang.ref.WeakReference;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 
 
 /**

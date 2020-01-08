@@ -3,7 +3,6 @@ package com.criapp_studio.coreapp.repository.json;
 import android.util.JsonReader;
 import android.util.JsonWriter;
 
-import com.criapp_studio.coreapp.BuildConfig;
 import com.criapp_studio.coreapp.model.Info;
 import com.criapp_studio.coreapp.model.unguarded.Login;
 import com.criapp_studio.coreapp.model.unguarded.User;
@@ -12,6 +11,7 @@ import com.futurist_labs.android.base_library.repository.persistence.BaseJsonPar
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.Locale;
 
 /**
  * Created by Galeen on 9/5/2018.
@@ -44,12 +44,12 @@ public class AppJsonParser extends BaseJsonParser {
 
     protected static void deviceData(JsonWriter writer) throws IOException {
         writer.beginObject();
-        writer.name(JsonConstants.INSTALLATION_ID).value("1111");
-        writer.name("deviceLanguage").value("en");
+        writer.name(JsonConstants.INSTALLATION_ID).value("dc45ec1e-c4b6-4a01-90d6-f09464f615b6");
+        writer.name("deviceLanguage").value(Locale.getDefault().getLanguage());
 //        }
-        writer.name(JsonConstants.TYPE).value("ANDROID");
-        writer.name("token").value("1234214214");//FirebaseInstanceId.getInstance().getToken());
-        writer.name("useProductionForPushNotifications").value(BuildConfig.BUILD_TYPE.equalsIgnoreCase("production"));
+//        writer.name(JsonConstants.TYPE).value("ANDROID");
+        writer.name("token").value("eoLHk6OVWyA:APA91bEOxMM7MYk0PjQbQlxqR-P1RobXQGeRBQlj-0wYQ8ptYahHj3dY6Iv4yua5JJCCsLDcM-QgL2ufAAPKEChpgp_fA-e74tgSEptc4AZts_ged_aJwezNpLrs9lAixjj5z5OKh8I6");//FirebaseInstanceId.getInstance().getToken());
+//        writer.name("useProductionForPushNotifications").value(BuildConfig.BUILD_TYPE.equalsIgnoreCase("production"));
         writer.endObject();
     }
 

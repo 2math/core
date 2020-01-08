@@ -1,8 +1,8 @@
 package com.futurist_labs.android.base_library.repository.network;
 
-import android.support.annotation.StringRes;
-
 import com.futurist_labs.android.base_library.model.ServerError;
+
+import androidx.annotation.StringRes;
 
 /**
  * Created by Galeen on 18.1.2016 г..

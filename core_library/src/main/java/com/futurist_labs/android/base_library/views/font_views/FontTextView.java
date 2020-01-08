@@ -2,7 +2,6 @@ package com.futurist_labs.android.base_library.views.font_views;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.support.annotation.DrawableRes;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 
@@ -10,12 +9,15 @@ import com.futurist_labs.android.base_library.R;
 import com.futurist_labs.android.base_library.utils.SystemUtils;
 import com.futurist_labs.android.base_library.utils.photo.HttpImageGetter;
 
+import androidx.annotation.DrawableRes;
+import androidx.appcompat.widget.AppCompatTextView;
+
 
 /**
  * Created by Galeen on 9.5.2016 г..
  * Custom TextView to easy set fonts
  */
-public class FontTextView extends android.support.v7.widget.AppCompatTextView {
+public class FontTextView extends AppCompatTextView {
     FontHelper fontHelper;
 
     public FontTextView(Context context) {

@@ -5,10 +5,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +16,11 @@ import com.futurist_labs.android.base_library.utils.IntentUtils;
 import com.futurist_labs.android.base_library.utils.versions.Versions;
 import com.futurist_labs.android.base_library.views.font_views.FontTextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+
 /**
- * A simple {@link Fragment} subclass.
  * Use the {@link UpdateDialogFragment#newInstance} factory method to
  * create an instance of this fragment.
  */

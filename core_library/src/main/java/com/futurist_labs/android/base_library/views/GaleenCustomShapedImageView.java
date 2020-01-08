@@ -16,7 +16,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
-public class GaleenCustomShapedImageView extends android.support.v7.widget.AppCompatImageView {
+import androidx.appcompat.widget.AppCompatImageView;
+
+public class GaleenCustomShapedImageView extends AppCompatImageView {
     public final static int CIRCLE = 0;
     public final static int TRIANGLE = 1;
     public final static int HEXAGON = 2;

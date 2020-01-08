@@ -7,10 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -18,6 +14,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.futurist_labs.android.base_library.R;
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 
 /**
@@ -151,8 +152,8 @@ public class DialogUtils {
             // Change the Snackbar default text color
             View snackbarView = snackbar.getView();
             if (colMsg != 0) {
-//                TextView tv = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-                TextView tv = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+                TextView tv = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+//                TextView tv = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
                 tv.setTextColor(colMsg);
             }
             // Change the Snackbar default background color
@@ -184,8 +185,8 @@ public class DialogUtils {
             // Change the Snackbar default text color
             View snackbarView = snackbar.getView();
             if (colMsg != 0) { // TODO: 2/22/2019 try to find a fix on this
-//                TextView tv = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-                TextView tv = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+                TextView tv = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+//                TextView tv = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
                 tv.setTextColor(colMsg);
             }
             // Change the Snackbar default background color
@@ -318,21 +319,21 @@ public class DialogUtils {
      */
     @Nullable
     public static Dialog showCustomDialog(Context ctx,
-                                        @StringRes int msgRes, String msgString,
-                                        @StringRes int msg2Res, String msg2String,
-                                        @StringRes int btnYesRes, String btnYesString,
-                                        @StringRes int btnNoRes, String btnNoString,
+                                          @StringRes int msgRes, String msgString,
+                                          @StringRes int msg2Res, String msg2String,
+                                          @StringRes int btnYesRes, String btnYesString,
+                                          @StringRes int btnNoRes, String btnNoString,
 
-                                        final View.OnClickListener listenerYes,
-                                        final View.OnClickListener listenerNo,
-                                        final View.OnClickListener listenerClose,
+                                          final View.OnClickListener listenerYes,
+                                          final View.OnClickListener listenerNo,
+                                          final View.OnClickListener listenerClose,
 
-                                        DialogEvents callback,
-                                        boolean showOnCreate,
+                                          DialogEvents callback,
+                                          boolean showOnCreate,
 
-                                        @LayoutRes int layout,
-                                        int idMsg, int idMsg2, int idBtnYes,
-                                        int idBtnNo, int idBtnClose) {
+                                          @LayoutRes int layout,
+                                          int idMsg, int idMsg2, int idBtnYes,
+                                          int idBtnNo, int idBtnClose) {
         final Dialog dialog = new Dialog(ctx);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);

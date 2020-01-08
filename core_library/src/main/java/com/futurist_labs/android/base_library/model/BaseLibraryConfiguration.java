@@ -1,12 +1,13 @@
 package com.futurist_labs.android.base_library.model;
 
 import android.app.Application;
-import android.support.annotation.WorkerThread;
 
 import com.futurist_labs.android.base_library.repository.network.NetworkResponse;
 import com.futurist_labs.android.base_library.repository.persistence.BasePersistenceInterface;
 import com.futurist_labs.android.base_library.utils.CrashReporter;
 import com.futurist_labs.android.base_library.views.font_views.FontHelper;
+
+import androidx.annotation.WorkerThread;
 
 /**
  * Created by Galeen on 5/18/2018.

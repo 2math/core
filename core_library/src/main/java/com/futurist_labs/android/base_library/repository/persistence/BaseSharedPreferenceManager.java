@@ -3,13 +3,14 @@ package com.futurist_labs.android.base_library.repository.persistence;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 
 import com.futurist_labs.android.base_library.model.BaseLibraryConfiguration;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+
+import androidx.annotation.NonNull;
 
 
 /**

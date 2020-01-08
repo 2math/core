@@ -1,12 +1,8 @@
 package com.futurist_labs.android.base_library.ui;
 
 import android.app.ProgressDialog;
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.Toast;
 
@@ -15,6 +11,11 @@ import com.futurist_labs.android.base_library.model.InfoMessage;
 import com.futurist_labs.android.base_library.model.ProgressData;
 import com.futurist_labs.android.base_library.repository.network.NetworkResponse;
 import com.futurist_labs.android.base_library.utils.DialogUtils;
+
+import androidx.annotation.Nullable;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 /**

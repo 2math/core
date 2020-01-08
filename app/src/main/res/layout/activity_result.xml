@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
     tools:context=".ui.result.ResultActivity">
 
     <com.futurist_labs.android.base_library.views.font_views.FontTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:text="@string/result_you_are_in"
         app:TvType="italic"/>
-</FrameLayout>
+
+    <com.futurist_labs.android.base_library.views.font_views.FontTextView
+        android:id="@+id/tvLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_big"
+        android:padding="@dimen/margin_small"
+        android:text="Logout"
+        android:textColor="@color/update_button_text"
+        android:background="@drawable/button_update_store"
+        app:TvType="bold"/>
+</LinearLayout>

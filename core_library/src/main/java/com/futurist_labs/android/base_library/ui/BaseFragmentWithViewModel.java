@@ -1,8 +1,9 @@
 package com.futurist_labs.android.base_library.ui;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProviders;
 
 /**
  * Created by Galeen on 6/8/2018.

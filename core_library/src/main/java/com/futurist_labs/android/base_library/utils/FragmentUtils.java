@@ -1,15 +1,16 @@
 package com.futurist_labs.android.base_library.utils;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewCompat;
 import android.widget.ImageView;
 
 import com.futurist_labs.android.base_library.R;
 import com.futurist_labs.android.base_library.ui.BaseActivity;
+
+import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 
 /**

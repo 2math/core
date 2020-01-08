@@ -1,8 +1,5 @@
 package com.criapp_studio.coreapp.ui.login;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-
 import com.criapp_studio.coreapp.R;
 import com.criapp_studio.coreapp.model.unguarded.User;
 import com.criapp_studio.coreapp.repository.Repository;
@@ -11,6 +8,9 @@ import com.futurist_labs.android.base_library.repository.network.NetworkResponse
 import com.futurist_labs.android.base_library.ui.BaseEvents;
 import com.futurist_labs.android.base_library.ui.BaseViewModelWithRepository;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 /**
  * Created by Galeen on 5/23/18.
  */
@@ -18,6 +18,14 @@ public class LoginViewModel extends BaseViewModelWithRepository<Repository> {
     private MutableLiveData<Boolean> onShowLogin;
     private MutableLiveData<Boolean> onShowMain;
     private MutableLiveData<Boolean> onChangePassword;
+    private MutableLiveData<Boolean> onLogoutLiveData;
+
+    public LiveData<Boolean> getOnLogoutLiveData() {
+        if (onLogoutLiveData == null) {
+            onLogoutLiveData = new MutableLiveData<>();
+        }
+        return onLogoutLiveData;
+    }
 
     public LiveData<Boolean> getOnShowLogin() {
         if (onShowLogin == null) onShowLogin = new MutableLiveData<>();
@@ -37,6 +45,15 @@ public class LoginViewModel extends BaseViewModelWithRepository<Repository> {
             doLogin(creds[0], creds[1]);
         } else {
             if (onShowLogin != null) onShowLogin.setValue(true);
+        }
+    }
+
+    public void logout(){
+        //todo implement logout
+        repository.setToken(null);
+        repository.saveCredentials(null,null);
+        if(onLogoutLiveData!=null){
+            onLogoutLiveData.setValue(true);
         }
     }
 
@@ -70,7 +87,7 @@ public class LoginViewModel extends BaseViewModelWithRepository<Repository> {
 //                NetworkManager.postToken(new MainCallback(LoginActivity.this, false), PersistenceManager.getDeviceID(),
 //                        FirebaseInstanceId.getInstance().getToken());
                 if (onShowMain != null) {
-                    onShowMain.setValue(false);
+                    onShowMain.setValue(true);
                 }
             } else {
                 response.errorMsg = R.string.err_wrong_login;

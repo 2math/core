@@ -1,9 +1,10 @@
 package com.futurist_labs.android.base_library.utils;
 
 import android.app.Activity;
-import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.widget.EditText;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 /**
  * Created by Galeen on 1/4/2018.

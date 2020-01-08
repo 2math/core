@@ -1,7 +1,7 @@
 package com.futurist_labs.android.base_library.repository.persistence;
 
-import android.support.annotation.UiThread;
-import android.support.annotation.WorkerThread;
+import androidx.annotation.UiThread;
+import androidx.annotation.WorkerThread;
 
 /**
  * Created by Galeen on 5/21/18.

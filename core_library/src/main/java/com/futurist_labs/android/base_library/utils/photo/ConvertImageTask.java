@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.media.ExifInterface;
 
 import com.futurist_labs.android.base_library.utils.LogUtils;
 
@@ -13,6 +12,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import androidx.exifinterface.media.ExifInterface;
 
 /**
  * Created by Galeen on 10/4/2017.

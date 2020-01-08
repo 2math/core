@@ -2,9 +2,10 @@ package com.futurist_labs.android.base_library.utils.photo;
 
 import android.database.Cursor;
 import android.net.Uri;
-import android.support.v4.content.FileProvider;
 
 import com.futurist_labs.android.base_library.model.BaseLibraryConfiguration;
+
+import androidx.core.content.FileProvider;
 
 
 /**

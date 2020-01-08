@@ -1,8 +1,8 @@
 package com.futurist_labs.android.base_library.repository;
 
-import android.support.annotation.RestrictTo;
-
 import com.futurist_labs.android.base_library.utils.SystemUtils;
+
+import androidx.annotation.RestrictTo;
 
 /**
  * Created by Galeen on 12/21/2017.

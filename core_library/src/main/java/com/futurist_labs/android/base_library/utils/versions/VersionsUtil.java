@@ -1,7 +1,5 @@
 package com.futurist_labs.android.base_library.utils.versions;
 
-import android.support.v7.app.AppCompatActivity;
-
 import com.futurist_labs.android.base_library.repository.network.Action;
 import com.futurist_labs.android.base_library.repository.network.BaseNetworkManager;
 import com.futurist_labs.android.base_library.repository.network.MainCallback;
@@ -13,6 +11,8 @@ import com.futurist_labs.android.base_library.ui.versions.UpdateDialogFragment;
 import com.futurist_labs.android.base_library.utils.LogUtils;
 
 import java.lang.ref.WeakReference;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Created by Galeen on 8/27/2019.

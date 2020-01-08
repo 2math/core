@@ -2,11 +2,12 @@ package com.futurist_labs.android.base_library.ui;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.futurist_labs.android.base_library.model.BaseLibraryConfiguration;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 
 /**

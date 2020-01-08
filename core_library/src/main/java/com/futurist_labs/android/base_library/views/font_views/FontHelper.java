@@ -6,11 +6,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.support.v4.util.ArrayMap;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
 import com.futurist_labs.android.base_library.model.BaseLibraryConfiguration;
+
+import androidx.collection.ArrayMap;
 
 
 /**

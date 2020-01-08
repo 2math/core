@@ -1,7 +1,8 @@
 package com.futurist_labs.android.base_library.views;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by Galeen on 4/24/2018.

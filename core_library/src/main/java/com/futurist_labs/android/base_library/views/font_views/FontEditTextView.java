@@ -6,12 +6,14 @@ import android.util.AttributeSet;
 
 import com.futurist_labs.android.base_library.R;
 
+import androidx.appcompat.widget.AppCompatEditText;
+
 
 /**
  * Created by Galeen on 9.5.2016 г..
  * Custom TextView to easy set fonts
  */
-public class FontEditTextView extends android.support.v7.widget.AppCompatEditText {
+public class FontEditTextView extends AppCompatEditText {
     FontHelper fontHelper;
 
     public FontEditTextView(Context context) {

@@ -1,14 +1,13 @@
 package com.criapp_studio.coreapp.ui.login;
 
-import android.arch.lifecycle.Observer;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.criapp_studio.coreapp.BuildConfig;
 import com.criapp_studio.coreapp.R;
+import com.criapp_studio.coreapp.ui.result.ResultActivity;
 import com.futurist_labs.android.base_library.repository.network.Action;
 import com.futurist_labs.android.base_library.repository.network.MainCallback;
 import com.futurist_labs.android.base_library.ui.BaseActivity;
@@ -16,6 +15,10 @@ import com.futurist_labs.android.base_library.ui.versions.UpdateDialogFragment;
 import com.futurist_labs.android.base_library.utils.FragmentUtils;
 import com.futurist_labs.android.base_library.utils.versions.VersionsUtil;
 import com.futurist_labs.android.base_library.views.font_views.FontTextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 
 public class LoginActivity extends BaseActivity<LoginViewModel> implements LoginFragment.OnFragmentInteractionListener, UpdateDialogFragment.Callback {
 
@@ -43,7 +46,7 @@ public class LoginActivity extends BaseActivity<LoginViewModel> implements Login
 
             new VersionsUtil().checkVersions(this, activityViewModel.getNetworkCallback(),
                                              new Action(Action.GET_UNAUTHORIZED,
-                                                        "https://gobeauty-mobile-dev.herokuapp.com/versions/ANDROID",
+                                                        "https://gobeauty-mobile-dev.herokuapp.com/versions/ANDROID_CLIENT",
                                                         null)
                                                      .setIsCheckServerUrl(false)
                                                      .setFullUrl(true),
@@ -107,7 +110,8 @@ public class LoginActivity extends BaseActivity<LoginViewModel> implements Login
     }
 
     private void goToResult() {
-
+        startActivity(new Intent(this, ResultActivity.class));
+        finish();
     }
 
     private void initView() {

@@ -2,8 +2,9 @@ package com.futurist_labs.android.base_library.views.font_views;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.design.widget.TextInputLayout;
 import android.util.AttributeSet;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 
 /**

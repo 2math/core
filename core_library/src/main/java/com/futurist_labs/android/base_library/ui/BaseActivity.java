@@ -1,14 +1,15 @@
 package com.futurist_labs.android.base_library.ui;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
 import com.futurist_labs.android.base_library.model.BaseLibraryConfiguration;
 import com.futurist_labs.android.base_library.utils.CrashReporter;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
 
 /**
@@ -130,5 +131,6 @@ public abstract class BaseActivity<T extends BaseViewModelWithRepository> extend
 
     protected abstract void setObservers();
 
-    protected abstract @NonNull   Class<T> getViewModelClass();
+    protected abstract @NonNull
+    Class<T> getViewModelClass();
 }

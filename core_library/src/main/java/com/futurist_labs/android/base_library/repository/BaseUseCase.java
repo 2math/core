@@ -1,11 +1,11 @@
 package com.futurist_labs.android.base_library.repository;
 
-import android.arch.lifecycle.MutableLiveData;
-
 import com.futurist_labs.android.base_library.repository.network.MainCallback;
 import com.futurist_labs.android.base_library.repository.network.NetworkResponse;
 import com.futurist_labs.android.base_library.ui.BaseEvents;
 import com.futurist_labs.android.base_library.ui.BaseViewModelWithRepository;
+
+import androidx.lifecycle.MutableLiveData;
 
 /**
  * Created by Galeen on 9/11/2018.

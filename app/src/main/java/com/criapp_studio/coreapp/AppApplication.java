@@ -1,7 +1,6 @@
 package com.criapp_studio.coreapp;
 
 import android.app.Application;
-import android.support.annotation.Nullable;
 
 import com.criapp_studio.coreapp.model.unguarded.Login;
 import com.criapp_studio.coreapp.repository.AppRepository;
@@ -18,6 +17,8 @@ import com.futurist_labs.android.base_library.repository.persistence.BasePersist
 import com.futurist_labs.android.base_library.repository.persistence.BaseSharedPreferenceManager;
 
 import java.io.IOException;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by Galeen on 9/5/2018.
@@ -36,7 +37,7 @@ public class AppApplication extends Application {
                 .setHeaderLocaleFieldName("Accept-Language")
                 .setHeaderAuthorizationFieldName("x-auth-token")
                 .setHeaderOS("x-os")
-                .setHeaderOSValue("ANDROID")
+                .setHeaderOSValue("ANDROID_CLIENT")
                 .setHeaderVersion("x-version")
                 .setPersistenceManager(new BaseSharedPreferenceManager())
 //                .setCrashReporter(new AppCrashReporter())

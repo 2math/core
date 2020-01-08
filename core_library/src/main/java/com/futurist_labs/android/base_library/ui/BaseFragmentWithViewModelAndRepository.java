@@ -1,9 +1,10 @@
 package com.futurist_labs.android.base_library.ui;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 import com.futurist_labs.android.base_library.repository.RepositoryFactory;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by Galeen on 6/8/2018.

@@ -1,12 +1,12 @@
 package com.futurist_labs.android.base_library.utils.date_time;
 
-import android.support.v4.app.FragmentActivity;
-
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
+import androidx.fragment.app.FragmentActivity;
 
 /**
  * Created by Galeen on 6/15/2018.

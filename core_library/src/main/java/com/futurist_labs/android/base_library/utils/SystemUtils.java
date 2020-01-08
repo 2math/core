@@ -13,11 +13,6 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -40,10 +35,16 @@ import com.futurist_labs.android.base_library.R;
 import com.futurist_labs.android.base_library.model.BaseLibraryConfiguration;
 import com.futurist_labs.android.base_library.utils.photo.HttpImageGetter;
 import com.futurist_labs.android.base_library.views.font_views.FontHelper;
+import com.google.android.material.appbar.AppBarLayout;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
+
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 //import com.google.android.gms.maps.model.BitmapDescriptor;
 //import com.google.android.gms.maps.model.BitmapDescriptorFactory;

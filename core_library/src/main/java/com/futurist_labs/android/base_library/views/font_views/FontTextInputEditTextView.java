@@ -3,13 +3,13 @@ package com.futurist_labs.android.base_library.views.font_views;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
-import android.support.design.widget.TextInputEditText;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.futurist_labs.android.base_library.R;
+import com.google.android.material.textfield.TextInputEditText;
 
 
 /**
