@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <attr name="tv_font" format="string" localization="suggested"/>
+
     <attr name="TvType" format="enum">
         <enum name="regular" value="10"/>\
         <enum name="bold" value="11"/>
@@ -11,26 +13,39 @@
     </attr>
 
     <attr name="strike" format="boolean"/>
+
     <attr name="strikeColor" format="color"/>
 
     <declare-styleable name="FontTextView">
+        <!--    point font full name in "fonts/"-->
         <attr name="tv_font"/>
+        <!--    point the application font predefined in application class -->
         <attr name="TvType" />
+        <!--flag to strike trough text -->
         <attr name="strike" />
+        <!--line color if flag to strike trough text is TRUE-->
         <attr name="strikeColor" />
     </declare-styleable>
 
     <declare-styleable name="FontEditTextView">
+        <!--    point font full name in "fonts/"-->
         <attr name="tv_font"/>
+        <!--    point the application font predefined in application class -->
         <attr name="TvType" />
+        <!--flag to strike trough text -->
         <attr name="strike" />
+        <!--line color if flag to strike trough text is TRUE-->
         <attr name="strikeColor" />
     </declare-styleable>
 
     <declare-styleable name="FontTextInputEditTextView">
+        <!--    point font full name in "fonts/"-->
         <attr name="tv_font"/>
+        <!--    point the application font predefined in application class -->
         <attr name="TvType" />
+        <!--flag to strike trough text -->
         <attr name="strike" />
+        <!--line color if flag to strike trough text is TRUE-->
         <attr name="strikeColor" />
     </declare-styleable>
 
