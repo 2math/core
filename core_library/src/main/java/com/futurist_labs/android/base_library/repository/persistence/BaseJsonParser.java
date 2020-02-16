@@ -5,6 +5,7 @@ import android.util.JsonToken;
 
 import com.futurist_labs.android.base_library.model.ServerError;
 import com.futurist_labs.android.base_library.repository.network.NetworkResponse;
+import com.futurist_labs.android.base_library.utils.Texter;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
@@ -24,21 +25,25 @@ import java.util.Date;
 public class BaseJsonParser {
 
     public static <T> T fromJson(String json, Class<T> classOfT) throws JsonSyntaxException {
+        if(Texter.isEmpty(json)) return null;
         Gson gson = new Gson();
         return gson.fromJson(json, (Type) classOfT);
     }
 
     public static <T> String toJson(T object, Class<T> classOfT) throws JsonSyntaxException {
+        if(object == null) return null;
         Gson gson = new Gson();
         return gson.toJson(object, classOfT);
     }
 
     public static <T> T fromJson(String json, Type type) throws JsonSyntaxException {
+        if(Texter.isEmpty(json)) return null;
         Gson gson = new Gson();
         return gson.fromJson(json, type);
     }
 
     public static <T> String toJson(T object, Type type) throws JsonSyntaxException {
+        if(object == null) return null;
         Gson gson = new Gson();
         return gson.toJson(object, type);
     }
@@ -88,7 +93,7 @@ public class BaseJsonParser {
     }
 
     public static ServerError readError(String error) {
-        if (error == null || error.length() == 0) {
+        if (Texter.isEmpty(error)) {
             return null;
         }
         String name;
