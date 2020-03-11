@@ -15,7 +15,7 @@ allprojects {
 
 Next add as dependency in your application build.gradle
 
-#Important from v1.1.5 the lib is migrated to AndroidX, in new branch androidX
+# Important from v1.1.5 the lib is migrated to AndroidX, in new branch androidX
 
 ```
 implementation 'com.github.2math:core:latest_version'
@@ -35,7 +35,7 @@ implementation 'com.github.2math:core:latest_version'
 //    required by com.github.2math:core lib end
 ```
 
-#For v1.1.4 or earlier use :
+# For v1.1.4 or earlier use :
 
 ```
 implementation 'com.github.2math:core:latest_version'
