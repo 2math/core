@@ -71,12 +71,12 @@ dependencies {
 //    implementation 'com.github.2math:core:1.0.0'
 
 //    required by com.github.2math:core lib
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation "com.google.code.gson:gson:${rootProject.ext.gson}"
 
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.exifinterface:exifinterface:1.0.0'
+    implementation 'androidx.exifinterface:exifinterface:1.1.0'
 
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.balysv:material-ripple:1.0.2'
