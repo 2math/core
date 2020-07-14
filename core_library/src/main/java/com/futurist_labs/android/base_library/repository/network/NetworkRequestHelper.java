@@ -1,20 +1,39 @@
 package com.futurist_labs.android.base_library.repository.network;
 
 import android.util.Log;
+
 import com.futurist_labs.android.base_library.model.BaseLibraryConfiguration;
 import com.futurist_labs.android.base_library.model.ServerError;
 import com.futurist_labs.android.base_library.repository.persistence.BaseJsonParser;
 import com.futurist_labs.android.base_library.utils.LogUtils;
 
-import javax.net.ssl.*;
-import java.io.*;
-import java.net.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 
 
 /**
@@ -140,11 +159,11 @@ public class NetworkRequestHelper {
 
     private static void addMainHeaders(final String authToken, final HttpURLConnection conn) {
         if (authToken != null) {
-            conn.setRequestProperty(NetConstants.HEADER_AUTHORIZATION, authToken);
+            conn.setRequestProperty(BaseLibraryConfiguration.getInstance().getHeaderAuthorizationFieldName(), authToken);
         }
 
-        if (NetConstants.SHOULD_ADD_LOCALE) {
-            conn.setRequestProperty(NetConstants.HEADER_LOCALE_FIELD, BaseLibraryConfiguration.getInstance().getHeaderLocaleFieldValue());
+        if (BaseLibraryConfiguration.getInstance().isAddLocale()) {
+            conn.setRequestProperty(BaseLibraryConfiguration.getInstance().getHeaderLocaleFieldName(), BaseLibraryConfiguration.getInstance().getHeaderLocaleFieldValue());
         }
 
         if (BaseLibraryConfiguration.getInstance().getHeaderOS() != null) {
@@ -231,10 +250,10 @@ public class NetworkRequestHelper {
             headers = new HashMap<>();
         }
         if (token != null) {
-            headers.put(NetConstants.HEADER_AUTHORIZATION, token);
+            headers.put(BaseLibraryConfiguration.getInstance().getHeaderAuthorizationFieldName(), token);
         }
-        if (NetConstants.SHOULD_ADD_LOCALE) {
-            headers.put(NetConstants.HEADER_LOCALE_FIELD,
+        if (BaseLibraryConfiguration.getInstance().isAddLocale()) {
+            headers.put(BaseLibraryConfiguration.getInstance().getHeaderLocaleFieldName(),
                         BaseLibraryConfiguration.getInstance().getHeaderLocaleFieldValue());
         }
         return sendGet(serverUrl, params, headers);
@@ -336,9 +355,9 @@ public class NetworkRequestHelper {
         httpUrlConnection.setRequestProperty(
                 "Content-Type", "multipart/form-data;boundary=" + boundary);
 //        if (token != null)
-//            httpUrlConnection.setRequestProperty(NetConstants.HEADER_AUTHORIZATION, token);
-        if (NetConstants.SHOULD_ADD_LOCALE) {
-            httpUrlConnection.setRequestProperty(NetConstants.HEADER_LOCALE_FIELD,
+//            httpUrlConnection.setRequestProperty(BaseLibraryConfiguration.getInstance().getHeaderAuthorizationFieldName(), token);
+        if (BaseLibraryConfiguration.getInstance().isAddLocale()) {
+            httpUrlConnection.setRequestProperty(BaseLibraryConfiguration.getInstance().getHeaderLocaleFieldName(),
                                                  BaseLibraryConfiguration.getInstance().getHeaderLocaleFieldValue());
         }
         DataOutputStream request = null;
@@ -419,7 +438,7 @@ public class NetworkRequestHelper {
             connection.setUseCaches(false);
 
             if (token != null) {
-                connection.setRequestProperty(NetConstants.HEADER_AUTHORIZATION, token);
+                connection.setRequestProperty(BaseLibraryConfiguration.getInstance().getHeaderAuthorizationFieldName(), token);
             }
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Connection", "Keep-Alive");
@@ -503,7 +522,7 @@ public class NetworkRequestHelper {
             connection.setUseCaches(false);
 
             if (token != null) {
-                connection.setRequestProperty(NetConstants.HEADER_AUTHORIZATION, token);
+                connection.setRequestProperty(BaseLibraryConfiguration.getInstance().getHeaderAuthorizationFieldName(), token);
             }
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Connection", "Keep-Alive");
@@ -585,7 +604,7 @@ public class NetworkRequestHelper {
         URL url = new URL(fileURL);
         HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
         if (authToken != null) {
-            httpConn.setRequestProperty(NetConstants.HEADER_AUTHORIZATION, authToken);
+            httpConn.setRequestProperty(BaseLibraryConfiguration.getInstance().getHeaderAuthorizationFieldName(), authToken);
         }
 
         if (headers != null) {
