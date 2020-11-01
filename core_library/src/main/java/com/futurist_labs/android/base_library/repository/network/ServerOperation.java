@@ -71,7 +71,7 @@ public class ServerOperation extends AsyncTask<Action, Void, NetworkResponse> {
         }
 
         if (res != null && res.isResponsePositive()) {
-            if (!action.isCheckServerUrl || (res.url != null && res.url.startsWith(NetConstants.SERVER_ADDRESS))) {
+            if (!action.isCheckServerUrl || (res.url != null && res.url.startsWith(BaseLibraryConfiguration.getInstance().getServerUrl()))) {
                 //we can use the url from action too
                 if (mCallback != null){
                     mCallback.inTheEndOfDoInBackground(res);
@@ -112,7 +112,7 @@ public class ServerOperation extends AsyncTask<Action, Void, NetworkResponse> {
             try {
                 tracker.startTracker();
                 if (!action.isFullUrl)
-                    action.endpoint = NetConstants.SERVER_ADDRESS + action.endpoint;
+                    action.endpoint = BaseLibraryConfiguration.getInstance().getServerUrl() + action.endpoint;
                 tracker.logPrettyJson(action, token);
                 switch (action.operation) {
                     case Action.PUT:
