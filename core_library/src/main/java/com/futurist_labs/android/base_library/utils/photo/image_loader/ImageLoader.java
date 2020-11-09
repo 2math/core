@@ -49,7 +49,7 @@ public class ImageLoader {
 
     //
     private static void loadImage(Context ctx, String id, ImageTarget target) {
-        Picasso.with(ctx).load(
+        Picasso.get().load(
                 IMAGES_URL + id)
                 .into(target);
     }
@@ -64,7 +64,7 @@ public class ImageLoader {
         if (iv != null && id != null) {
             RequestCreator rc;
             File file = new File(new File(BaseLibraryConfiguration.getInstance().getApplication().getExternalFilesDir(null), dir), id);
-            Picasso picasso = Picasso.with(ctx);
+            Picasso picasso = Picasso.get();
 //            picasso.setLoggingEnabled(true);
             if (file.exists()) {
                 rc = picasso.load(file);

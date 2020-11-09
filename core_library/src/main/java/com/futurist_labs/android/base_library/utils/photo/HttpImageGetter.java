@@ -41,7 +41,7 @@ public class HttpImageGetter implements Html.ImageGetter {
     public Drawable getDrawable(String source) {
         if (context == null) return null;
         BitmapDrawablePlaceHolder drawable = new BitmapDrawablePlaceHolder();
-        RequestCreator rc = Picasso.with(context)
+        RequestCreator rc = Picasso.get()
                 .load(source);
         if (placeholder != 0) {
             rc.placeholder(placeholder);
@@ -78,7 +78,8 @@ public class HttpImageGetter implements Html.ImageGetter {
         }
 
         @Override
-        public void onBitmapFailed(Drawable errorDrawable) {
+        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+
         }
 
         @Override

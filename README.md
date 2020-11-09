@@ -27,7 +27,7 @@ implementation 'com.github.2math:core:latest_version'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.exifinterface:exifinterface:1.1.0'
 
-    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.balysv:material-ripple:1.0.2'
     implementation ('co.infinum:materialdatetimepicker-support:3.5.1') {
         exclude group: 'com.android.support'

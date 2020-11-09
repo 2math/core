@@ -47,7 +47,7 @@ public class ImageTarget implements Target {
     }
 
     @Override
-    public void onBitmapFailed(Drawable errorDrawable) {
+    public void onBitmapFailed(Exception e,Drawable errorDrawable) {
         if (error != 0) imageView.setImageResource(error);
         imageView.clearAnimation();
         LogUtils.d("Image Failed");

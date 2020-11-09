@@ -319,7 +319,7 @@ public class PhotoHelper {
             int height = imageView.getHeight();
             RequestCreator rc;
 //            Picasso.with(activity).setLoggingEnabled(true);
-            rc = Picasso.with(activity).load(dataUri);
+            rc = Picasso.get().load(dataUri);
 
 
             rc.resize(width, height).centerInside()
@@ -333,12 +333,13 @@ public class PhotoHelper {
                         }
 
                         @Override
-                        public void onError() {
+                        public void onError(Exception e) {
+                            LogUtils.e("PhotoHelper", "error loading uri", e);
 //                            if (avatarFile == null) {
 //                                avatarFile = FileUtils.getFile(activity, dataUri);
 //                            }
                             if (avatarFile != null) {
-                                Picasso.with(activity).load(avatarFile).into(imageView, new Callback() {
+                                Picasso.get().load(avatarFile).into(imageView, new Callback() {
                                     @Override
                                     public void onSuccess() {
                                         uploadFile();
@@ -347,7 +348,8 @@ public class PhotoHelper {
                                     }
 
                                     @Override
-                                    public void onError() {
+                                    public void onError(Exception e) {
+                                        LogUtils.e("PhotoHelper", "error loading file", e);
                                         avatarFile = null;
                                         hideProgress();
                                     }
