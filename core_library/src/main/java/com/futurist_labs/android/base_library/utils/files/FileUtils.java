@@ -321,19 +321,31 @@ public class FileUtils {
             // DownloadsProvider
             else if (isDownloadsDocument(uri)) {
 
-                final String id = DocumentsContract.getDocumentId(uri);
+                String id = DocumentsContract.getDocumentId(uri);
                 if (!TextUtils.isEmpty(id)) {
                     if (id.startsWith("raw:")) {
                         return id.replaceFirst("raw:", "");
+                    }else if (id.startsWith("msf:")) {
+                        id = id.replaceFirst("msf:", "");
                     }
+
                     String[] contentUriPrefixesToTry = new String[]{
                             "content://downloads/public_downloads",
                             "content://downloads/my_downloads",
                             "content://downloads/all_downloads"
                     };
 
+                    long idLong;
+
+                    try {
+                        idLong = Long.parseLong(id);
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+
                     for (String contentUriPrefix : contentUriPrefixesToTry) {
-                        Uri contentUri = ContentUris.withAppendedId(Uri.parse(contentUriPrefix), Long.valueOf(id));
+                        Uri contentUri = ContentUris.withAppendedId(Uri.parse(contentUriPrefix), idLong);
                         try {
                             String path = getDataColumn(context, contentUri, null, null);
                             if (path != null) {
