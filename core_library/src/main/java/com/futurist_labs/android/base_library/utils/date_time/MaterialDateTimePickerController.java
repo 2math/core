@@ -51,6 +51,8 @@ public class MaterialDateTimePickerController extends BaseDateTimePickerControll
         if (accentColor != 0) {
             dpd.setAccentColor(accentColor);
         }
+
+        dpd.setFirstDayOfWeek(Calendar.MONDAY);
         dpd.show(((FragmentActivity) activity).getSupportFragmentManager(), "dpd");
     }
 

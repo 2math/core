@@ -103,6 +103,7 @@ public class NativeDateTimePickerController extends BaseDateTimePickerController
         if(minDate>0){
             datePickerDialog.getDatePicker().setMinDate(minDate);
         }
+
         datePickerDialog.show();
     }
 
